@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: bootdemo
+  datasource:
+    username: root
+    password: newPassword888!
+    url: jdbc:mysql://8.130.146.122:3306/rentee?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#mybatis:
+#  mapper-locations: classpath:mapper/*Mapper.xml
+
+#改变端口
+#server:
+#  port: 8888
