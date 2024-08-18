@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.userservices.mapper.MenuMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.userservices.domain.Menu">
+            <id property="menuId" column="menu_id" jdbcType="VARCHAR"/>
+            <result property="menuName" column="menu_name" jdbcType="VARCHAR"/>
+            <result property="menuUrl" column="menu_url" jdbcType="VARCHAR"/>
+            <result property="icon" column="icon" jdbcType="VARCHAR"/>
+            <result property="isParent" column="is_parent" jdbcType="VARCHAR"/>
+            <result property="parentMenuId" column="parent_menu_id" jdbcType="VARCHAR"/>
+            <result property="sort" column="sort" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        menu_id,menu_name,menu_url,
+        icon,is_parent,parent_menu_id,
+        sort
+    </sql>
+
+    <select id="getAllMenu" resultType="com.example.userservices.domain.Menu">
+        SELECT m.*
+        FROM menu m
+        WHERE m.parent_menu_id IS NULL
+    </select>
+</mapper>
