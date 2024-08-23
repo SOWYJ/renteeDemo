@@ -4,6 +4,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 // import Menu from "@/views/Menu.vue";
 // import PasswordChange from "@/views/PasswordChange.vue";
 // import App from "@/App.vue";
+import vehicle from "../views/vehicle.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,7 +19,15 @@ const router = createRouter({
                 {
                     path: '/main',
                     name: 'main',
-                    component: () => import('../components/Main.vue')
+                    component: () => import('../components/Main.vue'),
+                    children:[
+                        {
+                            path: '/main/vehicle',
+                            name: 'vehicle',
+                            // component: vehicle
+                            component: () => import('../views/vehicle.vue')
+                        }
+                    ]
                 }
             ]
         },

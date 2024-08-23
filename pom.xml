@@ -8,6 +8,7 @@
     <artifactId>spikesdemo</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -16,6 +17,11 @@
         <spring.boot.version>3.0.2</spring.boot.version>
         <spring.cloud.alibaba.version>2022.0.0.0</spring.cloud.alibaba.version>
     </properties>
+    <modules>
+        <module>user-services</module>
+        <module>vehicle</module>
+    </modules>
+
     <packaging>pom</packaging>
     <dependencyManagement>
         <dependencies>
