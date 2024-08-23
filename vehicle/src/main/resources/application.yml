@@ -1,0 +1,14 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: bootdemo
+  datasource:
+    username: root
+    password: newPassword888!
+    url: jdbc:mysql://8.130.130.185:3306/data1?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
