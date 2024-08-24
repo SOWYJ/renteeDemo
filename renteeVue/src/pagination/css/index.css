@@ -1,0 +1,133 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+pre,
+form,
+fieldset,
+legend,
+button,
+input,
+textarea,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
+body,html{
+  width: 100%;
+  height: 100%;
+}
+body,
+button,
+input,
+select,
+textarea {
+  font: 12px/1.5tahoma, arial, \5b8b\4f53;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+}
+
+address,
+cite,
+dfn,
+em,
+var {
+  font-style: normal;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: couriernew, courier, monospace;
+}
+
+small {
+  font-size: 12px;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+sup {
+  vertical-align: text-top;
+}
+
+sub {
+  vertical-align: text-bottom;
+}
+
+legend {
+  color: #000;
+}
+
+fieldset,
+img {
+  border: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.el-dialog header{
+  background-color: #e1eaf6;
+  margin-right: 0;
+}
+/* 页面公共样式 */
+.el-form-item__content{
+  width: 200px;
+}
+.el-select{
+  width: 100%;
+}
+.el-form-item--default.form-btn .el-form-item__content{
+  justify-content: end;
+}
+#content{
+  margin: 20px 0 0 20px;
+}
+#tools{
+  margin-bottom: 18px;
+}
+#pagination{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+}

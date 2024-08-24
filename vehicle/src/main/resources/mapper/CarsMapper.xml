@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.vehicle.mapper.CarsMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.vehicle.domain.Cars">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="carName" column="car_name" jdbcType="VARCHAR"/>
+            <result property="carType" column="car_type" jdbcType="VARCHAR"/>
+            <result property="brand" column="brand" jdbcType="VARCHAR"/>
+            <result property="color" column="color" jdbcType="VARCHAR"/>
+            <result property="seats" column="seats" jdbcType="INTEGER"/>
+            <result property="licensePlate" column="license_plate" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,car_name,car_type,
+        brand,color,seats,
+        license_plate
+    </sql>
+    <select id="getAllVehicle" resultType="com.example.vehicle.domain.Cars">
+        SELECT * FROM cars;
+    </select>
+</mapper>
