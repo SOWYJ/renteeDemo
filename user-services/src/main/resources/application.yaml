@@ -6,6 +6,8 @@ spring:
     password: newPassword888!
     url: jdbc:mysql://8.130.146.122:3306/rentee?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      max-lifetime: 2000
 
 mybatis-plus:
   configuration:

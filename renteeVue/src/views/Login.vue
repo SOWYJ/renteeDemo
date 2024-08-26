@@ -1,54 +1,174 @@
 <script setup lang="ts">
-  import {ref} from "vue";
-  import axios from "axios";
-  import router from "@/router";
-  import {menuStore} from "@/store/menu";
+import {ref} from "vue";
+import axios from "axios";
+import router from "@/router";
+import {menuStore} from "@/store/menu";
+import {ElMessage} from "element-plus";
 
-  const store=menuStore();
+const store = menuStore();
+const isRegister = ref(true);
+const changeForm = () => {
+  isRegister.value = !isRegister.value;
+}
 
-  const form = ref({
-    username: 'admin',
-    password: '123456'
+const form = ref({
+  username: 'admin',
+  password: '123456'
+})
+
+const registerForm = ref({
+  username: '',
+  password: '',
+  confirmPassword: ''
+});
+const login = () => {
+  axios.post('http://localhost:8080/getAllMenu', {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }).then(res => {
+    console.log("登陆结果", res);
+    // if (res.data.code == 200){
+    //把菜单数据存入store
+    const menuData = res.data.slice(0, 4);  // 只存储0-3项
+    store.setMenu(menuData);
+    // 把username放进sessionStorage
+    sessionStorage.setItem("name", "dada");
+    //页面跳转
+    router.push('/main');
+    // }
   })
-  const login=()=>{
-    /**
-     * 把用户名和密码发送给后端
-     * 后端再去验证
-     */
-    axios.post('http://localhost:8080/getAllMenu',{
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    }).then(res=>{
-      console.log("登陆结果",res);
-      // if (res.data.code == 200){
-        //把菜单数据存入store
-        const menuData = res.data.slice(0, 4);  // 只存储0-3项
-        store.setMenu(menuData);
-        // 把username放进sessionStorage
-        sessionStorage.setItem("name","dada");
-        //页面跳转
-      router.push('/main');
-      // }
-    })
+}
+
+const enroll=()=>{
+
+  if (registerForm.value.password !== registerForm.value.confirmPassword) {
+    ElMessage.error('两次输入的密码不一致！')
+    return;
   }
+}
 </script>
 
 <template>
-  <el-form :model="form" label-width="auto" style="max-width: 600px">
-    <el-form-item label="用户名">
-      <el-input v-model="form.username" />
-    </el-form-item>
-    <el-form-item label="密码">
-      <el-input v-model="form.password" />
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="login">登录</el-button>
-    </el-form-item>
-  </el-form>
+  <div>
+    <div class="image-container">
+      <img src="https://file.moyublog.com/d/file/2024-04-22/80de18bf8cc64332ce23e31e38a4a87b.jpg" alt="">
+    </div>
+    <div class="container">
+      <div class="box">
 
+        <!--登录界面-->
+        <div v-if="isRegister">
+          <div class="title">
+            <img src="../static/cart.png" alt="" class="icon">
+            <el-text class="mx-1">爷京租车行</el-text>
+          </div>
+          <el-form :model="form" label-width="auto" style="max-width: 600px">
+            <el-form-item label="用户名">
+              <el-input v-model="form.username" placeholder="请输入用户名"/>
+            </el-form-item>
+            <el-form-item style="letter-spacing:0.20em;" label="密 码">
+              <el-input v-model="form.password" type="password" placeholder="请输入密码" show-password/>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="login" class="full-width">登录</el-button>
+            </el-form-item>
+            <el-button type="success" @click="changeForm" class="full-width">注册</el-button>
+          </el-form>
+        </div>
+
+        <!--注册界面-->
+        <div v-if="!isRegister">
+          <div class="title">
+            <img src="../static/enroll.png" alt="" class="icon">
+            <el-text class="mx-1">注册新账号</el-text>
+          </div>
+          <el-form :model="registerForm" label-width="auto" style="max-width: 600px">
+            <el-form-item label="用户名">
+              <el-input v-model="registerForm.username" placeholder="请输入用户名"/>
+            </el-form-item>
+            <el-form-item style="letter-spacing:0.20em;" label="密 码">
+              <el-input v-model="registerForm.password" type="password" placeholder="请输入密码" show-password/>
+            </el-form-item>
+            <el-form-item label="确认密码">
+              <el-input v-model="registerForm.confirmPassword" type="password" placeholder="请再次输入密码" show-password/>
+            </el-form-item>
+            <el-form-item class="btn-2">
+              <el-button class="btn" type="success" @click="enroll">注册</el-button>
+              <el-button class="btn" type="info" @click="changeForm">返回登录</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
+.image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* 确保图片在背景层 */
+}
 
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 确保图片覆盖整个容器，并保持比例 */
+}
+
+.title {
+  display: flex; /* 使用弹性盒子布局 */
+  align-items: center; /* 使图标和文本垂直居中对齐 */
+  margin-bottom: 20px;
+  border-bottom: 1px solid #000; /* 添加2px厚的黑色底部边框 */
+  padding-bottom: 10px;
+}
+
+.icon {
+  height: 30px; /* 设置图标的高度，使其与文本的高度一致 */
+  margin-right: 10px; /* 在图标和文本之间添加一些间距 */
+}
+
+.mx-1 {
+  display: flex; /* 使用弹性盒子布局 */
+  justify-content: center;
+  font-size: 30px;
+  font-weight: bold;
+  letter-spacing: 0.60em;
+  color: black;
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  display: flex; /* 使用弹性盒子布局 */
+  justify-content: center; /* 水平方向居中 */
+  align-items: center; /* 垂直方向居中 */
+  height: 100vh; /* 设置容器高度为视口高度，确保内容垂直居中 */
+}
+
+.box {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  /* 其他样式 */
+}
+
+.full-width {
+  width: 100%; /* 使输入框和按钮占满可用宽度 */
+}
+
+.btn-2 {
+  display: flex;
+  justify-content: space-between; /* 或者使用 space-around */
+}
+
+.btn{
+    flex: 1; /* 使按钮在容器中占据相同的空间 */
+    margin: 0 5px; /* 给按钮之间增加一些间距 */
+}
 </style>

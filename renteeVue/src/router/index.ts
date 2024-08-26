@@ -26,7 +26,13 @@ const router = createRouter({
                             name: 'vehicle',
                             // component: vehicle
                             component: () => import('../views/vehicle.vue')
-                        }
+                        },
+                        {
+                            path: '/main/userService',
+                            name: 'userService',
+                            // component: vehicle
+                            component: () => import('../views/userService.vue')
+                        },
                     ]
                 }
             ]
@@ -45,7 +51,7 @@ router.beforeEach((to, from) => {
         let name = sessionStorage.getItem("name");
         if (name != null) {
             // 已经登录过，直接导航到main
-            return true;
+            return '/main/userService';
         } else {
             // 还未登录，直接导航到login页面
             router.push("/login");

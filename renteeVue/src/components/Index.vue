@@ -22,6 +22,6 @@ import Main from "@/components/Main.vue";
    padding: 0;
  }
  .index{
-   height: 1000px;
+   height: auto;
  }
 </style>
