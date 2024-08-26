@@ -1,6 +1,7 @@
 package cn.edu.guet.rentalservices.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
@@ -23,13 +24,13 @@ public class Lease implements Serializable {
      * 
      */
     @Column(name = "rental_time")
-    private String rentalTime;
+    private Date rentalTime;
 
     /**
      * 
      */
     @Column(name = "return_time")
-    private String returnTime;
+    private Date returnTime;
 
     private static final long serialVersionUID = 1L;
 }

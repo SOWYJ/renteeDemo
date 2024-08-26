@@ -6,11 +6,22 @@
 
     <resultMap id="BaseResultMap" type="cn.edu.guet.rentalservices.domain.Lease">
             <result property="licenseId" column="license_id" jdbcType="VARCHAR"/>
-            <result property="rentalTime" column="rental_time" jdbcType="VARCHAR"/>
-            <result property="returnTime" column="return_time" jdbcType="VARCHAR"/>
+            <result property="rentalTime" column="rental_time" jdbcType="TIMESTAMP"/>
+            <result property="returnTime" column="return_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         license_id,rental_time,return_time
     </sql>
+    <select id="pay" resultType="java.lang.Integer">
+
+        SELECT
+            TIMESTAMPDIFF(MINUTE, rental_time, return_time)
+        FROM
+            lease
+            WHERE license_id = #{id}
+
+
+    </select>
+
 </mapper>
