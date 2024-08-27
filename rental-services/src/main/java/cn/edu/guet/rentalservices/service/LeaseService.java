@@ -1,5 +1,7 @@
 package cn.edu.guet.rentalservices.service;
 
+import cn.edu.guet.rentalservices.domain.Lease;
+
 /**
 * @author HP
 * @description 针对表【lease】的数据库操作Service

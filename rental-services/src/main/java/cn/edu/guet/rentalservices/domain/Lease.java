@@ -33,4 +33,29 @@ public class Lease implements Serializable {
     private Date returnTime;
 
     private static final long serialVersionUID = 1L;
+
+    public String getLicenseId() {
+        return licenseId;
+    }
+
+    public void setLicenseId(String licenseId) {
+        this.licenseId = licenseId;
+    }
+
+    public Date getRentalTime() {
+        return rentalTime;
+    }
+
+    public void setRentalTime(Date rentalTime) {
+        this.rentalTime = rentalTime;
+    }
+
+    public Date getReturnTime() {
+        return returnTime;
+    }
+
+    public void setReturnTime(Date returnTime) {
+        this.returnTime = returnTime;
+    }
+
 }

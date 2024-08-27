@@ -7,3 +7,7 @@ export default {
 
 };
 
+// ./api/product.js
+// export default function fetchProducts() {
+//     return axios.get('/viewProduct');
+// }

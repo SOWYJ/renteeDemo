@@ -54,24 +54,30 @@ const toMethods = (actions) => {
 };
 
 const generateApiMap = () => {
-  
   const facade = {};
-  const allFiles =  import.meta.glob("./api/**.js",{eager:true})
-  for(const key in allFiles){
+  const allFiles = import.meta.glob('./api/**/*.js', { eager: true });
+
+  for (const key in allFiles) {
+    const module = allFiles[key]; // 直接获取模块对象
     console.log(key);
-    allFiles[key]().then(mod =>{
-      const obj = mod.default ;
-       if(obj){   
-          Object.keys(obj).forEach((key) => {
-            facade[key] = !obj[key].url ? toMethods(obj[key]) : toMethod(obj[key]);
-          });
-       }
-    })
+    console.log(module); // 输出模块内容
+    console.log(typeof module); // 查看模块内容的类型
+
+    if (module) {
+      const obj = module.default; // 获取模块的默认导出
+
+      if (obj) {
+        // 如果 obj 是对象，直接处理其方法
+        Object.keys(obj).forEach((methodKey) => {
+          facade[methodKey] = !obj[methodKey].url ? toMethods(obj[methodKey]) : toMethod(obj[methodKey]);
+        });
+      }
+    }
   }
-    return facade;
+  return facade;
 };
 
-
 const api = generateApiMap();
-// Vue.prototype.$api = api;
 export default api;
+
+
