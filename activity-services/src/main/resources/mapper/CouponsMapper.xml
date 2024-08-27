@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.activityservices.mapper.CouponsMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.activityservices.domain.Coupons">
+            <id property="couponId" column="coupon_id" jdbcType="VARCHAR"/>
+            <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+            <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+            <result property="isKill" column="is_kill" jdbcType="VARCHAR"/>
+            <result property="isSpecial" column="is_special" jdbcType="VARCHAR"/>
+            <result property="couponImg" column="coupon_img" jdbcType="VARCHAR"/>
+            <result property="couponContent" column="coupon_content" jdbcType="VARCHAR"/>
+            <result property="firstPrice" column="first_price" jdbcType="FLOAT"/>
+            <result property="currentPrice" column="current_price" jdbcType="FLOAT"/>
+            <result property="totalNum" column="total_num" jdbcType="INTEGER"/>
+            <result property="sales" column="sales" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        coupon_id,start_time,end_time,
+        is_kill,is_special,coupon_img,
+        coupon_content,first_price,current_price,
+        total_num,sales
+    </sql>
+</mapper>

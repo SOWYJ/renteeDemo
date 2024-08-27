@@ -20,6 +20,8 @@
     <modules>
         <module>user-services</module>
         <module>vehicle</module>
+        <module>rental-services</module>
+        <module>activity-services</module>
     </modules>
 
     <packaging>pom</packaging>

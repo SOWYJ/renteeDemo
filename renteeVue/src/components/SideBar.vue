@@ -37,7 +37,7 @@ import TreeMenu from "@/components/TreeMenu.vue";
 
 <style>
 .sidebar{
-  width: 15%;
+  width: 150px;
   height: 100%;
   background-color: snow;
   float: left;
@@ -46,7 +46,7 @@ li{
   list-style: none;
   position: relative;
   padding-left: 10px;
-  width: 189px;
+  width: 130px;
   border: 1px solid #e5e5e5;
   border-style: none none solid none;/* 如果某一边没设置，则会使用对面的样式 */
 }

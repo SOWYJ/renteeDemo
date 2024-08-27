@@ -24,5 +24,6 @@
         SELECT m.*
         FROM menu m
         WHERE m.parent_menu_id IS NULL
+        ORDER BY sort
     </select>
 </mapper>
