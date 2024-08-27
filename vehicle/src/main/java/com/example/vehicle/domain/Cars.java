@@ -1,5 +1,6 @@
 package com.example.vehicle.domain;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -12,7 +13,7 @@ import java.io.Serializable;
  * 
  * @TableName cars
  */
-@Table(name="cars")
+@TableName("cars")
 @Data
 public class Cars implements Serializable {
     /**

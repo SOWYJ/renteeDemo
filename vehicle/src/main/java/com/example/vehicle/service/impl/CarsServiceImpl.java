@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.vehicle.domain.Cars;
 import com.example.vehicle.dto.PeoductQueryDto;
-import com.example.vehicle.service.CarsService;
 import com.example.vehicle.mapper.CarsMapper;
+import com.example.vehicle.service.CarsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +25,11 @@ public class CarsServiceImpl implements CarsService{
 
     @Override
     public IPage<Cars> viewProduct(PeoductQueryDto queryDto) {
+//        System.out.println("kkkkkkkk");
         //条件查询也不用写sql，直接java代码实现
         //无条件获取所有
         QueryWrapper<Cars> queryWrapper=new QueryWrapper<>();
-        queryWrapper.like("pro_name",queryDto.getCarName());
+        queryWrapper.like("car_name",queryDto.getCarName());
         Page<Cars> page=new Page<>();
         page.setCurrent(queryDto.getCurrent());
 

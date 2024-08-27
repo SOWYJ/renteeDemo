@@ -33,6 +33,11 @@ const router = createRouter({
                             // component: vehicle
                             component: () => import('../views/userService.vue')
                         },
+                        {
+                            path: '/main/activity',
+                            name: 'activity',
+                            component: () => import('../views/Activity.vue')
+                        }
                     ]
                 }
             ]
