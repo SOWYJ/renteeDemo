@@ -1,11 +1,11 @@
 <script setup lang="ts">
 
 import axios from "axios";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import {ElMessage} from 'element-plus'
 
 
 const dialogVisible = ref(false);
-const formLabelWidth = '140px';
 const coupon = ref({
   startTime: '',
   endTime: '',
@@ -23,20 +23,84 @@ const saveCoupon = () => {
     headers: {
       'Content-Type': 'application/json'
     }
-  }).then(res=>{
-    console.log("保存：", res);
-  }).catch(error=>{
-    console.log("失败：", error);
+  }).then(() => {
+    ElMessage({
+      type: "success",
+      message: "保存成功！",
+      showClose: true,
+      grouping: true,
+    })
+    // console.log("保存：", res);
+  }).catch(() => {
+    ElMessage({
+      type: "error",
+      message: "保存失败失败！",
+      showClose: true,
+      grouping: true,
+    })
+    // console.log("失败：", error);
   })
+  dialogVisible.value = false;
 };
+
+onMounted(() => {
+  getAllCoupons();
+});
+const couponList = ref([]);
+const getAllCoupons = () => {
+  axios.get('http://localhost:8081/getAllCoupons')
+      .then(res => {
+        couponList.value = res.data
+        console.log("数据:", couponList.value);
+        console.log("res:", res.data);
+      })
+};
+
+const deleteCoupon = (index, row) => {
+  console.log("AAAAAAAAAAA:", row);
+}
+
 
 </script>
 
 <template>
-  <el-button @click="dialogVisible = true" type="primary">新增秒杀</el-button>
+
+  <div class="common-layout">
+    <el-container>
+      <el-header style="border: 1px solid wheat">
+        <el-button @click="dialogVisible = true" type="primary">新增秒杀</el-button>
+      </el-header>
+
+      <el-main style="border: 1px solid wheat">
+
+        <el-table
+            :data="couponList"
+            :default-sort="{ prop: ['startTime','endTime'], order: 'descending' }"
+            style="width: 100%">
+          <el-table-column type="selection" width="55"/>
+          <el-table-column fixed prop="couponId" label="ID" width="290"/>
+          <el-table-column prop="isKill" label="秒杀" width="120"/>
+          <el-table-column prop="isSpecial" label="特价" width="120"/>
+          <el-table-column prop="startTime" sortable label="开始时间" width="165"/>
+          <el-table-column prop="endTime" sortable label="结束时间" width="165"/>
+          <el-table-column prop="firstPrice" label="定价/元" width="120"/>
+          <el-table-column prop="currentPrice" label="现价/元" width="120"/>
+          <el-table-column prop="totalNum" label="库存" width="120"/>
+          <el-table-column prop="sales" label="销量" width="120"/>
+          <el-table-column fixed="right" label="Operations" width="160">
+            <template #default>
+              <el-button type="danger" size="small" @click="deleteCoupon(scope.$index, scope.row)">删除</el-button>
+              <el-button type="primary" size="small" @click="handleClick((scope.$index, scope.row))">编辑</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+
+      </el-main>
+    </el-container>
+  </div>
 
 
-  <el-dialog class="dia" v-model="dialogVisible" title="新增活动" width="1000">
+  <el-dialog class="dia" v-model="dialogVisible" title="新增活动" width="1000" draggable>
     <el-form :model="coupon">
       <el-row :gutter="20">
         <el-col :span="5">
