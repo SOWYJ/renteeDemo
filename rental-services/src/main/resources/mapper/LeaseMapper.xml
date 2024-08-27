@@ -13,15 +13,13 @@
     <sql id="Base_Column_List">
         license_id,rental_time,return_time
     </sql>
-    <select id="pay" resultType="java.lang.Integer">
-
+    <select id="pay" resultType="cn.edu.guet.rentalservices.domain.Lease">
         SELECT
             TIMESTAMPDIFF(MINUTE, rental_time, return_time)
         FROM
             lease
-            WHERE license_id = #{id}
-
-
+        WHERE license_id = #{licenseid}
     </select>
+
 
 </mapper>
