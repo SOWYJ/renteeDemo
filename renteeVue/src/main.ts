@@ -9,9 +9,9 @@ import piniaPersist from 'pinia-plugin-persist'
 
 import 'font-awesome/css/font-awesome.min.css'
 
-// import api from "./pagination/request/api.js";
-// import http from "./pagination/request/index.js";
-// import '@/pagination/css/index.css'
+import api from "./pagination/request/api.js";
+import http from "./pagination/request/index.js";
+import '@/pagination/css/index.css'
 
 const app = createApp(App)
 const pinia = createPinia();
@@ -21,9 +21,11 @@ app.use(router)
 app.use(ElementPlus)
 app.use(pinia)
 
-app.mount('#app')
+// app.mount('#app')
 
-//
-// app.config.globalProperties.$api = api;
-// app.config.globalProperties.$http = http;
-// app.use(ElementPlus).mount('#app')
+
+
+
+app.config.globalProperties.$api = api;
+app.config.globalProperties.$http = http;
+app.use(ElementPlus).mount('#app')
