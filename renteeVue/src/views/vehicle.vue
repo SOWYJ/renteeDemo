@@ -16,7 +16,7 @@ const searchForm = ref({
     "carName": "",
   },
   formItems: [
-    {type: 'input', label: '商品名称: ', prop: 'carName', span: 12, maxlength: 30, placeholder: '请输入商品名称'},
+    {type: 'input', label: '车辆名称: ', prop: 'carName', span: 12, maxlength: 30, placeholder: '请输入车辆名称'},
   ],
   buttonsAttrs: {
     align: 'left'
@@ -26,6 +26,7 @@ const query = () => {
   resetPagination();
   loadData(1, tableData.value.pageSize);
 }
+
 const columns = [
   {label: '', type: "selection", width: 60},
   {label: '序号', type: "index", width: 50},
@@ -67,7 +68,7 @@ const loadData = (pageNum = 1, pageSize = 10) => {
         "carName": searchForm.value.model.carName
       }
   ).then((res) => {
-    console.log("kkkkkk",res);
+    console.log("后台返回的数据",res);
     tableData.value.records = res.data.records;
     paginationProps.total = res.data.total;
   })
@@ -81,10 +82,11 @@ onMounted(() => {
 </script>
 
 <template>
+  <div style="margin-top: 10px"></div>
   <el-config-provider :locale="zhCn">
     <lq-form :form="searchForm">
       <template #footer>
-        <div style="margin-bottom: 20px;">
+        <div style="margin-top:-50px;margin-left: 550px;">
           <el-button type="primary" @click="query">查询</el-button>
           <el-button type="success" @click="add">新增</el-button>
           <el-button type="warning" @click="handleExport">导出</el-button>
