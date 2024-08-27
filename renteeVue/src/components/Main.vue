@@ -9,9 +9,9 @@
 </template>
 
 <style scoped>
-  .main{
-    width: 85%;
-    height: 100%;
-    float: left;
-  }
+.main {
+  width: 85%;
+  height: 100%;
+  float: left;
+}
 </style>
