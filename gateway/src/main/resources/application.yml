@@ -1,0 +1,19 @@
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 开启从注册中心动态创建路由的功能，利用微服务名称进行路由
+    sentinel:
+      transport:
+        #配置sentinel dashboard地址
+        dashboard: localhost:8888
+        port: 8719 #默认8719端口
+      scg: #配置限流之后，响应内容
+        fallback:
+          mode: redirect
+          response-status: 429
+          response-body: '{"code":429,"message":"被限流了！"}'
+#          mode: response
+          redirect: http://www.baidu.com

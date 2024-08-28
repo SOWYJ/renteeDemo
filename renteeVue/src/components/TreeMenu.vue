@@ -22,10 +22,11 @@ const expandSub=()=> {
 <!--    <router-link v-if="menu.menuUrl==null" @click.stop.prevent="expandSub" to="">-->
 <!--      <i :class="menu.icon"></i><span>{{ menu.menuName }}</span>-->
 <!--    </router-link>-->
-    <!--    有子菜单，to为0，意思是可以展开-->
-    <a href="javascript:void(0)" v-if="menu.menuUrl==null" @click="expandSub">
+<!--        有子菜单，to为0，意思是可以展开-->
+    <a href="javascript:void(0)" v-if="!menu.menuUrl" @click="expandSub">
       <i :class="menu.icon"></i><span>{{ menu.menuName }}</span>
     </a>
+
     <!--    没有子菜单，有具体的url，to就是menu.menuUrl-->
     <router-link v-else-if="menu.menuUrl!=null" :to="menu.menuUrl">
       <i :class="menu.icon"></i><span>{{ menu.menuName }}</span>

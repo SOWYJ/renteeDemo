@@ -31,4 +31,25 @@ public class vehicleController {
     public IPage<Cars> viewProduct(@RequestBody PeoductQueryDto queryDto){
         return carsService.viewProduct(queryDto);
     }
+
+    @PostMapping("/saveCars")
+    public List<Cars> saveCars(@RequestBody Cars cars){
+//        System.out.println("hhhhhhhhhhhhhhh");
+        carsService.saveCars(cars);
+        return null;
+    }
+
+    @PostMapping("/updateCars")
+    public List<Cars> updateCars(@RequestBody Cars cars){
+//        System.out.println("hhhhhhhhhhhhhhh");
+        carsService.updateCars(cars);
+        return null;
+    }
+
+    @PostMapping("/deleteCars")
+    public List<Cars> deleteCars(@RequestBody Cars cars){
+//        System.out.println("jjjjjjjjjjjjjj");
+        carsService.deleteCars(cars);
+        return null;
+    }
 }

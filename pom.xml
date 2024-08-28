@@ -22,6 +22,7 @@
         <module>vehicle</module>
         <module>rental-services</module>
         <module>activity-services</module>
+        <module>gateway</module>
     </modules>
 
     <packaging>pom</packaging>
