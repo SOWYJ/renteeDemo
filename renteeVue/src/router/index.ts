@@ -31,7 +31,7 @@ const router = createRouter({
                             path: '/main/userService',
                             name: 'userService',
                             // component: vehicle
-                            component: () => import('../views/userService.vue')
+                            component: () => import('../views/UserService.vue')
                         },
                         {
                             path: '/main/activity',
