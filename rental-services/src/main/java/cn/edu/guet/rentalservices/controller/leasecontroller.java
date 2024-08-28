@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 public class leasecontroller {
@@ -21,4 +23,11 @@ public class leasecontroller {
          int lease =  leaseService.pay(licenseId);
          return HttpResult.ok(lease);
     }
+
+    @RequestMapping("/getAlllease")
+    @ResponseBody
+    public List<Lease> getAllLease(){
+        return leaseService.getAlllease();
+    }
+
 }

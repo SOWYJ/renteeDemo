@@ -17,6 +17,11 @@ public class Lease implements Serializable {
     /**
      * 
      */
+
+    @Column(name="registrant")
+    private String registrant;
+
+
     @Column(name = "license_id")
     private String licenseId;
 
@@ -58,4 +63,11 @@ public class Lease implements Serializable {
         this.returnTime = returnTime;
     }
 
+    public String getRegistrant() {
+        return registrant;
+    }
+
+    public void setRegistrant(String registrant) {
+        this.registrant = registrant;
+    }
 }

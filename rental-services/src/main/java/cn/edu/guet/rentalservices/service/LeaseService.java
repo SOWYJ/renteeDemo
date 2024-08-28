@@ -1,6 +1,10 @@
 package cn.edu.guet.rentalservices.service;
 
+
+
 import cn.edu.guet.rentalservices.domain.Lease;
+
+import java.util.List;
 
 /**
 * @author HP
@@ -9,4 +13,6 @@ import cn.edu.guet.rentalservices.domain.Lease;
 */
 public interface LeaseService  {
   int pay(String licenseId);
+
+  List<Lease> getAlllease();
 }
