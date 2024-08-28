@@ -3,6 +3,9 @@ package com.example.activityservices.domain;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.example.activityservices.config.CustomLocalDateTimeDeserializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -25,12 +28,16 @@ public class Coupons implements Serializable {
     /**
      * 
      */
+    @JsonDeserialize(using = CustomLocalDateTimeDeserializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "start_time")
     private LocalDateTime startTime;
 
     /**
      * 
      */
+    @JsonDeserialize(using = CustomLocalDateTimeDeserializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
