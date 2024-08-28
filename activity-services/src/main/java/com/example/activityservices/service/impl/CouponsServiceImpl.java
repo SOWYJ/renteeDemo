@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.activityservices.domain.Coupons;
 import com.example.activityservices.service.CouponsService;
 import com.example.activityservices.mapper.CouponsMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +16,13 @@ import org.springframework.stereotype.Service;
 public class CouponsServiceImpl extends ServiceImpl<CouponsMapper, Coupons>
     implements CouponsService{
 
+    @Autowired
+    private CouponsMapper couponsMapper;
+
+    @Override
+    public boolean deleteCouponById(String couponId) {
+        return couponsMapper.deleteCouponById(couponId);
+    }
 }
 
 

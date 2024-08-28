@@ -24,4 +24,7 @@
         coupon_content,first_price,current_price,
         total_num,sales
     </sql>
+    <delete id="deleteCouponById" parameterType="string">
+        DELETE FROM coupons WHERE coupon_id=#{id}
+    </delete>
 </mapper>
