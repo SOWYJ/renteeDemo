@@ -14,16 +14,38 @@
             <result property="sort" column="sort" jdbcType="INTEGER"/>
     </resultMap>
 
+    <resultMap id="menuMapVo" type="com.example.userservices.domain.Menu">
+        <id property="menuId" column="menu_id" jdbcType="VARCHAR"/>
+        <result property="menuName" column="menu_name" jdbcType="VARCHAR"/>
+        <result property="menuUrl" column="menu_url" jdbcType="VARCHAR"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="isParent" column="is_parent" jdbcType="VARCHAR"/>
+        <result property="parentMenuId" column="parent_menu_id" jdbcType="VARCHAR"/>
+
+        <collection property="childMenuList" ofType="com.example.userservices.domain.Menu" column="menu_id" select="getChildMenuList"/>
+
+    </resultMap>
+
+
     <sql id="Base_Column_List">
         menu_id,menu_name,menu_url,
         icon,is_parent,parent_menu_id,
         sort
     </sql>
 
-    <select id="getAllMenu" resultType="com.example.userservices.domain.Menu">
+    <select id="getAllMenu" resultMap="menuMapVo">
         SELECT m.*
         FROM menu m
         WHERE m.parent_menu_id IS NULL
         ORDER BY sort
+    </select>
+
+    <select id="getChildMenuList" resultMap="menuMapVo">
+        SELECT cm.*
+        FROM menu pm,
+             menu cm
+        WHERE cm.parent_menu_id = pm.menu_id
+          AND pm.menu_id = #{parentMenuId}
+        ORDER BY cm.sort
     </select>
 </mapper>
