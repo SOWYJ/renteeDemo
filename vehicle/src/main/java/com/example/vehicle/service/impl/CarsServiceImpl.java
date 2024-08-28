@@ -36,6 +36,21 @@ public class CarsServiceImpl implements CarsService{
         page.setSize(queryDto.getSize());
         return carsMapper.selectPage(page,queryWrapper);
     }
+
+    @Override
+    public void saveCars(Cars cars) {
+        carsMapper.insert(cars);
+    }
+
+    @Override
+    public void updateCars(Cars cars) {
+        carsMapper.updateById(cars);
+    }
+
+    @Override
+    public void deleteCars(Cars cars) {
+        carsMapper.deleteById(cars);
+    }
 }
 
 

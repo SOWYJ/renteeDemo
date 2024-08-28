@@ -3,10 +3,13 @@ import LqForm from "@/pagination/components/LqForm.vue";
 import {getCurrentInstance, onMounted, reactive, ref} from "vue";
 import LqTable from "@/pagination/components/LqTable.vue";
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
+import {ElMessage} from "element-plus";
+import updateCars from "@/pagination/request/api/updateCars.js";
 
 /*  */
 const global = getCurrentInstance().appContext.config.globalProperties;
-
+const dialogFormVisible = ref(false)
+const editdialogFormVisible = ref(false)
 const searchForm = ref({
   innerAttrs: {
     labelPosition: 'right',
@@ -26,6 +29,36 @@ const query = () => {
   resetPagination();
   loadData(1, tableData.value.pageSize);
 }
+
+const saveCars = () => {
+  if (global.$api.saveCars(form.value)){
+    ElMessage.success('新增成功');
+    dialogFormVisible.value = false;
+  }
+}
+const edit = (row: any) => {
+  editdialogFormVisible.value = true;
+  form.value = { ...row };
+}
+const update = () => {
+  if (global.$api.updateCars(form.value)){
+    ElMessage.success('新增成功');
+    editdialogFormVisible.value = false;
+  }
+}
+// const delete = (row: any) => {
+//   form.value = { ...row };
+//   global.$api.deleteCars(form.value);
+// };
+const form = ref({
+  carName: '',
+  carType: '',
+  brand: '',
+  color: '',
+  seats: '',
+  licensePlate: ''
+})
+
 
 const columns = [
   {label: '', type: "selection", width: 60},
@@ -79,6 +112,36 @@ onMounted(() => {
     query();
   }, 50)
 })
+
+
+import { ElMessage, ElMessageBox } from 'element-plus'
+
+const deleteEntKeyProcess = (row: any) => {
+  ElMessageBox.confirm(
+      '你确定要删除吗？',
+      '提醒！',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  )
+      .then(() => {
+        form.value = { ...row };
+        global.$api.deleteCars(form.value);
+        query();
+        ElMessage({
+          type: 'success',
+          message: '删除成功',
+        })
+      })
+      .catch(() => {
+        ElMessage({
+          type: 'info',
+          message: '已取消',
+        })
+      })
+}
 </script>
 
 <template>
@@ -88,8 +151,8 @@ onMounted(() => {
       <template #footer>
         <div style="margin-top:-50px;margin-left: 550px;">
           <el-button type="primary" @click="query">查询</el-button>
-          <el-button type="success" @click="add">新增</el-button>
-          <el-button type="warning" @click="handleExport">导出</el-button>
+          <el-button type="success" @click="dialogFormVisible = true">新增</el-button>
+<!--          <el-button type="warning" @click="handleExport">导出</el-button>-->
           <el-button type="danger" @click="deleteEntKeyMaterialBatch">批量删除</el-button>
         </div>
       </template>
@@ -111,6 +174,72 @@ onMounted(() => {
       </template>
     </lq-table>
   </el-config-provider>
+
+
+
+  <el-dialog v-model="dialogFormVisible" title="新增车辆" width="500">
+    <el-form :model="form">
+      <el-form-item label="车辆名称" label-width="140px">
+        <el-input v-model="form.carName" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="车辆种类" label-width="140px">
+        <el-input v-model="form.carType" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="品牌" label-width="140px">
+        <el-input v-model="form.brand" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="颜色" label-width="140px">
+        <el-input v-model="form.color" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="座位数" label-width="140px">
+        <el-input v-model="form.seats" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="车牌号" label-width="140px">
+        <el-input v-model="form.licensePlate" autocomplete="off"/>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <!-- 先保存、再关闭对话框 -->
+        <el-button type="primary" @click="saveCars" >
+          保存
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
+
+  <el-dialog v-model="editdialogFormVisible" title="编辑车辆" width="500">
+    <el-form :model="form">
+      <el-form-item label="车辆名称" label-width="140px">
+        <el-input v-model="form.carName" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="车辆种类" label-width="140px">
+        <el-input v-model="form.carType" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="品牌" label-width="140px">
+        <el-input v-model="form.brand" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="颜色" label-width="140px">
+        <el-input v-model="form.color" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="座位数" label-width="140px">
+        <el-input v-model="form.seats" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="车牌号" label-width="140px">
+        <el-input v-model="form.licensePlate" autocomplete="off"/>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <!-- 先保存、再关闭对话框 -->
+        <el-button type="primary" @click="update" >
+          保存
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <style scoped>

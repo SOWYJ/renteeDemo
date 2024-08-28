@@ -15,4 +15,10 @@ import java.util.List;
 public interface CarsService {
 
     IPage<Cars> viewProduct(PeoductQueryDto queryDto);
+
+    void saveCars(Cars cars);
+
+    void updateCars(Cars cars);
+
+    void deleteCars(Cars cars);
 }
