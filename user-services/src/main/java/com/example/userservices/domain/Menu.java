@@ -1,6 +1,8 @@
 package com.example.userservices.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 import jakarta.persistence.Column;
@@ -50,6 +52,9 @@ public class Menu implements Serializable {
      */
     @Column(name = "parent_menu_id")
     private String parentMenuId;
+
+
+    private List<Menu> childMenuList = new ArrayList<>();
 
     /**
      * 

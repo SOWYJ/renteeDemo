@@ -67,9 +67,9 @@ const columns = [
   {label: "车辆种类", prop: 'carType', minWidth: 50},
   {label: '品牌', prop: 'brand', minWidth: 50},
   {label: '颜色', prop: 'color', minWidth: 50},
-  {label: '座位数', prop: 'seats', minWidth: 50},
+  {label: '座位数', prop: 'seats', minWidth: 20},
   {label: '车牌号', prop: 'licensePlate', minWidth: 50},
-  {label: '操作', prop: 'id', slotName: 'operate', slotted: true, align: 'center', fixed: 'right', minWidth: 90},
+  {label: '操作', prop: 'id', slotName: 'operate', slotted: true, align: 'center', fixed: 'right', minWidth: 120},
 ]
 const tableData = ref({
   records: [],
@@ -169,6 +169,9 @@ const deleteEntKeyProcess = (row: any) => {
     >
 
       <template #operate="scope">
+        <el-button style="margin-bottom: 5px" type="" @click="edit(scope.row)">详情</el-button>
+        <el-button style="margin-bottom: 5px" type="" @click="deleteEntKeyProcess(scope.row)">投放</el-button>
+        <br>
         <el-button type="primary" @click="edit(scope.row)">编辑</el-button>
         <el-button type="danger" @click="deleteEntKeyProcess(scope.row)">删除</el-button>
       </template>
