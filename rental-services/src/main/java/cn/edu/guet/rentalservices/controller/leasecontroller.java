@@ -34,8 +34,8 @@ public class leasecontroller {
        return HttpResult.ok("返回成功");
     }
     @RequestMapping("/deleteLease")
-    public void deleteLease(@RequestBody String liceenseId) {
-        leaseService.deleteLease(liceenseId);
+    public void deleteLease( String licenseId) {
+        leaseService.deleteLease(licenseId);
     }
 
 }

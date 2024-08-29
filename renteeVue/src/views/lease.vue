@@ -88,7 +88,7 @@ const deleteLease=(index,row)=>{
     confirmButtonText: "删除",
     cancelButtonText: "取消",
   }).then(()=>{
-    axios.post("http://localhost:8083/deleteLease",{
+    axios.get("http://localhost:8083/deleteLease",{
       params:{
         licenseId:row.licenseId
       }
@@ -98,7 +98,12 @@ const deleteLease=(index,row)=>{
     })
   })
   }
-
+// const handleEdit = (index,row) =>{
+//   console.log("索引",index)
+//   console.log("当前行数据",row)
+//
+//
+// }
 
 
 
@@ -159,7 +164,7 @@ const Table = ref({
         <el-button
             size="small"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
+            @click="deleteLease(scope.$index, scope.row)"
         >
           Delete
         </el-button>
