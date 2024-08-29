@@ -22,7 +22,7 @@ const registerForm = ref({
   confirmPassword: ''
 });
 const login = () => {
-  axios.post('http://localhost:8080/getAllMenu', {
+  axios.post('http://localhost:8082/auth/getAllMenu', {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
