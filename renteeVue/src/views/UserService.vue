@@ -6,20 +6,20 @@ import axios from "axios";
 const preferential=()=>{
   router.push("/preferential");
 }
-
-const imgs = ref();
-const imgs2 = [];
-onMounted(()=>{
-  axios.get('http://localhost:8083/getAllCoupons').then(res=>{
-    console.log(res);
-    imgs.value=res.data;
-    imgs.value.forEach(img=>{
-      imgs2.push(img.couponImg)
-    })
-    console.log("sssssssssssss",imgs);
-    console.log("adadadadawd",imgs2);
-  })
-})
+//
+// const imgs = ref();
+// const imgs2 = [];
+// onMounted(()=>{
+//   axios.get('http://localhost:8081/getAllCoupons').then(res=>{
+//     console.log(res);
+//     imgs.value=res.data;
+//     imgs.value.forEach(img=>{
+//       imgs2.push(img.couponImg)
+//     })
+//     console.log("sssssssssssss",imgs);
+//     console.log("adadadadawd",imgs2);
+//   })
+// })
 
 
 

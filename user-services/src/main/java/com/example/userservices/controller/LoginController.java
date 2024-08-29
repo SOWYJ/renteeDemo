@@ -2,6 +2,7 @@ package com.example.userservices.controller;
 
 
 import com.example.moviegateway.token.JwtTokenUtils;
+import com.example.userservices.domain.Users;
 import com.example.userservices.dto.LoginDto;
 import com.example.userservices.http.HttpResult;
 import com.example.userservices.service.UsersService;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/auth")
@@ -35,5 +38,16 @@ public class LoginController {
             }
         }
         return null;
+    }
+
+    @PostMapping("/enroll")
+    public HttpResult saveUser(@RequestBody Users users){
+        if (usersService.getUserName(users.getUserName()) !=null ){
+            return HttpResult.ok("该用户名已存在");
+        }else {
+            users.setUserId(UUID.randomUUID().toString().replace("-",""));
+            usersService.save(users);
+            return HttpResult.ok("注册成功");
+        }
     }
 }
