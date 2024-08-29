@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ElMessage, ElMessageBox, ElNotification, ElLoading } from "element-plus";
 import { API_HOST, API_BASE_URL } from "../config";
+import router from "../../router/index.ts";
 axios.defaults.baseURL = API_HOST + API_BASE_URL;
 axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8";
 
@@ -26,6 +27,10 @@ const loading = (() => {
 axios.interceptors.request.use(
   config => {
     loading.show("加载中");
+
+    let token = localStorage.getItem("token");
+    config.headers.Authorization= "Bearer "+token;
+
     return config;
   },
   error => {
@@ -45,9 +50,9 @@ const responseStatusHandler = {
       type: "error",
       showClose: false,
       closeOnPressEscape: false,
-      confirmButtonText: "重新登录",
+      confirmButtonText: "未授权，请先登录",
     }).then(() => {
-      event.emit("logout");
+      router.push("/login");
     });
   },
   402: () => {
