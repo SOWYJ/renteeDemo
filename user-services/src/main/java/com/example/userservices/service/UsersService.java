@@ -9,9 +9,10 @@ import com.example.userservices.dto.LoginDto;
 * @description 针对表【users】的数据库操作Service
 * @createDate 2024-08-28 14:50:22
 */
-public interface UsersService{
+public interface UsersService extends IService<Users>{
 
     Integer getUserName(String userName);
+
     String getPassword(String password);
 
 }

@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 * @createDate 2024-08-28 14:50:22
 */
 @Service
-public class UsersServiceImpl implements UsersService{
+public class UsersServiceImpl extends ServiceImpl<UsersMapper,Users>
+        implements UsersService{
 
     @Autowired
     private UsersMapper usersMapper;
@@ -28,6 +29,8 @@ public class UsersServiceImpl implements UsersService{
     public String getPassword(String userName) {
         return usersMapper.getPassword(userName);
     }
+
+
 }
 
 

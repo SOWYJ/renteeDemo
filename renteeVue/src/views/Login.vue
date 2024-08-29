@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {getCurrentInstance, ref} from "vue";
 import axios from "axios";
 import router from "@/router";
 import {menuStore} from "@/store/menu";
 import {ElMessage} from "element-plus";
+
+const global = getCurrentInstance().appContext.config.globalProperties;
 
 const store = menuStore();
 const isRegister = ref(true);
@@ -21,26 +23,62 @@ const registerForm = ref({
   password: '',
   confirmPassword: ''
 });
+
 const login = () => {
-  axios.post('http://localhost:8082/auth/getAllMenu', {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  }).then(res => {
+  global.$api.login(form.value).then(res => {
     console.log("登陆结果", res);
-    // if (res.data.code == 200){
-    //把菜单数据存入store
-    const menuData = res.data.slice(0, 4);  // 只存储0-3项
-    store.setMenu(menuData);
-    // 把username放进sessionStorage
-    sessionStorage.setItem("name", "dada");
-    //页面跳转
-    router.push('/main');
-    // }
+    //token放入缓存
+    localStorage.setItem("token", res.data.msg);
+  }).then(() => {
+    let token = localStorage.getItem("token");
+    console.log(localStorage.getItem("token"));
+    global.$api.getAllMenu().then(res => {
+      console.log("登陆结果", res);
+      const menuData = res.data.slice(0, 4);  // 只存储0-3项
+      store.setMenu(menuData);
+      sessionStorage.setItem("name", "dada");
+      router.push('/main');
+    })
   })
 }
+// const login = () => {
+//   axios.post('http://localhost:8889/auth/login', form.value
+//       ,{
+//     headers: {
+//       'Content-Type': 'application/json'
+//     }
+//   }).then(res => {
+//     console.log("登陆结果", res);
+//     //token放入缓存
+//     localStorage.setItem("token",res.data.msg);
+//
+//   }).then(()=>{
+//     let token = localStorage.getItem("token");
+//     console.log(localStorage.getItem("token"));
+//     axios.get('http://localhost:8889/auth/getAllMenu',{
+//       headers: {
+//
+//       }
+//     }).then(res=>{
+//       console.log("登陆结果", res);
+//       const menuData = res.data.slice(0, 4);  // 只存储0-3项
+//       store.setMenu(menuData);
+//       sessionStorage.setItem("name", "dada");
+//       router.push('/main');
+//       // if (res.data.code == 200){
+//       //把菜单数据存入store
+//       // const menuData = res.data.slice(0, 4);  // 只存储0-3项
+//       // store.setMenu(menuData);
+//       // // 把username放进sessionStorage
+//       // sessionStorage.setItem("name", "dada");
+//       // //页面跳转
+//       // router.push('/main');
+//       // }
+//     })
+//   })
+// }
 
-const enroll=()=>{
+const enroll = () => {
 
   if (registerForm.value.password !== registerForm.value.confirmPassword) {
     ElMessage.error('两次输入的密码不一致！')
@@ -91,7 +129,8 @@ const enroll=()=>{
               <el-input v-model="registerForm.password" type="password" placeholder="请输入密码" show-password/>
             </el-form-item>
             <el-form-item label="确认密码">
-              <el-input v-model="registerForm.confirmPassword" type="password" placeholder="请再次输入密码" show-password/>
+              <el-input v-model="registerForm.confirmPassword" type="password" placeholder="请再次输入密码"
+                        show-password/>
             </el-form-item>
             <el-form-item class="btn-2">
               <el-button class="btn" type="success" @click="enroll">注册</el-button>
@@ -167,8 +206,8 @@ const enroll=()=>{
   justify-content: space-between; /* 或者使用 space-around */
 }
 
-.btn{
-    flex: 1; /* 使按钮在容器中占据相同的空间 */
-    margin: 0 5px; /* 给按钮之间增加一些间距 */
+.btn {
+  flex: 1; /* 使按钮在容器中占据相同的空间 */
+  margin: 0 5px; /* 给按钮之间增加一些间距 */
 }
 </style>
