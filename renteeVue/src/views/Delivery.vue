@@ -52,23 +52,21 @@ const update = () => {
 // };
 const form = ref({
   carName: '',
-  carType: '',
-  brand: '',
-  color: '',
-  seats: '',
-  licensePlate: ''
+  hourPrice:'',
+  dropLocation:'',
+  dropDate:'',
+  carStatus:''
 })
 
 
 const columns = [
   {label: '', type: "selection", width: 60},
-  {label: '序号', type: "index", width: 50},
-  {label: "车辆名称", prop: 'carName', minWidth: 50},
-  {label: "车辆种类", prop: 'carType', minWidth: 50},
-  {label: '品牌', prop: 'brand', minWidth: 50},
-  {label: '颜色', prop: 'color', minWidth: 50},
-  {label: '座位数', prop: 'seats', minWidth: 20},
-  {label: '车牌号', prop: 'licensePlate', minWidth: 50},
+  {label: '序号', type: "index", width: 60},
+  {label: "车辆名称", prop: 'carName', minWidth: 60},
+  {label: "小时价格", prop: 'hourPrice', minWidth: 60},
+  {label: '投放日期', prop: 'dropDate', minWidth: 60},
+  {label: '投放地点', prop: 'dropLocation', minWidth: 80},
+  {label: '汽车状态', prop: 'carStatus', minWidth: 80},
   {label: '操作', prop: 'id', slotName: 'operate', slotted: true, align: 'center', fixed: 'right', minWidth: 120},
 ]
 const tableData = ref({
@@ -93,8 +91,35 @@ const resetPagination = () => {
   paginationProps.pageSize = tableData.value.pageSize;
   paginationProps.total = 0;
 };
+
+const response = {
+  data: [
+    {
+      car: {
+        id: '',
+        carName: "",
+        carType: null,
+        brand: null,
+        color: null,
+        seats: null,
+        licensePlate: null
+      },
+      carState: {
+        id: null,
+        hourPrice: '',
+        dropLocation: "",
+        dropDate: "",
+        carStatus: null
+      }
+    },
+    // 其他对象
+  ],
+  status: 200,
+  statusText: "OK",
+  headers: "AxiosHeaders",
+};
 const loadData = (pageNum = 1, pageSize = 10) => {
-  global.$api.viewProduct(
+  global.$api.queryState(
       {
         "current": pageNum,
         "size": pageSize,
@@ -102,7 +127,25 @@ const loadData = (pageNum = 1, pageSize = 10) => {
       }
   ).then((res) => {
     console.log("后台返回的数据",res);
-    tableData.value.records = res.data.records;
+    response.data=res.data;
+    // console.log("后台返回的数据111111111111111",response);
+    // tableData.value.records = res.data.records;
+    const formattedRecords = res.data.map(item => ({
+      id: item.car.id, // 提取 car 对象中的 id
+      carName: item.car.carName,
+      carType: item.car.carType,
+      brand: item.car.brand,
+      color: item.car.color,
+      // 其他字段根据需求填充
+      hourPrice: item.carState.hourPrice,
+      dropLocation: item.carState.dropLocation,
+      dropDate: item.carState.dropDate,
+      carStatus: item.carState.carStatus
+    }));
+
+    // 将格式化的记录赋值给 tableData
+    tableData.value.records = formattedRecords;
+
     paginationProps.total = res.data.total;
   })
 };
@@ -145,74 +188,68 @@ const deleteEntKeyProcess = (row: any) => {
 </script>
 
 <template>
-  <div style="margin-top: 10px"></div>
-  <el-config-provider :locale="zhCn">
-    <lq-form :form="searchForm">
+  <div style="margin-top: 10px">
+    <el-config-provider :locale="zhCn">
+      <lq-form :form="searchForm">
+        <template #footer>
+          <div style="margin-top:-50px;margin-left: 550px;">
+            <el-button type="primary" @click="query">查询</el-button>
+          </div>
+        </template>
+      </lq-form>
+      <div class="table-container">
+        <lq-table ref="tableRef"
+                  :columns="columns"
+                  :records="tableData.records"
+                  size="default"
+                  :border="true"
+                  :header-cell-style="{background:'#e1eaf6', color:'#333333'}"
+                  :stripe="true"
+                  :pagination="paginationProps"
+                  @on-pagination="handlePagination"
+        >
+          <template #operate="scope">
+            <el-button style="margin-bottom: 5px" type="" @click="edit(scope.row)">详情</el-button>
+          </template>
+        </lq-table>
+      </div>
+    </el-config-provider>
+
+    <el-dialog v-model="editdialogFormVisible" title="编辑车辆" width="500">
+      <el-form :model="form">
+        <el-form-item label="车辆名称" label-width="140px">
+          <el-input v-model="form.carName" autocomplete="off"/>
+        </el-form-item>
+        <el-form-item label="小时价格" label-width="140px">
+          <el-input v-model="form.hourPrice" autocomplete="off"/>
+        </el-form-item>
+        <el-form-item label="投放地点" label-width="140px">
+          <el-input v-model="form.dropLocation" autocomplete="off"/>
+        </el-form-item>
+        <el-form-item label="投放日期" label-width="140px">
+          <el-input v-model="form.dropDate" autocomplete="off"/>
+        </el-form-item>
+        <el-form-item label="汽车状态" label-width="140px">
+          <el-input v-model="form.carStatus" autocomplete="off"/>
+        </el-form-item>
+      </el-form>
       <template #footer>
-        <div style="margin-top:-50px;margin-left: 550px;">
-          <el-button type="primary" @click="query">查询</el-button>
-<!--          <el-button type="success" @click="dialogFormVisible = true">新增</el-button>-->
-          <!--          <el-button type="warning" @click="handleExport">导出</el-button>-->
-<!--          <el-button type="danger" @click="deleteEntKeyMaterialBatch">批量删除</el-button>-->
+        <div class="dialog-footer">
+          <el-button @click="editdialogFormVisible = false">取消</el-button>
+          <el-button type="primary" @click="update">
+            保存
+          </el-button>
         </div>
       </template>
-    </lq-form>
-    <lq-table ref="tableRef"
-              :columns="columns"
-              :records="tableData.records"
-              size="default"
-              :border="true"
-              :header-cell-style="{background:'#e1eaf6', color:'#333333'}"
-              :stripe="true"
-              :pagination="paginationProps"
-              @on-pagination="handlePagination"
-    >
-
-      <template #operate="scope">
-        <el-button style="margin-bottom: 5px" type="" @click="edit(scope.row)">详情</el-button>
-        <el-button style="margin-bottom: 5px" type="" @click="deleteEntKeyProcess(scope.row)">投放</el-button>
-        <br>
-        <el-button type="primary" @click="edit(scope.row)">编辑</el-button>
-        <el-button type="danger" @click="deleteEntKeyProcess(scope.row)">删除</el-button>
-      </template>
-    </lq-table>
-  </el-config-provider>
-
-
-
-  <el-dialog v-model="editdialogFormVisible" title="编辑车辆" width="500">
-    <el-form :model="form">
-      <el-form-item label="车辆名称" label-width="140px">
-        <el-input v-model="form.carName" autocomplete="off"/>
-      </el-form-item>
-      <el-form-item label="车辆种类" label-width="140px">
-        <el-input v-model="form.carType" autocomplete="off"/>
-      </el-form-item>
-      <el-form-item label="品牌" label-width="140px">
-        <el-input v-model="form.brand" autocomplete="off"/>
-      </el-form-item>
-      <el-form-item label="颜色" label-width="140px">
-        <el-input v-model="form.color" autocomplete="off"/>
-      </el-form-item>
-      <el-form-item label="座位数" label-width="140px">
-        <el-input v-model="form.seats" autocomplete="off"/>
-      </el-form-item>
-      <el-form-item label="车牌号" label-width="140px">
-        <el-input v-model="form.licensePlate" autocomplete="off"/>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <div class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
-        <!-- 先保存、再关闭对话框 -->
-        <el-button type="primary" @click="update" >
-          保存
-        </el-button>
-      </div>
-    </template>
-  </el-dialog>
+    </el-dialog>
+  </div>
 </template>
 
-<style scoped>
 
+<style scoped>
+.table-container {
+  max-height: 500px; /* 设置固定高度 */
+  overflow-y: auto;  /* 启用垂直滚动条 */
+}
 </style>
+

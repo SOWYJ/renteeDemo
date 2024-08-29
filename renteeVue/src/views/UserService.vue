@@ -10,7 +10,7 @@ const preferential=()=>{
 const imgs = ref();
 const imgs2 = [];
 onMounted(()=>{
-  axios.get('http://localhost:8081/getAllCoupons').then(res=>{
+  axios.get('http://localhost:8083/getAllCoupons').then(res=>{
     console.log(res);
     imgs.value=res.data;
     imgs.value.forEach(img=>{

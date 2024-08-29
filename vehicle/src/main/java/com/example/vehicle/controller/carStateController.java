@@ -1,10 +1,13 @@
 package com.example.vehicle.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.vehicle.domain.Cardetail;
+import com.example.vehicle.dto.CardetailQueryDto;
 import com.example.vehicle.service.CarsdetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -20,4 +23,6 @@ public class carStateController {
 //        System.out.println("kkkkkkkkkkkkkkkkk");
         return carsdetailService.getCarStateDetails();
     }
+
+
 }
