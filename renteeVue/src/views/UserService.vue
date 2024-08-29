@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import router from "@/router";
 
+const preferential=()=>{
+  router.push("/preferential");
+}
 </script>
 
 <template>
@@ -31,7 +35,7 @@
           <img src="../static/coupons.png" alt="" class="icon">
           <el-text class="text1">限时优惠</el-text>
         </div>
-        <div class="r-main">
+        <div class="r-main" @click="preferential">
 
         </div>
       </div>
