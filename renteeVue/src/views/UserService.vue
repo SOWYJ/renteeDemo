@@ -1,9 +1,29 @@
 <script setup lang="ts">
 import router from "@/router";
+import {onMounted, ref} from "vue";
+import axios from "axios";
 
 const preferential=()=>{
   router.push("/preferential");
 }
+
+const imgs = ref();
+const imgs2 = [];
+onMounted(()=>{
+  axios.get('http://localhost:8081/getAllCoupons').then(res=>{
+    console.log(res);
+    imgs.value=res.data;
+    imgs.value.forEach(img=>{
+      imgs2.push(img.couponImg)
+    })
+    console.log("sssssssssssss",imgs);
+    console.log("adadadadawd",imgs2);
+  })
+})
+
+
+
+
 </script>
 
 <template>
@@ -36,7 +56,12 @@ const preferential=()=>{
           <el-text class="text1">限时优惠</el-text>
         </div>
         <div class="r-main" @click="preferential">
-
+          <el-carousel height="550px" indicator-position="outside">
+            <!-- 使用 v-for 遍历 imgs 数组 -->
+            <el-carousel-item v-for="(item, index) in imgs2" :key="index">
+              <img :src="item" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+            </el-carousel-item>
+          </el-carousel>
         </div>
       </div>
     </div>
@@ -122,5 +147,21 @@ const preferential=()=>{
   display: flex;
   justify-content: flex-end; /* 让“更多>”对齐到最右侧 */
   width: 66%;
+}
+
+.el-carousel__item h3 {
+  display: flex;
+  color: #475669;
+  opacity: 0.75;
+  line-height: 300px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
 }
 </style>
