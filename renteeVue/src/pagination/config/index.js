@@ -2,8 +2,7 @@
 /**
  * API域名
  */
-export const API_HOST = "http://localhost:8081";
-
+export const API_HOST = "http://localhost:8889";
 /**
  * API基本URL
  */

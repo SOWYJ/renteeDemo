@@ -17,6 +17,7 @@ public interface UsersMapper extends BaseMapper<Users> {
     Integer getUserName(String userName);
 
     String getPassword(String userName);
+
 }
 
 
