@@ -23,6 +23,11 @@ public class CouponsServiceImpl extends ServiceImpl<CouponsMapper, Coupons>
     public boolean deleteCouponById(String couponId) {
         return couponsMapper.deleteCouponById(couponId);
     }
+
+    @Override
+    public boolean decreaseNum(String couponId) {
+        return couponsMapper.decreaseNum(couponId);
+    }
 }
 
 

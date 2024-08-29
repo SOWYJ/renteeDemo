@@ -15,14 +15,17 @@ import java.util.UUID;
 
 
 @RestController
+@RequestMapping("/activity")
 public class CouponsController {
 
     @Autowired
     private CouponsService couponsService;
 
 
+    @CrossOrigin
     @RequestMapping("/upload")
     public String uploadFile(MultipartFile file) {
+        System.out.println("######################:" + file);
         return UploadUntil.uploadFile(file);
     }
 
@@ -41,7 +44,7 @@ public class CouponsController {
         return couponsService.list();
     }
 
-    @RequestMapping("deleteCoupon")
+    @RequestMapping("/deleteCoupon")
     public HttpResult deleteCoupon(@RequestBody Coupons row){
 //        System.out.println("###################:" + row);
         boolean result = couponsService.deleteCouponById(row.getCouponId());
@@ -51,7 +54,7 @@ public class CouponsController {
         return HttpResult.error("删除失败！");
     }
 
-    @PostMapping("updateCoupon")
+    @PostMapping("/updateCoupon")
     public HttpResult updateCoupon(@RequestBody Coupons updateCoupon){
 //        System.out.println("%%%%%%%%%%%%%%%%%：" + updateCoupon);
         String couponId = updateCoupon.getCouponId();
@@ -64,4 +67,16 @@ public class CouponsController {
         }
         return HttpResult.error("修改失败！");
     }
+
+    @PostMapping("/decreaseNum")
+    public HttpResult decreaseNum(@RequestBody Coupons updateCoupon){
+        System.out.println("@@@@@@@@@@@@@@@@@@@@:" + updateCoupon.getCouponId());
+        boolean result = couponsService.decreaseNum(updateCoupon.getCouponId());;
+//        System.out.println("修改成功@@@@@@@@@@@@@@@@@@@@@@@");
+        if (result){
+            return HttpResult.ok("修改成功！");
+        }
+        return HttpResult.error("修改失败！");
+    }
+
 }
