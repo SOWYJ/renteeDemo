@@ -44,6 +44,7 @@ public class CarsServiceImpl implements CarsService{
 
     @Override
     public void updateCars(Cars cars) {
+//        System.out.println("OOOOOOOOOOOO");
         carsMapper.updateById(cars);
     }
 

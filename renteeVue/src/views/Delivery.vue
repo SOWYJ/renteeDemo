@@ -151,9 +151,9 @@ const deleteEntKeyProcess = (row: any) => {
       <template #footer>
         <div style="margin-top:-50px;margin-left: 550px;">
           <el-button type="primary" @click="query">查询</el-button>
-          <el-button type="success" @click="dialogFormVisible = true">新增</el-button>
-<!--          <el-button type="warning" @click="handleExport">导出</el-button>-->
-          <el-button type="danger" @click="deleteEntKeyMaterialBatch">批量删除</el-button>
+<!--          <el-button type="success" @click="dialogFormVisible = true">新增</el-button>-->
+          <!--          <el-button type="warning" @click="handleExport">导出</el-button>-->
+<!--          <el-button type="danger" @click="deleteEntKeyMaterialBatch">批量删除</el-button>-->
         </div>
       </template>
     </lq-form>
@@ -179,38 +179,6 @@ const deleteEntKeyProcess = (row: any) => {
   </el-config-provider>
 
 
-
-  <el-dialog v-model="dialogFormVisible" title="新增车辆" width="500">
-    <el-form :model="form">
-      <el-form-item label="车辆名称" label-width="140px">
-        <el-input v-model="form.carName" autocomplete="off"/>
-      </el-form-item>
-<!--      <el-form-item label="车辆种类" label-width="140px">-->
-<!--        <el-input v-model="form.carType" autocomplete="off"/>-->
-<!--      </el-form-item>-->
-      <el-form-item label="品牌" label-width="140px">
-        <el-input v-model="form.brand" autocomplete="off"/>
-      </el-form-item>
-      <el-form-item label="颜色" label-width="140px">
-        <el-input v-model="form.color" autocomplete="off"/>
-      </el-form-item>
-      <el-form-item label="座位数" label-width="140px">
-        <el-input v-model="form.seats" autocomplete="off"/>
-      </el-form-item>
-      <el-form-item label="车牌号" label-width="140px">
-        <el-input v-model="form.licensePlate" autocomplete="off"/>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <div class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
-        <!-- 先保存、再关闭对话框 -->
-        <el-button type="primary" @click="saveCars" >
-          保存
-        </el-button>
-      </div>
-    </template>
-  </el-dialog>
 
   <el-dialog v-model="editdialogFormVisible" title="编辑车辆" width="500">
     <el-form :model="form">

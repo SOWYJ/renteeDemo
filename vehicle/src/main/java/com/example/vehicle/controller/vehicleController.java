@@ -10,17 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//@RestController
-//@RequestMapping("/product")
-//public class ProductContrpller {
-//    @Autowired
-//    private ProductService productService;
-//
-//    @PostMapping("/viewProduct")
-//    public IPage<Product> viewProduct(@RequestBody PeoductQueryDto queryDto){
-//        return productService.viewProduct(queryDto);
-//    }
-//}
 @CrossOrigin
 @RestController
 public class vehicleController {
