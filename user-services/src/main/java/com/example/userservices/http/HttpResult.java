@@ -33,8 +33,9 @@ public class HttpResult {
         return r;
     }
 
-    public static HttpResult ok(Object data) {
+    public static HttpResult ok(int code,Object data) {
         HttpResult r = new HttpResult();
+        r.setData(code);
         r.setData(data);
         return r;
     }

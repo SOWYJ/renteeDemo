@@ -1,25 +1,35 @@
 <script setup lang="ts">
 import router from "@/router";
-import {onMounted, ref} from "vue";
+import {getCurrentInstance, onMounted, ref} from "vue";
 import axios from "axios";
+import {ElMessage} from "element-plus";
 
+
+const global = getCurrentInstance()?.appContext.config.globalProperties;
 const preferential=()=>{
   router.push("/preferential");
 }
-//
-// const imgs = ref();
-// const imgs2 = [];
-// onMounted(()=>{
-//   axios.get('http://localhost:8081/getAllCoupons').then(res=>{
-//     console.log(res);
-//     imgs.value=res.data;
-//     imgs.value.forEach(img=>{
-//       imgs2.push(img.couponImg)
-//     })
-//     console.log("sssssssssssss",imgs);
-//     console.log("adadadadawd",imgs2);
-//   })
-// })
+const token=localStorage.getItem("token");
+const imgs = ref([]);
+
+onMounted(()=>{
+  axios.get('http://localhost:8889/activity/getAllCoupons',{
+    headers: {
+      "Authorization": "Bearer "+ token
+    }
+  }).then(res=>{
+    console.log(res);
+    imgs.value = res.data.map((item:any) => {
+      return {
+          couponImg : item.couponImg
+      }
+    })
+  })
+})
+
+const getCart=()=>{
+  router.push("/main/detailed")
+}
 
 
 
@@ -35,7 +45,7 @@ const preferential=()=>{
             <el-text class="text1">热租品牌</el-text>
           </div>
           <div class="r-cent">
-            <el-text class="text2">更多></el-text>
+            <el-text class="text2" @click="getCart">更多></el-text>
           </div>
         </div>
         <div class="main-content">
@@ -58,7 +68,7 @@ const preferential=()=>{
         <div class="r-main" @click="preferential">
           <el-carousel height="550px" indicator-position="outside">
             <!-- 使用 v-for 遍历 imgs 数组 -->
-            <el-carousel-item v-for="(item, index) in imgs2" :key="index">
+            <el-carousel-item v-for="(item, index) in imgs" :key="index">
               <img :src="item" alt="" style="width: 100%; height: 100%; object-fit: cover;">
             </el-carousel-item>
           </el-carousel>
@@ -75,7 +85,6 @@ const preferential=()=>{
   justify-content: space-between; /* 水平方向分布 l-area 和 r-area */
   align-items: center; /* 使左右区域垂直方向上对齐 */
   margin: 0 auto; /* 使内容水平居中 */
-  border: 1px solid red;
 }
 
 .l-area {
