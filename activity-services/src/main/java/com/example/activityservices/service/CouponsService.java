@@ -10,4 +10,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface CouponsService extends IService<Coupons> {
 
+    boolean deleteCouponById(String couponId);
 }

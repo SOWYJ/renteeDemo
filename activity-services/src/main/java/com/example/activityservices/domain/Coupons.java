@@ -28,18 +28,18 @@ public class Coupons implements Serializable {
     /**
      * 
      */
-    @JsonDeserialize(using = CustomLocalDateTimeDeserializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @JsonDeserialize(using = CustomLocalDateTimeDeserializer.class)
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "start_time")
-    private LocalDateTime startTime;
+    private String startTime;
 
     /**
      * 
      */
-    @JsonDeserialize(using = CustomLocalDateTimeDeserializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @JsonDeserialize(using = CustomLocalDateTimeDeserializer.class)
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "end_time")
-    private LocalDateTime endTime;
+    private String endTime;
 
     /**
      * 
