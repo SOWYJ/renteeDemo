@@ -26,26 +26,27 @@ public class LoginController {
          * 拿到用户名和密码后，先去数据库验证是否匹配，如果匹配成功，则颁发token
          */
         if (usersService.getUserName(loginDto.getUsername()) == 0){
-            System.out.println("用户名不存在，请注册！");
+            return HttpResult.error(401, "用户名不存在，请注册！");
         }else {
             String password = usersService.getPassword(loginDto.getUsername());
             if (loginDto.getPassword().equals(password) ){
                 String token = JwtTokenUtils.generateToken(loginDto.getUsername());
                 //返回token给前端
-                return HttpResult.ok(token);
+                return HttpResult.ok(200,token);
             }else {
-                System.out.println("密码错误，请重新输入！");
+                return HttpResult.error(401, "密码错误，请重新输入！");
             }
         }
-        return null;
     }
 
     @PostMapping("/enroll")
     public HttpResult saveUser(@RequestBody Users users){
-        if (usersService.getUserName(users.getUserName()) !=null ){
-            return HttpResult.ok("该用户名已存在");
+        System.out.println("ddddddddddddddd"+users);
+        if (usersService.getUserName(users.getUserName()) !=0 ){
+            return HttpResult.ok(500,"该用户名已存在");
         }else {
             users.setUserId(UUID.randomUUID().toString().replace("-",""));
+            System.out.println(users);
             usersService.save(users);
             return HttpResult.ok("注册成功");
         }

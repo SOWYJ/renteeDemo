@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
 * @author HP
 * @description 针对表【lease】的数据库操作Service实现
@@ -22,13 +24,23 @@ public class LeaseServiceImpl  implements LeaseService{
 
         int lease = leaseMapper.pay(licenseId);
         System.out.println(lease);
-        if(lease<=60){
-            System.out.println("收费");
-        }else{
-            System.out.println("shoufe");
-        }
         return lease;
     }
+
+    @Override
+    public List<Lease> getAlllease() {return leaseMapper.getAlllease();    }
+
+    @Override
+    public void saveLease(Lease lease) {
+         leaseMapper.saveLease(lease);
+    }
+
+    @Override
+    public void deleteLease(String licenseId) {
+        leaseMapper.deleteLease(licenseId);
+    }
+
+
 }
 
 

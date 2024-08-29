@@ -5,20 +5,36 @@
 <mapper namespace="cn.edu.guet.rentalservices.mapper.LeaseMapper">
 
     <resultMap id="BaseResultMap" type="cn.edu.guet.rentalservices.domain.Lease">
+        <result property="renter" column="renter" jdbcType="VARCHAR"/>
             <result property="licenseId" column="license_id" jdbcType="VARCHAR"/>
             <result property="rentalTime" column="rental_time" jdbcType="TIMESTAMP"/>
             <result property="returnTime" column="return_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+
     <sql id="Base_Column_List">
-        license_id,rental_time,return_time
+        renter,license_id,rental_time,return_time
     </sql>
+    <insert id="saveLease" >
+        INSERT INTO lease
+        VALUES (#{renter}, #{licenseId}, #{rentalTime}, #{returnTime})
+    </insert>
+    <delete id="deleteLease">
+        DELETE FROM lease
+        WHERE license_id = #{licenseid}
+    </delete>
+
+
     <select id="pay" resultType="cn.edu.guet.rentalservices.domain.Lease">
         SELECT
             TIMESTAMPDIFF(MINUTE, rental_time, return_time)
         FROM
             lease
         WHERE license_id = #{licenseid}
+    </select>
+    <select id="getAlllease" resultType="cn.edu.guet.rentalservices.domain.Lease">
+        SELECT *
+        FROM lease
     </select>
 
 
