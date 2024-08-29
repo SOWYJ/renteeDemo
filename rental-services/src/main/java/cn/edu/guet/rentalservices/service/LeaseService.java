@@ -15,4 +15,6 @@ public interface LeaseService  {
   int pay(String licenseId);
 
   List<Lease> getAlllease();
+void saveLease(Lease lease);
+ void deleteLease(String licenseId);
 }

@@ -29,6 +29,18 @@ public class LeaseServiceImpl  implements LeaseService{
 
     @Override
     public List<Lease> getAlllease() {return leaseMapper.getAlllease();    }
+
+    @Override
+    public void saveLease(Lease lease) {
+         leaseMapper.saveLease(lease);
+    }
+
+    @Override
+    public void deleteLease(String licenseId) {
+        leaseMapper.deleteLease(licenseId);
+    }
+
+
 }
 
 

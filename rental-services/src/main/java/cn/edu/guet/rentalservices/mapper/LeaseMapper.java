@@ -16,7 +16,8 @@ import java.util.List;
 public interface LeaseMapper extends BaseMapper<Lease> {
     int pay(String licenseId);
     List<Lease> getAlllease();
-
+    void saveLease(Lease lease);
+    void deleteLease(String licenseId);
 }
 
 

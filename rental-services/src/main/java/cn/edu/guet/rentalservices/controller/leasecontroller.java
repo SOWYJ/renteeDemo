@@ -4,10 +4,7 @@ import cn.edu.guet.rentalservices.domain.Lease;
 import cn.edu.guet.rentalservices.http.HttpResult;
 import cn.edu.guet.rentalservices.service.LeaseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,18 +13,29 @@ import java.util.List;
 public class leasecontroller {
     @Autowired
     private LeaseService leaseService;
+
     @RequestMapping("/pay")
     @ResponseBody
-    public HttpResult pay(String licenseId){
+    public HttpResult pay(String licenseId) {
 
-         int lease =  leaseService.pay(licenseId);
-         return HttpResult.ok(lease);
+        int lease = leaseService.pay(licenseId);
+        return HttpResult.ok(lease);
     }
 
     @RequestMapping("/getAlllease")
     @ResponseBody
-    public List<Lease> getAllLease(){
+    public List<Lease> getAllLease() {
         return leaseService.getAlllease();
+    }
+    @PostMapping("/saveLease")
+    public HttpResult saveLease(@RequestBody Lease lease) {
+        System.out.println(lease);
+        leaseService.saveLease(lease);
+       return HttpResult.ok("返回成功");
+    }
+    @RequestMapping("/deleteLease")
+    public void deleteLease(@RequestBody String liceenseId) {
+        leaseService.deleteLease(liceenseId);
     }
 
 }
