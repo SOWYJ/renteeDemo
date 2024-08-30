@@ -46,33 +46,7 @@
       </div>
     </el-config-provider>
 
-    <el-dialog v-model="editdialogFormVisible" title="编辑车辆" width="500">
-      <el-form :model="form">
-        <el-form-item label="车辆名称" label-width="140px">
-          <el-input v-model="form.carName" autocomplete="off"/>
-        </el-form-item>
-        <el-form-item label="小时价格" label-width="140px">
-          <el-input v-model="form.hourPrice" autocomplete="off"/>
-        </el-form-item>
-        <el-form-item label="投放地点" label-width="140px">
-          <el-input v-model="form.dropLocation" autocomplete="off"/>
-        </el-form-item>
-        <el-form-item label="投放日期" label-width="140px">
-          <el-input v-model="form.dropDate" autocomplete="off"/>
-        </el-form-item>
-        <el-form-item label="汽车状态" label-width="140px">
-          <el-input v-model="form.carStatus" autocomplete="off" />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="editdialogFormVisible = false">取消</el-button>
-          <el-button type="primary" @click="update">
-            保存
-          </el-button>
-        </div>
-      </template>
-    </el-dialog>
+
   </div>
 </template>
 
@@ -82,6 +56,7 @@ import LqForm from '@/pagination/components/LqForm.vue';
 import LqTable from '@/pagination/components/LqTable.vue';
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
 import { ElMessage, ElMessageBox } from 'element-plus';
+import router from "@/router";
 
 // 获取全局 API 实例
 const global = getCurrentInstance().appContext.config.globalProperties;
@@ -164,10 +139,11 @@ const saveCars = () => {
 };
 
 const edit = (row: any) => {
-  editdialogFormVisible.value = true;
+  // 其他操作
+  // editdialogFormVisible.value = true;
   form.value = { ...row };
+  router.push({ path: '/main/DetailSpage', query: { id: row.id } });
 };
-
 const update = () => {
   global.$api.updateCars(form.value)
       .then(() => {
