@@ -64,10 +64,7 @@ const query = () => {
 }
 
 const userList=ref();
-const handleEdit=(index, row)=>{
-  dialogTableVisible.value = true
-  Table.value=row;
-}
+
 
 
 const saveLease=()=> {
@@ -75,6 +72,9 @@ const saveLease=()=> {
     headers: {
       'Content-Type': 'application/json'
     }
+  }).then(res=>{
+    ElMessage({type: "success", message: "保存成功！", duration: 4000});
+    query();
   })
 }
 
@@ -90,7 +90,7 @@ const deleteLease=(index,row)=>{
   }).then(()=>{
     axios.get("http://localhost:8083/deleteLease",{
       params:{
-        licenseId:row.licenseId
+        id:row.id
       }
     }).then(res=>{
       ElMessage({type: "success", message: "删除成功！", duration: 4000});
@@ -98,12 +98,16 @@ const deleteLease=(index,row)=>{
     })
   })
   }
-// const handleEdit = (index,row) =>{
-//   console.log("索引",index)
-//   console.log("当前行数据",row)
-//
-//
-// }
+const updateLease=()=>{
+  axios.post('http://localhost:8083/updateLease', form.value, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then(res=>{
+    ElMessage({type: "success", message: "保存成功！", duration: 4000});
+    query();
+  })
+}
 
 
 
@@ -111,6 +115,7 @@ const deleteLease=(index,row)=>{
 
 
 const form = ref({
+  id:'',
   renter:'',
   licenseId:'',
   rentalTime:'',
@@ -134,8 +139,9 @@ const Table = ref({
 <template>
   <el-button type="primary" @click="dialogFormVisible=true">新增</el-button>
   <el-table :data="userList" style="width: 100%">
-    <el-table-column prop="renter" label="租赁人" width="180" />
-    <el-table-column prop="licenseId" label="车牌号" width="180" />
+    <el-table-column prop="id" label="序号" width="150" />
+    <el-table-column prop="renter" label="租赁人" width="150" />
+    <el-table-column prop="licenseId" label="车牌号" width="150" />
     <el-table-column prop="rentalTime" label="借车时间" width="180">
       <template #default="scope">
         {{ formatDateTime(scope.row.rentalTime) }}
@@ -146,19 +152,19 @@ const Table = ref({
         {{ formatDateTime(scope.row.returnTime) }}
       </template>
     </el-table-column>
-    <el-table-column prop="difference" label="时间差" width="180" >
+    <el-table-column prop="difference" label="时间差" width="150" >
       <template #default="scope">
         {{ calculateTimeDifference(scope.row.rentalTime, scope.row.returnTime) }} 小时
       </template>
     </el-table-column>
-    <el-table-column prop="pay" label="需付" >
+    <el-table-column prop="pay" label="需付" width="90">
       <template #default="scope">
         {{ calculatePay(scope.row.rentalTime, scope.row.returnTime) }} 元
       </template>
     </el-table-column>
-    <el-table-column label="编辑">
+    <el-table-column label="编辑" width="200"  align="center">
       <template #default="scope">
-        <el-button  size="small" @click="handleEdit(scope.$index, scope.row)">
+        <el-button  size="small"  @click="dialogTableVisible=true">
           Edit
         </el-button>
         <el-button
@@ -173,6 +179,9 @@ const Table = ref({
   </el-table>
   <el-dialog v-model="dialogFormVisible" title="新增用户" width="500">
     <el-form :model="form">
+      <el-form-item label="序号" label-width="140px">
+        <el-input v-model="form.id" autocomplete="off"/>
+      </el-form-item>
       <el-form-item label="租车人" label-width="140px">
         <el-input v-model="form.renter" autocomplete="off"/>
       </el-form-item>
@@ -204,6 +213,41 @@ const Table = ref({
       </div>
     </template>
   </el-dialog>
+
+  <el-dialog v-model="dialogTableVisible" title="修改用户" width="500">
+    <el-form :model="form">
+      <el-form-item label="租车人" label-width="140px">
+        <el-input v-model="form.renter" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="车牌号" label-width="140px">
+        <el-input v-model="form.licenseId" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="借车时间" label-width="140px">
+        <el-date-picker
+            v-model="form.rentalTime"
+            type="datetime"
+            placeholder="Select date and time"
+        />
+      </el-form-item>
+      <el-form-item label="还车时间" label-width="140px">
+        <el-date-picker
+            v-model="form.returnTime"
+            type="datetime"
+            placeholder="Select date and time"
+        />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="dialogTableVisible = false">取消</el-button>
+        <!-- 先保存、再关闭对话框 -->
+        <el-button type="primary" @click="updateLease">
+          保存
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
+
 
 
 </template>

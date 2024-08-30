@@ -34,8 +34,12 @@ public class leasecontroller {
        return HttpResult.ok("返回成功");
     }
     @RequestMapping("/deleteLease")
-    public void deleteLease( String licenseId) {
-        leaseService.deleteLease(licenseId);
+    public void deleteLease( String id) {
+        leaseService.deleteLease(id);
     }
-
+    @RequestMapping("/updateLease")
+    public HttpResult updateLease(@RequestBody Lease lease) {
+        leaseService.updateLease(lease);
+        return HttpResult.ok();
+    }
 }

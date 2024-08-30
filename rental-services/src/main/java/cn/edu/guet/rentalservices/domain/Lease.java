@@ -18,6 +18,10 @@ public class Lease implements Serializable {
      * 
      */
 
+    @Column(name="id")
+    private String id;
+
+
     @Column(name="renter")
     private String renter;
 
@@ -69,5 +73,13 @@ public class Lease implements Serializable {
 
     public void setRenter(String renter) {
         this.renter = renter;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

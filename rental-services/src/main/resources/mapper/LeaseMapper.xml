@@ -5,7 +5,8 @@
 <mapper namespace="cn.edu.guet.rentalservices.mapper.LeaseMapper">
 
     <resultMap id="BaseResultMap" type="cn.edu.guet.rentalservices.domain.Lease">
-        <result property="renter" column="renter" jdbcType="VARCHAR"/>
+            <result property="id" column="id" jdbcType="VARCHAR"/>
+            <result property="renter" column="renter" jdbcType="VARCHAR"/>
             <result property="licenseId" column="license_id" jdbcType="VARCHAR"/>
             <result property="rentalTime" column="rental_time" jdbcType="TIMESTAMP"/>
             <result property="returnTime" column="return_time" jdbcType="TIMESTAMP"/>
@@ -13,15 +14,21 @@
 
 
     <sql id="Base_Column_List">
-        renter,license_id,rental_time,return_time
+        id,renter,license_id,rental_time,return_time
     </sql>
     <insert id="saveLease" >
         INSERT INTO lease
-        VALUES (#{renter}, #{licenseId}, #{rentalTime}, #{returnTime})
+        VALUES ( #{id}, #{renter}, #{licenseId}, #{rentalTime}, #{returnTime})
     </insert>
+    <update id="updateLease">
+        UPDATE lease
+        SET  renter=#{renter}, license_id = #{licenseId},rental_time=#{rentalTime},return_time=#{returnTime}
+        WHERE id=#{id}
+    </update>
+
     <delete id="deleteLease">
         DELETE FROM lease
-        WHERE license_id = #{licenseid}
+        WHERE id = #{id}
     </delete>
 
 
