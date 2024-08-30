@@ -211,6 +211,7 @@ const loadData = (pageNum = 1, pageSize = 10) => {
     carName: searchForm.value.model.carName,
   })
       .then((res) => {
+        console.log("投放数据",res.data);
         const formattedRecords = res.data.map(item => ({
           id: item.car.id,
           carName: item.car.carName,
@@ -220,7 +221,7 @@ const loadData = (pageNum = 1, pageSize = 10) => {
           hourPrice: item.carState.hourPrice,
           dropLocation: item.carState.dropLocation,
           dropDate: item.carState.dropDate,
-          carStatus: item.carState.carStatus,
+          carStatus: item.carState.carstatus,
         }));
 
         tableData.value.records = formattedRecords;
