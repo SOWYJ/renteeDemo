@@ -21,7 +21,7 @@ public class carStateController {
     }
 
     @GetMapping ("/obquery")
-    public List<Cardetail> obquery( String carName){
+    public List<Cardetail> obquery(String carName){
 
 //        System.out.println("OOOOOOOOOOO"+carName);
 //        System.out.println("OOOOOOOOOOOOOOOOO"+carsdetailService.obqueryCars(carName));

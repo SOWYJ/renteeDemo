@@ -246,7 +246,7 @@ const loadData2 = (pageNum = 1, pageSize = 10) => {
           hourPrice: item.carState.hourPrice,
           dropLocation: item.carState.dropLocation,
           dropDate: item.carState.dropDate,
-          carStatus: item.carState.carStatus,
+          carStatus: item.carState.carstatus,
         }));
 
         tableData.value.records = formattedRecords;
