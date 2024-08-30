@@ -114,7 +114,7 @@ const response = {
         hourPrice: '',
         dropLocation: "",
         dropDate: "",
-        carStatus: null
+        carStatus: ""
       }
     },
     // 其他对象
@@ -220,6 +220,8 @@ const deleteEntKeyProcess = (row: any) => {
         })
       })
 }
+
+
 </script>
 
 <template>
@@ -265,7 +267,12 @@ const deleteEntKeyProcess = (row: any) => {
           <el-input v-model="form.dropDate" autocomplete="off"/>
         </el-form-item>
         <el-form-item label="汽车状态" label-width="140px">
-          <el-input v-model="form.carStatus" autocomplete="off"/>
+          <div class="status-container">
+            <el-input v-model="form.carStatus" autocomplete="off" disabled/>
+            <div v-if="form.carStatus === 'in-use'" class="spinner">
+              <div class="inner-circle"></div>
+            </div>
+          </div>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -286,6 +293,48 @@ const deleteEntKeyProcess = (row: any) => {
 .table-container {
   max-height: 450px; /* 设置固定高度 */
   overflow-y: auto;  /* 启用垂直滚动条 */
+}
+.vehicle-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.status-available {
+  color: green;
+}
+
+.status-in-use {
+  color: red;
+  display: flex;
+  align-items: center;
+}
+
+.spinner {
+  position: relative;
+  width: 24px; /* 增大圆圈尺寸以适应小圆圈 */
+  height: 24px;
+  margin-left: 8px;
+  border-radius: 50%;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left: 4px solid red;
+  animation: spin 1s linear infinite;
+}
+
+.spinner .inner-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: red;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 </style>
 
