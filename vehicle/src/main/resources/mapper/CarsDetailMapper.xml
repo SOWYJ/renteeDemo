@@ -13,7 +13,7 @@
             <result column="hour_price" property="hourPrice"/>
             <result column="drop_location" property="dropLocation"/>
             <result column="drop_date" property="dropDate"/>
-            <result column="carstatus" property="carStatus"/>
+            <result column="carstatus" property="carstatus"/>
         </association>
     </resultMap>
 

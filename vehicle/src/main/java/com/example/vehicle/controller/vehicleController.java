@@ -2,8 +2,10 @@ package com.example.vehicle.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.vehicle.domain.Cars;
+import com.example.vehicle.domain.Carstate;
 import com.example.vehicle.dto.PeoductQueryDto;
 import com.example.vehicle.service.CarsService;
+import com.example.vehicle.service.CarstateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,9 @@ import java.util.List;
 public class vehicleController {
     @Autowired
     private CarsService carsService;
+
+    @Autowired
+    private CarstateService carstateService;
 
     @PostMapping("/viewProduct")
     public IPage<Cars> viewProduct(@RequestBody PeoductQueryDto queryDto){
@@ -42,6 +47,12 @@ public class vehicleController {
         return null;
     }
 
+    @PostMapping("/deleteCarSate")
+    public List<Carstate> deleteCarSate(@RequestBody Carstate carstate){
+//        System.out.println("KKKKKKKKKK"+carstate);
+       carstateService.deleteCarSate(carstate);
+        return null;
+    }
     @RequestMapping("/getAllCarts")
     public List<Cars> getAllCarts(){
         return carsService.list();

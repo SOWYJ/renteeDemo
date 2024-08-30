@@ -181,7 +181,7 @@ const update = () => {
 
 const deleteEntKeyProcess = (row: any) => {
   ElMessageBox.confirm(
-      '你确定要删除吗？',
+      '你确定要取消投放吗？',
       '提醒！',
       {
         confirmButtonText: '确定',
@@ -190,13 +190,13 @@ const deleteEntKeyProcess = (row: any) => {
       }
   )
       .then(() => {
-        global.$api.deleteCars({ id: row.id })
+        global.$api.deleteCarSate({ id: row.id })
             .then(() => {
-              ElMessage.success('删除成功');
+              ElMessage.success('取消成功');
               query();
             })
             .catch(() => {
-              ElMessage.error('删除失败');
+              ElMessage.error('取消失败');
             });
       })
       .catch(() => {
