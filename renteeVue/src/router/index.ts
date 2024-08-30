@@ -34,19 +34,14 @@ const router = createRouter({
                             component: () => import('../views/UserService.vue')
                         },
                         {
-                            path:'/main/lease',
-                            name:'lease',
-                            component:()=>import('../views/lease.vue')
-                        },
-                        {
                             path: '/main/activity',
                             name: 'activity',
                             component: () => import('../views/ActivityService.vue')
                         },
                         {
-                            path: '/main/detailed',
-                            name: 'detailed',
-                            component: () => import('../views/Detailed.vue')
+                            path: '/main/Delivery',
+                            name: 'Delivery',
+                            component: () => import('../views/Delivery.vue')
                         }
                     ]
                 }

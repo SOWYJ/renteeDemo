@@ -3,7 +3,6 @@ package com.example.activityservices.domain;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import com.example.activityservices.config.CustomLocalDateTimeDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.Column;

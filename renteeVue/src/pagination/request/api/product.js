@@ -1,9 +1,9 @@
-// const API_PRODUCT_URL = "/product"
+// const API_PRODUCT_URL = "/vehicle"
 
 
 export default {
 
-    viewProduct: { url:"/viewProduct", method: "post" }
+    viewProduct: { url:"/vehicle/viewProduct", method: "post" }
 
 };
 

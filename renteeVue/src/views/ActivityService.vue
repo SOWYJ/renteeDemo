@@ -28,7 +28,7 @@ const saveCoupon = () => {
   // console.log(strWithoutLetters);
 
   console.log("数据啊啊啊啊：", coupon.value);
-  axios.post('http://localhost:8081/saveCoupon', coupon.value, {
+  axios.post('http://localhost:8083/saveCoupon', coupon.value, {
     headers: {
       'Content-Type': 'application/json'
     }
@@ -60,7 +60,7 @@ onMounted(() => {
 });
 const couponList = ref([]);
 const getAllCoupons = () => {
-  axios.get('http://localhost:8081/getAllCoupons')
+  axios.get('http://localhost:8083/getAllCoupons')
       .then(res => {
         res.data.forEach((re: any) => {
           re.startTime = re.startTime.replace(".000Z", "");
@@ -72,7 +72,7 @@ const getAllCoupons = () => {
       })
 };
 const handleDelete = (index: any, row: any) => {
-  axios.post('http://localhost:8081/deleteCoupon', row, {
+  axios.post('http://localhost:8083/deleteCoupon', row, {
     headers: {
       'Content-Type': 'application/json'
     }
@@ -115,7 +115,7 @@ const handleEdit = (index: any, row: any) => {
 };
 
 const updateData = () => {
-  axios.post('http://localhost:8081/updateCoupon', updateCoupon.value, {
+  axios.post('http://localhost:8083/updateCoupon', updateCoupon.value, {
     headers: {
       'Content-Type': 'application/json'
     }
