@@ -10,6 +10,7 @@ import updateCars from "@/pagination/request/api/updateCars.js";
 const global = getCurrentInstance().appContext.config.globalProperties;
 const dialogFormVisible = ref(false)
 const editdialogFormVisible = ref(false)
+const deliverydialogFormVisible = ref(false)
 const searchForm = ref({
   innerAttrs: {
     labelPosition: 'right',
@@ -107,6 +108,7 @@ const loadData = (pageNum = 1, pageSize = 10) => {
   })
 };
 
+
 onMounted(() => {
   setTimeout(() => {
     query();
@@ -116,32 +118,108 @@ onMounted(() => {
 
 import { ElMessage, ElMessageBox } from 'element-plus'
 
-const deleteEntKeyProcess = (row: any) => {
-  ElMessageBox.confirm(
-      '你确定要删除吗？',
-      '提醒！',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }
-  )
-      .then(() => {
-        form.value = { ...row };
-        global.$api.deleteCars(form.value);
-        query();
-        ElMessage({
-          type: 'success',
-          message: '删除成功',
-        })
-      })
-      .catch(() => {
-        ElMessage({
-          type: 'info',
-          message: '已取消',
-        })
-      })
+// const deleteEntKeyProcess = (row: any) => {
+//   ElMessageBox.confirm(
+//       '你确定要删除吗？',
+//       '提醒！',
+//       {
+//         confirmButtonText: '确定',
+//         cancelButtonText: '取消',
+//         type: 'warning',
+//       }
+//   )
+//       .then(() => {
+//         form.value = { ...row };
+//         global.$api.deleteCars(form.value);
+//         query();
+//         ElMessage({
+//           type: 'success',
+//           message: '删除成功',
+//         })
+//       })
+//       .catch(() => {
+//         ElMessage({
+//           type: 'info',
+//           message: '已取消',
+//         })
+//       })
+// }
+const deleteEntKeyProcess = async (row: any) => {
+  try {
+    // 显示确认对话框
+    await ElMessageBox.confirm(
+        '你确定要删除吗？',
+        '提醒！',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }
+    );
+
+    // 更新表单数据
+    form.value = { ...row };
+
+    // 调用删除 API
+    const response = await global.$api.deleteCars(form.value);
+
+    // 检查删除是否成功
+    if (response && response.success) { // 根据实际的 API 返回结构调整检查逻辑
+      // 重新查询数据
+
+      // 显示成功消息
+      ElMessage({
+        type: 'success',
+        message: '删除成功',
+      });
+      query();
+    } else {
+      // 如果响应未表明成功，抛出错误
+      throw new Error('删除失败');
+    }
+  } catch (error) {
+    // 判断错误类型
+    if (error.response && error.response.status === 500) {
+      // 处理服务器内部错误 (500)
+      ElMessage({
+        type: 'error',
+        message: '车辆在投放中，无法删除',
+      });
+    } else if (error === 'cancel') {
+      // 处理用户取消的情况
+      ElMessage({
+        type: 'info',
+        message: '已取消',
+      });
+    } else {
+      ElMessage({
+        type: 'success',
+        message: '删除成功',
+      });
+      query();
+    }
+  }
+};
+
+const deliveryCars = (row: any) => {
+  deliverydialogFormVisible.value=true;
+  form.value = { ...row };
+  // global.$api.deliveryCars(form.value);
+  query();
 }
+
+import { reactive } from 'vue'
+
+const formInline = reactive({
+  user: '',
+  region: '',
+  date: '',
+})
+
+const onSubmit = () => {
+  console.log('submit!')
+}
+
 </script>
 
 <template>
@@ -170,7 +248,7 @@ const deleteEntKeyProcess = (row: any) => {
 
       <template #operate="scope">
         <el-button style="margin-bottom: 5px" type="" @click="edit(scope.row)">详情</el-button>
-        <el-button style="margin-bottom: 5px" type="" @click="deleteEntKeyProcess(scope.row)">投放</el-button>
+        <el-button style="margin-bottom: 5px" type="" @click="deliveryCars(scope.row)">投放</el-button>
         <br>
         <el-button type="primary" @click="edit(scope.row)">编辑</el-button>
         <el-button type="danger" @click="deleteEntKeyProcess(scope.row)">删除</el-button>
@@ -185,9 +263,9 @@ const deleteEntKeyProcess = (row: any) => {
       <el-form-item label="车辆名称" label-width="140px">
         <el-input v-model="form.carName" autocomplete="off"/>
       </el-form-item>
-      <el-form-item label="车辆种类" label-width="140px">
-        <el-input v-model="form.carType" autocomplete="off"/>
-      </el-form-item>
+<!--      <el-form-item label="车辆种类" label-width="140px">-->
+<!--        <el-input v-model="form.carType" autocomplete="off"/>-->
+<!--      </el-form-item>-->
       <el-form-item label="品牌" label-width="140px">
         <el-input v-model="form.brand" autocomplete="off"/>
       </el-form-item>
@@ -243,8 +321,45 @@ const deleteEntKeyProcess = (row: any) => {
       </div>
     </template>
   </el-dialog>
+
+
+  <el-dialog v-model="deliverydialogFormVisible" title="投放信息">
+    <el-form  :inline="true" :model="formInline" class="demo-form-inline">
+      <el-form-item label="小时费用">
+        <el-input v-model="formInline.user" placeholder="费用" clearable />
+      </el-form-item>
+      <el-form-item label="投放地点">
+        <el-select
+            v-model="formInline.region"
+            placeholder="选择地点"
+            clearable
+        >
+          <el-option label="Zone one" value="shanghai" />
+          <el-option label="Zone two" value="beijing" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="投放日期">
+        <el-date-picker
+            v-model="formInline.date"
+            type="date"
+            placeholder="选择日期"
+            clearable
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">提交</el-button>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
+
 </template>
 
 <style scoped>
+.demo-form-inline .el-input {
+  --el-input-width: 220px;
+}
 
+.demo-form-inline .el-select {
+  --el-select-width: 220px;
+}
 </style>

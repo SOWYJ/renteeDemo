@@ -1,25 +1,57 @@
 <script setup lang="ts">
 import router from "@/router";
-import {onMounted, ref} from "vue";
+import {getCurrentInstance, onMounted, ref} from "vue";
 import axios from "axios";
+import {ElMessage} from "element-plus";
 
+
+const global = getCurrentInstance()?.appContext.config.globalProperties;
 const preferential=()=>{
   router.push("/preferential");
 }
-//
-// const imgs = ref();
-// const imgs2 = [];
-// onMounted(()=>{
-//   axios.get('http://localhost:8081/getAllCoupons').then(res=>{
-//     console.log(res);
-//     imgs.value=res.data;
-//     imgs.value.forEach(img=>{
-//       imgs2.push(img.couponImg)
-//     })
-//     console.log("sssssssssssss",imgs);
-//     console.log("adadadadawd",imgs2);
-//   })
-// })
+const token=localStorage.getItem("token");
+const brandList = ref([]); // 初始化brandList
+const imgs = ref([]);
+
+onMounted(() => {
+  // 第一个 API 调用
+  axios.get('http://localhost:8889/activity/getAllCoupons').then(res=>{
+    console.log("AAAAAAAAAA",res);
+    imgs.value=res.data;
+    // store2.setMenu(res.data)
+    // imgs.value.forEach(img=>{
+    //   imgs2.push(img.couponImg)
+    // })
+    console.log("sssssssssssss",imgs);
+    // console.log("adadadadawd",imgs2);
+  })
+
+  // 第二个 API 调用
+  global.$api.getAllCarts().then(res => {
+    console.log(res.data);
+    // 提取brand字段并使用Set去重
+    const uniqueBrands = new Set(
+        res.data.map((item: any) => item.brand)
+    );
+
+    // 将去重后的数据存入brandList
+    brandList.value = Array.from(uniqueBrands).map(brand => {
+      return { brand };
+    });
+    console.log(brandList.value)
+  });
+});
+
+const navigateToDetail = (brand: string) => {
+  router.push({
+    path: '/main/Detailed',
+    query: { brand } // 将选中的brand作为查询参数传递
+  });
+};
+
+const getCart=()=>{
+  router.push("/main/detailed")
+}
 
 
 
@@ -35,18 +67,16 @@ const preferential=()=>{
             <el-text class="text1">热租品牌</el-text>
           </div>
           <div class="r-cent">
-            <el-text class="text2">更多></el-text>
+            <el-text class="text2" @click="getCart">更多></el-text>
           </div>
         </div>
         <div class="main-content">
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
+          <div class="Logos" v-for="(item, index) in brandList.slice(0, 8)"
+               :key="index"
+               @click="navigateToDetail(item.brand)">
+            <!-- 只显示 brand 字段的值 -->
+            <span>{{ item.brand }}</span>
+          </div>
         </div>
       </div>
 
@@ -55,11 +85,11 @@ const preferential=()=>{
           <img src="../static/coupons.png" alt="" class="icon">
           <el-text class="text1">限时优惠</el-text>
         </div>
-        <div class="r-main" @click="preferential">
+        <div class="r-main">
           <el-carousel height="550px" indicator-position="outside">
             <!-- 使用 v-for 遍历 imgs 数组 -->
-            <el-carousel-item v-for="(item, index) in imgs2" :key="index">
-              <img :src="item" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+            <el-carousel-item v-for="(item, index) in imgs" :key="index">
+              <img :src="item.couponImg" alt="" style="width: 100%; height: 100%; object-fit: cover;" @click="preferential">
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -75,7 +105,6 @@ const preferential=()=>{
   justify-content: space-between; /* 水平方向分布 l-area 和 r-area */
   align-items: center; /* 使左右区域垂直方向上对齐 */
   margin: 0 auto; /* 使内容水平居中 */
-  border: 1px solid red;
 }
 
 .l-area {
@@ -128,6 +157,16 @@ const preferential=()=>{
   grid-template-columns: repeat(2, 1fr); /* 将网格划分为两列 */
   gap: 20px; /* 网格项之间的间距 */
   padding: 10px;
+}
+
+.Logos {
+  width: 100%; /* 占满容器宽度 */
+  height: 122px;
+  border: 1px solid red;
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  text-align: center; /* 文字居中 */
 }
 
 .Logos {

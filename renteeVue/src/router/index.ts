@@ -34,14 +34,24 @@ const router = createRouter({
                             component: () => import('../views/UserService.vue')
                         },
                         {
-                            path:'/main/lease',
-                            name:'lease',
-                            component:()=>import('../views/lease.vue')
-                        },
-                        {
                             path: '/main/activity',
                             name: 'activity',
                             component: () => import('../views/ActivityService.vue')
+                        },
+                        {
+                            path: '/main/Delivery',
+                            name: 'Delivery',
+                            component: () => import('../views/Delivery.vue')
+                        },
+                        {
+                            path: '/main/lease',
+                            name: 'lease',
+                            component: () => import('../views/lease.vue')
+                        },
+                        {
+                            path: '/main/Detailed',
+                            name: 'Detailed',
+                            component: () => import('../views/Detailed.vue')
                         }
                     ]
                 }
@@ -56,7 +66,7 @@ const router = createRouter({
             path: '/preferential',
             name: 'preferential',
             component: () => import('../views/preferential.vue')
-        }
+        },
     ]
 })
 

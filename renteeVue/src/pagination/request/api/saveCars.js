@@ -1,5 +1,5 @@
 export default {
 
-    saveCars: { url:"/saveCars", method: "post" }
+    saveCars: { url:"/vehicle/saveCars", method: "post" }
 
 };
