@@ -118,32 +118,7 @@ onMounted(() => {
 
 import { ElMessage, ElMessageBox } from 'element-plus'
 
-// const deleteEntKeyProcess = (row: any) => {
-//   ElMessageBox.confirm(
-//       '你确定要删除吗？',
-//       '提醒！',
-//       {
-//         confirmButtonText: '确定',
-//         cancelButtonText: '取消',
-//         type: 'warning',
-//       }
-//   )
-//       .then(() => {
-//         form.value = { ...row };
-//         global.$api.deleteCars(form.value);
-//         query();
-//         ElMessage({
-//           type: 'success',
-//           message: '删除成功',
-//         })
-//       })
-//       .catch(() => {
-//         ElMessage({
-//           type: 'info',
-//           message: '已取消',
-//         })
-//       })
-// }
+
 const deleteEntKeyProcess = async (row: any) => {
   try {
     // 显示确认对话框
@@ -207,8 +182,15 @@ const deliveryCars = (row: any) => {
   // global.$api.deliveryCars(form.value);
   query();
 }
+const detail = (row: any) => {
+  // 其他操作
+  // editdialogFormVisible.value = true;
+  form.value = { ...row };
+  router.push({ path: '/main/DetailSpage', query: { id: row.id } });
+};
 
 import { reactive } from 'vue'
+import router from "@/router";
 
 const formInline = reactive({
   user: '',
@@ -247,7 +229,7 @@ const onSubmit = () => {
     >
 
       <template #operate="scope">
-        <el-button style="margin-bottom: 5px" type="" @click="edit(scope.row)">详情</el-button>
+        <el-button style="margin-bottom: 5px" type="" @click="detail(scope.row)">详情</el-button>
         <el-button style="margin-bottom: 5px" type="" @click="deliveryCars(scope.row)">投放</el-button>
         <br>
         <el-button type="primary" @click="edit(scope.row)">编辑</el-button>

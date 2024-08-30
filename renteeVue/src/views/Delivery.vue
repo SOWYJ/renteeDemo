@@ -20,7 +20,7 @@
                   @on-pagination="handlePagination"
         >
           <template #operate="scope">
-            <el-button style="margin-bottom: 5px" type="" @click="edit(scope.row)">详情</el-button>
+            <el-button style="margin-bottom: 5px" type="" @click="detail(scope.row)">详情</el-button>
             <el-button style="margin-bottom: 5px" type="danger" @click="deleteEntKeyProcess(scope.row)">取消投放</el-button>
           </template>
 
@@ -138,7 +138,7 @@ const saveCars = () => {
       });
 };
 
-const edit = (row: any) => {
+const detail = (row: any) => {
   // 其他操作
   // editdialogFormVisible.value = true;
   form.value = { ...row };
