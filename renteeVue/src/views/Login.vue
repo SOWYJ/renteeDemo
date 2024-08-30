@@ -36,7 +36,7 @@ const login = () => {
         console.log("登陆结果", res);
         const menuData = res.data.slice(0, 4);  // 只存储0-3项
         store.setMenu(menuData);
-        sessionStorage.setItem("name", "dada");
+        sessionStorage.setItem("name", form.value.username);
         router.push('/main');
       })
     } else {

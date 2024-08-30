@@ -11,21 +11,45 @@ const preferential=()=>{
 }
 const token=localStorage.getItem("token");
 const imgs = ref([]);
+const brandList = ref([]); // 初始化brandList
 
-onMounted(()=>{
-  axios.get('http://localhost:8889/activity/getAllCoupons',{
+onMounted(() => {
+  // 第一个 API 调用
+  axios.get('http://localhost:8889/activity/getAllCoupons', {
     headers: {
-      "Authorization": "Bearer "+ token
+      "Authorization": "Bearer " + token
     }
-  }).then(res=>{
+  }).then(res => {
     console.log(res);
-    imgs.value = res.data.map((item:any) => {
+    imgs.value = res.data.map((item: any) => {
       return {
-          couponImg : item.couponImg
-      }
-    })
-  })
-})
+        couponImg: item.couponImg
+      };
+    });
+  });
+
+  // 第二个 API 调用
+  global.$api.getAllCarts().then(res => {
+    console.log(res.data);
+    // 提取brand字段并使用Set去重
+    const uniqueBrands = new Set(
+        res.data.map((item: any) => item.brand)
+    );
+
+    // 将去重后的数据存入brandList
+    brandList.value = Array.from(uniqueBrands).map(brand => {
+      return { brand };
+    });
+    console.log(brandList.value)
+  });
+});
+
+const navigateToDetail = (brand: string) => {
+  router.push({
+    path: '/main/Detailed',
+    query: { brand } // 将选中的brand作为查询参数传递
+  });
+};
 
 const getCart=()=>{
   router.push("/main/detailed")
@@ -49,14 +73,12 @@ const getCart=()=>{
           </div>
         </div>
         <div class="main-content">
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
+          <div class="Logos" v-for="(item, index) in brandList.slice(0, 8)"
+               :key="index"
+               @click="navigateToDetail(item.brand)">
+            <!-- 只显示 brand 字段的值 -->
+            <span>{{ item.brand }}</span>
+          </div>
         </div>
       </div>
 
@@ -137,6 +159,16 @@ const getCart=()=>{
   grid-template-columns: repeat(2, 1fr); /* 将网格划分为两列 */
   gap: 20px; /* 网格项之间的间距 */
   padding: 10px;
+}
+
+.Logos {
+  width: 100%; /* 占满容器宽度 */
+  height: 122px;
+  border: 1px solid red;
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  text-align: center; /* 文字居中 */
 }
 
 .Logos {
