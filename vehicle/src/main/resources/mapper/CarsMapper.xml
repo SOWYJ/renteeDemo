@@ -14,6 +14,7 @@
             <result property="licensePlate" column="license_plate" jdbcType="VARCHAR"/>
     </resultMap>
 
+
     <sql id="Base_Column_List">
         id,car_name,car_type,
         brand,color,seats,

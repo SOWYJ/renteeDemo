@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import router from "@/router";
-import {onMounted, ref} from "vue";
+import {getCurrentInstance, onMounted, ref} from "vue";
 import axios from "axios";
+import {ElMessage} from "element-plus";
 import {couponStore, useCarouselStore} from "@/store/menu";
 
 const store2 = couponStore(); // 轮播图
 const carouselStore = useCarouselStore(); // 索引
 const { activeIndex } = carouselStore;
 
+
+const global = getCurrentInstance()?.appContext.config.globalProperties;
 const preferential=()=>{
   console.log("RRRRRRRR:", carouselStore.activeIndex);
   router.push("/preferential");
@@ -44,18 +47,16 @@ onMounted(()=>{
             <el-text class="text1">热租品牌</el-text>
           </div>
           <div class="r-cent">
-            <el-text class="text2">更多></el-text>
+            <el-text class="text2" @click="getCart">更多></el-text>
           </div>
         </div>
         <div class="main-content">
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
-          <div class="Logos"></div>
+          <div class="Logos" v-for="(item, index) in brandList.slice(0, 8)"
+               :key="index"
+               @click="navigateToDetail(item.brand)">
+            <!-- 只显示 brand 字段的值 -->
+            <span>{{ item.brand }}</span>
+          </div>
         </div>
       </div>
 
@@ -137,6 +138,16 @@ onMounted(()=>{
   grid-template-columns: repeat(2, 1fr); /* 将网格划分为两列 */
   gap: 20px; /* 网格项之间的间距 */
   padding: 10px;
+}
+
+.Logos {
+  width: 100%; /* 占满容器宽度 */
+  height: 122px;
+  border: 1px solid red;
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  text-align: center; /* 文字居中 */
 }
 
 .Logos {

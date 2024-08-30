@@ -4,6 +4,7 @@ package com.example.vehicle.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.vehicle.domain.Cars;
 import com.example.vehicle.dto.PeoductQueryDto;
 import com.example.vehicle.mapper.CarsMapper;
@@ -19,7 +20,8 @@ import java.util.List;
 * @createDate 2024-08-19 21:43:53
 */
 @Service
-public class CarsServiceImpl implements CarsService{
+public class CarsServiceImpl extends ServiceImpl<CarsMapper,Cars>
+        implements CarsService{
     @Autowired
     private CarsMapper carsMapper;
 

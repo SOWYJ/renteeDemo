@@ -1,5 +1,54 @@
 <script setup lang="ts">
 import {UserFilled, ArrowDown} from '@element-plus/icons-vue'
+import {computed, onMounted, ref} from "vue";
+import router from "@/router";
+import {ElMessage, ElMessageBox} from "element-plus";
+
+const username = ref<string | null>(null);
+
+
+onMounted(() => {
+  username.value = sessionStorage.getItem('name');
+});
+
+const displayText = computed(() => {
+  return username.value ? username.value : '请登录';
+});
+
+
+// 计算属性，判断下拉框是否应禁用
+const isDropdownDisabled = computed(() => {
+  return !username.value || username.value.trim() === ''
+})
+
+const loginOut=()=>{
+  ElMessageBox.confirm(
+      '确定退出登录?',
+      '警告',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  )
+      .then(() => {
+        localStorage.setItem("token", "");
+        sessionStorage.setItem('name',"");
+        ElMessage({
+          type: 'success',
+          message: '退出成功',
+        })
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      })
+
+}
+
+const login=()=>{
+  router.push("/login");
+}
+
 </script>
 
 <template>
@@ -11,18 +60,18 @@ import {UserFilled, ArrowDown} from '@element-plus/icons-vue'
     <div class="keep-right">
       <el-avatar :icon="UserFilled"/>
       <span></span>
-      <el-dropdown>
+      <el-dropdown :disabled="isDropdownDisabled">
         <span class="el-dropdown-link">
-          <el-text class="txt"> user</el-text>
+          <el-text class="txt" @click="login">{{ displayText }} </el-text>
           <el-icon class="el-icon--right">
             <arrow-down/>
           </el-icon>
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>修改用户名</el-dropdown-item>
-            <el-dropdown-item>修改密码</el-dropdown-item>
-            <el-dropdown-item>退出登录</el-dropdown-item>
+            <el-dropdown-item @click="">修改用户名</el-dropdown-item>
+            <el-dropdown-item @click="">修改密码</el-dropdown-item>
+            <el-dropdown-item @click="loginOut">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>

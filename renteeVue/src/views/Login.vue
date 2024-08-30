@@ -26,64 +26,51 @@ const registerForm = ref({
 
 const login = () => {
   global.$api.login(form.value).then(res => {
-    console.log("登陆结果", res);
-    //token放入缓存
-    localStorage.setItem("token", res.data.msg);
-  }).then(() => {
-    let token = localStorage.getItem("token");
-    console.log(localStorage.getItem("token"));
-    global.$api.getAllMenu().then(res => {
+    if (res.data.code == 200) {
       console.log("登陆结果", res);
-      const menuData = res.data.slice(0, 4);  // 只存储0-3项
-      store.setMenu(menuData);
-      sessionStorage.setItem("name", "dada");
-      router.push('/main');
-    })
-  })
+      //token放入缓存
+      localStorage.setItem("token", res.data.data);
+      let token = localStorage.getItem("token");
+      console.log(localStorage.getItem("token"));
+      global.$api.getAllMenu().then(res => {
+        console.log("登陆结果", res);
+        const menuData = res.data.slice(0, 4);  // 只存储0-3项
+        store.setMenu(menuData);
+        sessionStorage.setItem("name", form.value.username);
+        router.push('/main');
+      })
+    } else {
+      // 处理错误信息
+      ElMessage.error(res.data.msg);
+    }
+  }).catch(error => {
+    console.error("登录失败:", error);
+    ElMessage.error("登录失败，请稍后再试！");
+  });
 }
-// const login = () => {
-//   axios.post('http://localhost:8889/auth/login', form.value
-//       ,{
-//     headers: {
-//       'Content-Type': 'application/json'
-//     }
-//   }).then(res => {
-//     console.log("登陆结果", res);
-//     //token放入缓存
-//     localStorage.setItem("token",res.data.msg);
-//
-//   }).then(()=>{
-//     let token = localStorage.getItem("token");
-//     console.log(localStorage.getItem("token"));
-//     axios.get('http://localhost:8889/auth/getAllMenu',{
-//       headers: {
-//
-//       }
-//     }).then(res=>{
-//       console.log("登陆结果", res);
-//       const menuData = res.data.slice(0, 4);  // 只存储0-3项
-//       store.setMenu(menuData);
-//       sessionStorage.setItem("name", "dada");
-//       router.push('/main');
-//       // if (res.data.code == 200){
-//       //把菜单数据存入store
-//       // const menuData = res.data.slice(0, 4);  // 只存储0-3项
-//       // store.setMenu(menuData);
-//       // // 把username放进sessionStorage
-//       // sessionStorage.setItem("name", "dada");
-//       // //页面跳转
-//       // router.push('/main');
-//       // }
-//     })
-//   })
-// }
 
 const enroll = () => {
-
+  if (!registerForm.value.username) {
+    ElMessage.error('用户名不能为空！');
+    return;
+  }
   if (registerForm.value.password !== registerForm.value.confirmPassword) {
     ElMessage.error('两次输入的密码不一致！')
     return;
   }
+  global.$api.enroll({
+    userName: registerForm.value.username,
+    password: registerForm.value.password
+  }).then((res) => {
+    if (res.data.code ==500){
+      ElMessage.error(res.data.msg)
+    }else {
+      ElMessage.success(res.data.msg)
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    }
+  })
 }
 </script>
 
