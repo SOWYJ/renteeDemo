@@ -69,8 +69,7 @@ const login=()=>{
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="">修改用户名</el-dropdown-item>
-            <el-dropdown-item @click="">修改密码</el-dropdown-item>
+            <el-dropdown-item @click="">修改用户名和密码</el-dropdown-item>
             <el-dropdown-item @click="loginOut">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>

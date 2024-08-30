@@ -4,30 +4,30 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.vehicle.mapper.CarsdetailMapper">
 
-        <resultMap id="CarStateDetailMap" type="com.example.vehicle.domain.Cardetail">
-            <association property="car" javaType="com.example.vehicle.domain.Cars">
-                <id column="id" property="id"/>
-                <result column="car_name" property="carName"/>
-            </association>
-            <association property="carState" javaType="com.example.vehicle.domain.Carstate">
-                <result column="hour_price" property="hourPrice"/>
-                <result column="drop_location" property="dropLocation"/>
-                <result column="drop_date" property="dropDate"/>
-                <result column="cars_status" property="carStatus"/>
-            </association>
-        </resultMap>
+    <resultMap id="CarStateDetailMap" type="com.example.vehicle.domain.Cardetail">
+        <association property="car" javaType="com.example.vehicle.domain.Cars">
+            <id column="id" property="id"/>
+            <result column="car_name" property="carName"/>
+        </association>
+        <association property="carState" javaType="com.example.vehicle.domain.Carstate">
+            <result column="hour_price" property="hourPrice"/>
+            <result column="drop_location" property="dropLocation"/>
+            <result column="drop_date" property="dropDate"/>
+            <result column="carstatus" property="carStatus"/>
+        </association>
+    </resultMap>
 
-        <select id="getCarStateDetails" resultMap="CarStateDetailMap">
-            SELECT c.id, c.car_name, cs.hour_price, cs.drop_location, cs.drop_date, cs.carstatus
-            FROM cars c
-            JOIN carstate cs ON c.id = cs.id
-        </select>
-    <select id="obqueryCars" parameterType="String" resultMap="CarStateDetailMap">
+    <select id="getCarStateDetails" resultMap="CarStateDetailMap">
         SELECT c.id, c.car_name, cs.hour_price, cs.drop_location, cs.drop_date, cs.carstatus
         FROM cars c
                  JOIN carstate cs ON c.id = cs.id
-        WHERE c.car_name LIKE CONCAT('%',#{carName},'%');
     </select>
 
+    <select id="obqueryCars" parameterType="String" resultMap="CarStateDetailMap">
+        SELECT c.id, c.car_name, cs.hour_price, cs.drop_location, cs.drop_date, cs.carstatus
+        FROM cars c
+        JOIN carstate cs ON c.id = cs.id
+        WHERE c.car_name LIKE CONCAT('%', #{carName}, '%');
+    </select>
 
 </mapper>
