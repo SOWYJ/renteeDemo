@@ -2,24 +2,33 @@
 import router from "@/router";
 import {onMounted, ref} from "vue";
 import axios from "axios";
+import {couponStore, useCarouselStore} from "@/store/menu";
+
+const store2 = couponStore(); // 轮播图
+const carouselStore = useCarouselStore(); // 索引
+const { activeIndex } = carouselStore;
 
 const preferential=()=>{
+  console.log("RRRRRRRR:", carouselStore.activeIndex);
   router.push("/preferential");
-}
-//
+};
+
+
+const imgs = ref([]);
 // const imgs = ref();
 // const imgs2 = [];
-// onMounted(()=>{
-//   axios.get('http://localhost:8081/getAllCoupons').then(res=>{
-//     console.log(res);
-//     imgs.value=res.data;
-//     imgs.value.forEach(img=>{
-//       imgs2.push(img.couponImg)
-//     })
-//     console.log("sssssssssssss",imgs);
-//     console.log("adadadadawd",imgs2);
-//   })
-// })
+onMounted(()=>{
+  axios.get('http://localhost:8889/activity/getAllCoupons').then(res=>{
+    console.log("AAAAAAAAAA",res);
+    imgs.value=res.data;
+    store2.setMenu(res.data)
+    // imgs.value.forEach(img=>{
+    //   imgs2.push(img.couponImg)
+    // })
+    console.log("sssssssssssss",imgs);
+    // console.log("adadadadawd",imgs2);
+  })
+})
 
 
 
@@ -55,11 +64,11 @@ const preferential=()=>{
           <img src="../static/coupons.png" alt="" class="icon">
           <el-text class="text1">限时优惠</el-text>
         </div>
-        <div class="r-main" @click="preferential">
-          <el-carousel height="550px" indicator-position="outside">
+        <div class="r-main"  >
+          <el-carousel height="550px" indicator-position="outside" v-model:active-index="activeIndex">
             <!-- 使用 v-for 遍历 imgs 数组 -->
-            <el-carousel-item v-for="(item, index) in imgs2" :key="index">
-              <img :src="item" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+            <el-carousel-item  v-for="(item, index) in imgs" :key="index" @click="preferential">
+              <img :src="item" alt="" style="width: 100%; height: 100%; object-fit: cover;" >
             </el-carousel-item>
           </el-carousel>
         </div>
