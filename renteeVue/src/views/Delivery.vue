@@ -5,6 +5,7 @@ import LqTable from "@/pagination/components/LqTable.vue";
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
 import {ElMessage} from "element-plus";
 import updateCars from "@/pagination/request/api/updateCars.js";
+// import axios from "axios/index";
 
 /*  */
 const global = getCurrentInstance().appContext.config.globalProperties;
@@ -26,8 +27,12 @@ const searchForm = ref({
   }
 });
 const query = () => {
-  resetPagination();
+  // resetPagination();
   loadData(1, tableData.value.pageSize);
+}
+
+const querydata = () => {
+  loadData2(1, tableData.value.pageSize);
 }
 
 const saveCars = () => {
@@ -86,11 +91,11 @@ const paginationProps = reactive({
 const handlePagination = ({pageNum, pageSize = 10}) => {
   loadData(pageNum, pageSize);
 }
-const resetPagination = () => {
-  paginationProps.pageNum = 1;
-  paginationProps.pageSize = tableData.value.pageSize;
-  paginationProps.total = 0;
-};
+// const resetPagination = () => {
+//   paginationProps.pageNum = 1;
+//   paginationProps.pageSize = tableData.value.pageSize;
+//   paginationProps.total = 0;
+// };
 
 const response = {
   data: [
@@ -149,6 +154,35 @@ const loadData = (pageNum = 1, pageSize = 10) => {
     paginationProps.total = res.data.total;
   })
 };
+const loadData2 = (pageNum = 1, pageSize = 10) => {
+  global.$api.obquery(
+      {
+        "carName": searchForm.value.model.carName
+      }
+  ).then((res) => {
+    console.log("后台返回的数据",res);
+    response.data=res.data;
+    // console.log("后台返回的数据111111111111111",response);
+    // tableData.value.records = res.data.records;
+    const formattedRecords = res.data.map(item => ({
+      id: item.car.id, // 提取 car 对象中的 id
+      carName: item.car.carName,
+      carType: item.car.carType,
+      brand: item.car.brand,
+      color: item.car.color,
+      // 其他字段根据需求填充
+      hourPrice: item.carState.hourPrice,
+      dropLocation: item.carState.dropLocation,
+      dropDate: item.carState.dropDate,
+      carStatus: item.carState.carStatus
+    }));
+
+    // 将格式化的记录赋值给 tableData
+    tableData.value.records = formattedRecords;
+
+    // paginationProps.total = res.data.total;
+  })
+};
 
 onMounted(() => {
   setTimeout(() => {
@@ -158,6 +192,7 @@ onMounted(() => {
 
 
 import { ElMessage, ElMessageBox } from 'element-plus'
+import axios from "axios";
 
 const deleteEntKeyProcess = (row: any) => {
   ElMessageBox.confirm(
@@ -193,7 +228,7 @@ const deleteEntKeyProcess = (row: any) => {
       <lq-form :form="searchForm">
         <template #footer>
           <div style="margin-top:-50px;margin-left: 550px;">
-            <el-button type="primary" @click="query">查询</el-button>
+            <el-button type="primary" @click="querydata">查询</el-button>
           </div>
         </template>
       </lq-form>
@@ -246,9 +281,10 @@ const deleteEntKeyProcess = (row: any) => {
 </template>
 
 
+
 <style scoped>
 .table-container {
-  max-height: 500px; /* 设置固定高度 */
+  max-height: 450px; /* 设置固定高度 */
   overflow-y: auto;  /* 启用垂直滚动条 */
 }
 </style>

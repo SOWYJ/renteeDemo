@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,4 +16,6 @@ import java.util.List;
 public interface CarsdetailMapper extends BaseMapper<Cars> {
 
     List<Cardetail> getCarStateDetails();
+
+    List<Cardetail> obqueryCars(@Param("carName")String carName);
 }

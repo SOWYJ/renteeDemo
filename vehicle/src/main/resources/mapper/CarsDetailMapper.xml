@@ -22,6 +22,12 @@
             FROM cars c
             JOIN carstate cs ON c.id = cs.id
         </select>
+    <select id="obqueryCars" parameterType="String" resultMap="CarStateDetailMap">
+        SELECT c.id, c.car_name, cs.hour_price, cs.drop_location, cs.drop_date, cs.carstatus
+        FROM cars c
+                 JOIN carstate cs ON c.id = cs.id
+        WHERE c.car_name LIKE CONCAT('%',#{carName},'%');
+    </select>
 
 
 </mapper>

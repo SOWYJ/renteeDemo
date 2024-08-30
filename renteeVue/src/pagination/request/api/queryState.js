@@ -1,5 +1,5 @@
 export default {
 
-    queryState: { url:"/queryState", method: "post" }
+    queryState: { url:"/vehicle/queryState", method: "post" }
 
 };

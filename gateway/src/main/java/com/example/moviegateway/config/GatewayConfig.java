@@ -22,9 +22,9 @@ public class GatewayConfig {
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("movie-consumer", r -> r.path("/consumer/**")
+                .route("vehicle", r -> r.path("/vehicle/**")
                         .filters(f -> f.filter(filter))
-                        .uri("lb://movie-consumer"))
+                        .uri("lb://vehicle"))
                 .route("user-services", r -> r.path("/auth/**")
                         .filters(f -> f.filter(filter))
                         .uri("lb://user-services"))

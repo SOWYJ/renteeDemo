@@ -1,15 +1,13 @@
 package com.example.vehicle.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.vehicle.domain.Cardetail;
-import com.example.vehicle.dto.CardetailQueryDto;
 import com.example.vehicle.mapper.CarsMapper;
 import com.example.vehicle.mapper.CarsdetailMapper;
 import com.example.vehicle.service.CarsdetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 @Service
@@ -26,6 +24,12 @@ public class CarsdetailServiceImpl implements CarsdetailService {
 
     }
 
+    @Override
+    public List<Cardetail> obqueryCars(String carName) {
+        System.out.println("OOOOOOOOOOOOOOOOO"+carName);
+        System.out.println("KKKKKKKKKKKKKKKKKK"+carsdetailMapper.obqueryCars(carName));
+        return carsdetailMapper.obqueryCars(carName);
+    }
 
 
 }

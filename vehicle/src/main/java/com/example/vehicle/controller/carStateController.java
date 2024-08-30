@@ -1,19 +1,15 @@
 package com.example.vehicle.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.vehicle.domain.Cardetail;
-import com.example.vehicle.dto.CardetailQueryDto;
+import com.example.vehicle.domain.Cars;
 import com.example.vehicle.service.CarsdetailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
 @RestController
+@RequestMapping("/vehicle")
 public class carStateController {
     @Autowired
     private CarsdetailService carsdetailService;
@@ -24,5 +20,12 @@ public class carStateController {
         return carsdetailService.getCarStateDetails();
     }
 
+    @GetMapping ("/obquery")
+    public List<Cardetail> obquery( String carName){
+
+//        System.out.println("OOOOOOOOOOO"+carName);
+//        System.out.println("OOOOOOOOOOOOOOOOO"+carsdetailService.obqueryCars(carName));
+        return carsdetailService.obqueryCars(carName);
+    }
 
 }

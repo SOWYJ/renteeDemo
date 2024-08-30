@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
 @RestController
+@RequestMapping("/vehicle")
 public class vehicleController {
     @Autowired
     private CarsService carsService;
 
     @PostMapping("/viewProduct")
     public IPage<Cars> viewProduct(@RequestBody PeoductQueryDto queryDto){
+//        System.out.println("KKKKKKKKKKKK"+carsService.viewProduct(queryDto));
         return carsService.viewProduct(queryDto);
     }
 
@@ -30,15 +31,15 @@ public class vehicleController {
 
     @PostMapping("/updateCars")
     public List<Cars> updateCars(@RequestBody Cars cars){
-//        System.out.println("hhhhhhhhhhhhhhh");
         carsService.updateCars(cars);
         return null;
     }
 
     @PostMapping("/deleteCars")
     public List<Cars> deleteCars(@RequestBody Cars cars){
-//        System.out.println("jjjjjjjjjjjjjj");
         carsService.deleteCars(cars);
         return null;
     }
+
+
 }
