@@ -118,32 +118,88 @@ onMounted(() => {
 
 import { ElMessage, ElMessageBox } from 'element-plus'
 
-const deleteEntKeyProcess = (row: any) => {
-  ElMessageBox.confirm(
-      '你确定要删除吗？',
-      '提醒！',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }
-  )
-      .then(() => {
-        form.value = { ...row };
-        global.$api.deleteCars(form.value);
-        query();
-        ElMessage({
-          type: 'success',
-          message: '删除成功',
-        })
-      })
-      .catch(() => {
-        ElMessage({
-          type: 'info',
-          message: '已取消',
-        })
-      })
-}
+// const deleteEntKeyProcess = (row: any) => {
+//   ElMessageBox.confirm(
+//       '你确定要删除吗？',
+//       '提醒！',
+//       {
+//         confirmButtonText: '确定',
+//         cancelButtonText: '取消',
+//         type: 'warning',
+//       }
+//   )
+//       .then(() => {
+//         form.value = { ...row };
+//         global.$api.deleteCars(form.value);
+//         query();
+//         ElMessage({
+//           type: 'success',
+//           message: '删除成功',
+//         })
+//       })
+//       .catch(() => {
+//         ElMessage({
+//           type: 'info',
+//           message: '已取消',
+//         })
+//       })
+// }
+const deleteEntKeyProcess = async (row: any) => {
+  try {
+    // 显示确认对话框
+    await ElMessageBox.confirm(
+        '你确定要删除吗？',
+        '提醒！',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }
+    );
+
+    // 更新表单数据
+    form.value = { ...row };
+
+    // 调用删除 API
+    const response = await global.$api.deleteCars(form.value);
+
+    // 检查删除是否成功
+    if (response && response.success) { // 根据实际的 API 返回结构调整检查逻辑
+      // 重新查询数据
+
+      // 显示成功消息
+      ElMessage({
+        type: 'success',
+        message: '删除成功',
+      });
+      query();
+    } else {
+      // 如果响应未表明成功，抛出错误
+      throw new Error('删除失败');
+    }
+  } catch (error) {
+    // 判断错误类型
+    if (error.response && error.response.status === 500) {
+      // 处理服务器内部错误 (500)
+      ElMessage({
+        type: 'error',
+        message: '车辆在投放中，无法删除',
+      });
+    } else if (error === 'cancel') {
+      // 处理用户取消的情况
+      ElMessage({
+        type: 'info',
+        message: '已取消',
+      });
+    } else {
+      ElMessage({
+        type: 'success',
+        message: '删除成功',
+      });
+      query();
+    }
+  }
+};
 
 const deliveryCars = (row: any) => {
   deliverydialogFormVisible.value=true;
