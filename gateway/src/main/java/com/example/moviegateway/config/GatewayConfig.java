@@ -28,9 +28,9 @@ public class GatewayConfig {
                 .route("user-services", r -> r.path("/auth/**")
                         .filters(f -> f.filter(filter))
                         .uri("lb://user-services"))
-                .route("movie-provider", r -> r.path("/provider/**")
+                .route("activity-services", r -> r.path("/activity/**")
                         .filters(f -> f.filter(filter))
-                        .uri("lb://movie-provider"))
+                        .uri("lb://activity-services"))
                 .build();
     }
 }

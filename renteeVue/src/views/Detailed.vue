@@ -1,12 +1,23 @@
 <script setup lang="ts">
 import {computed, getCurrentInstance, onMounted, ref} from "vue";
+import {useRoute} from "vue-router";
 
 const global = getCurrentInstance().appContext.config.globalProperties;
-
+const route = useRoute(); // 使用useRoute获取当前路由
 const brandList = ref([]); // 初始化brandList
 const selectedBrand = ref(''); // 用于存储选中的品牌
 
 onMounted(() => {
+  // 获取传递过来的brand参数
+  const passedBrand = route.query.brand as string;
+
+  // 如果有传递过来的brand，则设置选中的品牌和el-autocomplete的值
+  if (passedBrand) {
+    selectedBrand.value = passedBrand;
+    state1.value = passedBrand;
+  }
+
+
   global.$api.getAllCarts().then(res => {
     console.log(res.data);
     brandList.value = res.data.map(item => {
