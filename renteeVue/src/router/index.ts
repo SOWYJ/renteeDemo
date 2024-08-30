@@ -47,6 +47,11 @@ const router = createRouter({
                             path: '/main/lease',
                             name: 'lease',
                             component: () => import('../views/lease.vue')
+                        },
+                        {
+                            path: '/main/Detailed',
+                            name: 'Detailed',
+                            component: () => import('../views/Detailed.vue')
                         }
                     ]
                 }
@@ -61,7 +66,7 @@ const router = createRouter({
             path: '/preferential',
             name: 'preferential',
             component: () => import('../views/preferential.vue')
-        }
+        },
     ]
 })
 

@@ -10,23 +10,21 @@ const preferential=()=>{
   router.push("/preferential");
 }
 const token=localStorage.getItem("token");
-const imgs = ref([]);
 const brandList = ref([]); // 初始化brandList
+const imgs = ref([]);
 
 onMounted(() => {
   // 第一个 API 调用
-  axios.get('http://localhost:8889/activity/getAllCoupons', {
-    headers: {
-      "Authorization": "Bearer " + token
-    }
-  }).then(res => {
-    console.log(res);
-    imgs.value = res.data.map((item: any) => {
-      return {
-        couponImg: item.couponImg
-      };
-    });
-  });
+  axios.get('http://localhost:8889/activity/getAllCoupons').then(res=>{
+    console.log("AAAAAAAAAA",res);
+    imgs.value=res.data;
+    // store2.setMenu(res.data)
+    // imgs.value.forEach(img=>{
+    //   imgs2.push(img.couponImg)
+    // })
+    console.log("sssssssssssss",imgs);
+    // console.log("adadadadawd",imgs2);
+  })
 
   // 第二个 API 调用
   global.$api.getAllCarts().then(res => {
@@ -87,11 +85,11 @@ const getCart=()=>{
           <img src="../static/coupons.png" alt="" class="icon">
           <el-text class="text1">限时优惠</el-text>
         </div>
-        <div class="r-main" @click="preferential">
+        <div class="r-main">
           <el-carousel height="550px" indicator-position="outside">
             <!-- 使用 v-for 遍历 imgs 数组 -->
             <el-carousel-item v-for="(item, index) in imgs" :key="index">
-              <img :src="item" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+              <img :src="item.couponImg" alt="" style="width: 100%; height: 100%; object-fit: cover;" @click="preferential">
             </el-carousel-item>
           </el-carousel>
         </div>
