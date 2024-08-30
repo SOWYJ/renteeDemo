@@ -41,5 +41,10 @@ public class vehicleController {
         return null;
     }
 
+    @RequestMapping("/getAllCarts")
+    public List<Cars> getAllCarts(){
+        return carsService.list();
+    }
+
 
 }

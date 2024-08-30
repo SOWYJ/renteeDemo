@@ -44,11 +44,10 @@ const router = createRouter({
                             component: () => import('../views/Delivery.vue')
                         },
                         {
-                            path:'/main/lease',
-                            name:'lease',
-                            component:()=>import('../views/lease.vue')
-                        },
-
+                            path: '/main/lease',
+                            name: 'lease',
+                            component: () => import('../views/lease.vue')
+                        }
                     ]
                 }
             ]
