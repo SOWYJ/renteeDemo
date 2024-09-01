@@ -3,79 +3,98 @@ import router from "@/router";
 import {getCurrentInstance, onMounted, ref} from "vue";
 import axios from "axios";
 import {ElMessage} from "element-plus";
-import {couponStore, useCarouselStore} from "@/store/menu";
 
-const store2 = couponStore(); // 轮播图
-const carouselStore = useCarouselStore(); // 索引
-const {activeIndex} = carouselStore;
+
 
 
 const global = getCurrentInstance()?.appContext.config.globalProperties;
-const preferential = (index: any) => {
-  console.log("RRRRRRRR:", carouselStore.activeIndex);
-  router.push({
-    path: "/preferential",
-   query: {index}
-  });
-};
-
-
+const preferential=()=>{
+  router.push("/preferential");
+}
+const token=localStorage.getItem("token");
+const brandList = ref([]); // 初始化brandList
 const imgs = ref([]);
-// const imgs = ref();
-// const imgs2 = [];
+
 onMounted(() => {
-  axios.get('http://localhost:8889/activity/getAllCoupons').then(res => {
-    console.log("AAAAAAAAAA", res);
-    imgs.value = res.data;
-    store2.setMenu(res.data)
+  // 第一个 API 调用
+  axios.get('http://localhost:8889/activity/getAllCoupons').then(res=>{
+    console.log("AAAAAAAAAA",res);
+    imgs.value=res.data;
+    // store2.setMenu(res.data)
     // imgs.value.forEach(img=>{
     //   imgs2.push(img.couponImg)
     // })
-    console.log("sssssssssssss", imgs);
+    console.log("sssssssssssss",imgs);
     // console.log("adadadadawd",imgs2);
   })
-})
+
+  // 第二个 API 调用
+  global.$api.getAllCarts().then(res => {
+    console.log(res.data);
+    // 提取brand字段并使用Set去重
+    const uniqueBrands = new Set(
+        res.data.map((item: any) => item.brand)
+    );
+
+    // 将去重后的数据存入brandList
+    brandList.value = Array.from(uniqueBrands).map(brand => {
+      return { brand };
+    });
+    console.log(brandList.value)
+  });
+});
+
+const navigateToDetail = (brand: string) => {
+  router.push({
+    path: '/main/Detailed',
+    query: { brand } // 将选中的brand作为查询参数传递
+  });
+};
+
+const getCart=()=>{
+  router.push("/main/detailed")
+}
 
 
 </script>
 
 <template>
-  <div class="wrapper">
-    <div class="l-area">
-      <div class="top-content">
-        <div class="content">
-          <img src="../static/orcart.png" alt="" class="icon">
-          <el-text class="text1">热租品牌</el-text>
+    <div class="wrapper">
+      <div class="l-area">
+        <div class="top-content">
+          <div class="content">
+            <img src="../static/orcart.png" alt="" class="icon">
+            <el-text class="text1">热租品牌</el-text>
+          </div>
+          <div class="r-cent">
+            <el-text class="text2" @click="getCart">更多></el-text>
+          </div>
         </div>
-        <div class="r-cent">
-          <el-text class="text2" @click="getCart">更多></el-text>
+        <div class="main-content">
+          <div class="Logos" v-for="(item, index) in brandList.slice(0, 8)"
+               :key="index"
+               @click="navigateToDetail(item.brand)">
+            <!-- 只显示 brand 字段的值 -->
+            <span>{{ item.brand }}</span>
+          </div>
         </div>
       </div>
-      <div class="main-content">
-        <!--          <div class="Logos" v-for="(item, index) in brandList.slice(0, 8)"-->
-        <!--               :key="index"-->
-        <!--               @click="navigateToDetail(item.brand)">-->
-        <!--            &lt;!&ndash; 只显示 brand 字段的值 &ndash;&gt;-->
-        <!--            <span>{{ item.brand }}</span>-->
-        <!--          </div>-->
-      </div>
-    </div>
 
-    <div class="r-area">
-      <div class="content">
-        <img src="../static/coupons.png" alt="" class="icon">
-        <el-text class="text1">限时优惠</el-text>
-      </div>
-      <div class="r-main">
-        <el-carousel height="550px" indicator-position="outside" v-model:active-index="activeIndex">
-          <!-- 使用 v-for 遍历 imgs 数组 -->
-          <el-carousel-item v-for="(item, index) in imgs" :key="index" @click="preferential(index)">
-            <img :src="item.couponImg" alt="" style="width: 100%; height: 100%; object-fit: cover;">
-          </el-carousel-item>
-        </el-carousel>
+      <div class="r-area">
+        <div class="content" >
+          <img src="../static/coupons.png" alt="" class="icon">
+          <el-text class="text1">限时优惠</el-text>
+        </div>
+        <div class="r-main">
+          <el-carousel height="550px" indicator-position="outside">
+            <!-- 使用 v-for 遍历 imgs 数组 -->
+            <el-carousel-item v-for="(item, index) in imgs" :key="index">
+              <img :src="item.couponImg" alt="" style="width: 100%; height: 100%; object-fit: cover;" @click="preferential">
+            </el-carousel-item>
+          </el-carousel>
+        </div>
       </div>
     </div>
-  </div>
 </template>
 
 <style scoped>
@@ -86,7 +105,6 @@ onMounted(() => {
   justify-content: space-between; /* 水平方向分布 l-area 和 r-area */
   align-items: center; /* 使左右区域垂直方向上对齐 */
   margin: 0 auto; /* 使内容水平居中 */
-  border: 1px solid red;
 }
 
 .l-area {
@@ -109,7 +127,6 @@ onMounted(() => {
   align-items: center; /* 垂直方向居中 */
   justify-content: space-between; /* 水平方向分布 icon、文字和更多 */
 }
-
 .content {
   display: flex;
   align-items: center; /* 使图片和文本在垂直方向上居中对齐 */
