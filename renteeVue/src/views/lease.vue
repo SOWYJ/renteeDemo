@@ -147,8 +147,17 @@ const calculateTotalHours = (rentalTime, returnTime) => {
 
 
 // 计算总费用
+// const calculateTotalCharge = (totalHours, hourPrice) => {
+//   if (!totalHours || !hourPrice) return 0;
+//
+//   const normalCharge = 72 * hourPrice; // 三天内正常收费
+//   const discountedCharge = (totalHours - 72) * hourPrice * 0.75; // 三天后的优惠收费
+//
+//   return totalHours <= 72 ? totalHours * hourPrice : normalCharge + discountedCharge;
+// };
 const calculateTotalCharge = (totalHours, hourPrice) => {
-  if (!totalHours || !hourPrice) return 0;
+  // 如果 totalHours 或 hourPrice 为空或者 totalHours 是负数，返回0
+  if (!totalHours || !hourPrice || totalHours < 0) return 0;
 
   const normalCharge = 72 * hourPrice; // 三天内正常收费
   const discountedCharge = (totalHours - 72) * hourPrice * 0.75; // 三天后的优惠收费
@@ -156,29 +165,28 @@ const calculateTotalCharge = (totalHours, hourPrice) => {
   return totalHours <= 72 ? totalHours * hourPrice : normalCharge + discountedCharge;
 };
 
-
 </script>
 
 <template>
   <el-button type="primary" @click="addLease">新增</el-button>
   <el-table :data="userList" style="width: 100%">
-    <el-table-column prop="id" label="序号" width="200" />
-    <el-table-column prop="carName" label="汽车名称" width="200" />
-    <el-table-column prop="brand" label="商标" width="200" />
-    <el-table-column prop="seats" label="座位" width="200" />
-    <el-table-column prop="hourPrice" label="每小时收费" width="200" />
-<!--    <el-table-column prop="rentalTime" label="借车时间" width="180">-->
-<!--      <template #default="scope">-->
-<!--        {{ formatDateTime(scope.row.rentalTime) }}-->
-<!--      </template>-->
-<!--    </el-table-column>-->
-<!--    <el-table-column prop="returnTime" label="还车时间" width="180" >-->
-<!--      <template #default="scope">-->
-<!--        {{ formatDateTime(scope.row.returnTime) }}-->
-<!--      </template>-->
-<!--    </el-table-column>-->
+    <el-table-column prop="id" label="序号" width="130" />
+    <el-table-column prop="carName" label="汽车名称" width="130" />
+    <el-table-column prop="brand" label="商标" width="130" />
+    <el-table-column prop="seats" label="座位" width="130" />
+    <el-table-column prop="hourPrice" label="每小时收费" width="130" />
+    <el-table-column prop="rentalTime" label="借车时间" width="180">
+      <template #default="scope">
+        {{ formatDateTime(scope.row.rentalTime) }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="returnTime" label="还车时间" width="180" >
+      <template #default="scope">
+        {{ formatDateTime(scope.row.returnTime) }}
+      </template>
+    </el-table-column>
     <el-table-column label="租车" width="200"  align="center">
-<!--      <el-button type="primary" @click="dialogTableVisible=true" >下单</el-button>-->
+
       <template #default="scope">
         <el-button
             size="small"
@@ -205,11 +213,20 @@ const calculateTotalCharge = (totalHours, hourPrice) => {
       <el-form-item label="序号" label-width="140px">
         <el-input v-model="form.id" autocomplete="off"/>
       </el-form-item>
-      <el-form-item label="租车人" label-width="140px">
-        <el-input v-model="form.renter" autocomplete="off"/>
+      <el-form-item label="汽车名称" label-width="140px">
+        <el-input v-model="form.carName" autocomplete="off"/>
       </el-form-item>
-      <el-form-item label="车牌号" label-width="140px">
-        <el-input v-model="form.licenseId" autocomplete="off"/>
+      <el-form-item label="车牌类型" label-width="140px">
+        <el-input v-model="form.carType" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="商标" label-width="140px">
+        <el-input v-model="form.brand" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="座位" label-width="140px">
+        <el-input v-model="form.seats" autocomplete="off"/>
+      </el-form-item>
+      <el-form-item label="每小时收费" label-width="140px">
+        <el-input v-model="form.hourPrice" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="借车时间" label-width="140px">
         <el-date-picker
