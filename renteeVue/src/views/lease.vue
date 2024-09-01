@@ -145,6 +145,7 @@ const calculateTotalHours = (rentalTime, returnTime) => {
   return Math.round(diffInHours * 10) / 10; // 精度为0.1小时
 };
 
+
 // 计算总费用
 const calculateTotalCharge = (totalHours, hourPrice) => {
   if (!totalHours || !hourPrice) return 0;
@@ -254,7 +255,7 @@ const calculateTotalCharge = (totalHours, hourPrice) => {
         />
       </el-form-item>
       <el-form-item label="价格" label-width="140px"> {{form.hourPrice}}元/小时</el-form-item>
-
+      <el-form-item label="总价钱" label-width="140px">{{ calculateTotalCharge(calculateTotalHours(form.rentalTime, form.returnTime),form.hourPrice)}}元</el-form-item>
     </el-form>
     <template #footer>
 
@@ -283,7 +284,7 @@ const calculateTotalCharge = (totalHours, hourPrice) => {
       width="500"
       align-center
   >
-    <span>您需要支付</span>
+    <span>确定要支付吗</span>
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="centerDialogVisible = false">取消</el-button>
