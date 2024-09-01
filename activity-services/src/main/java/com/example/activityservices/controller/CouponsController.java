@@ -22,7 +22,6 @@ public class CouponsController {
     private CouponsService couponsService;
 
 
-    @CrossOrigin
     @RequestMapping("/upload")
     public String uploadFile(MultipartFile file) {
         System.out.println("######################:" + file);

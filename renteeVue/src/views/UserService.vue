@@ -3,14 +3,23 @@ import router from "@/router";
 import {getCurrentInstance, onMounted, ref} from "vue";
 import axios from "axios";
 import {ElMessage} from "element-plus";
+import {couponStore, useCarouselStore} from "@/store/menu";
 
+
+const store2 = couponStore(); // 轮播图
+const carouselStore = useCarouselStore(); // 索引
+const { activeIndex } = carouselStore;
 
 
 
 const global = getCurrentInstance()?.appContext.config.globalProperties;
-const preferential=()=>{
-  router.push("/preferential");
-}
+const preferential = (index: any) => {
+  // console.log("RRRRRRRR:", carouselStore.activeIndex);
+  router.push({
+    path: "/preferential",
+    query: {index}
+  });
+};
 const token=localStorage.getItem("token");
 const brandList = ref([]); // 初始化brandList
 const imgs = ref([]);
@@ -20,7 +29,7 @@ onMounted(() => {
   axios.get('http://localhost:8889/activity/getAllCoupons').then(res=>{
     console.log("AAAAAAAAAA",res);
     imgs.value=res.data;
-    // store2.setMenu(res.data)
+    store2.setMenu(res.data)
     // imgs.value.forEach(img=>{
     //   imgs2.push(img.couponImg)
     // })
@@ -89,7 +98,7 @@ const getCart=()=>{
           <el-carousel height="550px" indicator-position="outside">
             <!-- 使用 v-for 遍历 imgs 数组 -->
             <el-carousel-item v-for="(item, index) in imgs" :key="index">
-              <img :src="item.couponImg" alt="" style="width: 100%; height: 100%; object-fit: cover;" @click="preferential">
+              <img :src="item.couponImg" alt="" style="width: 100%; height: 100%; object-fit: cover;" @click="preferential(index)">
             </el-carousel-item>
           </el-carousel>
         </div>

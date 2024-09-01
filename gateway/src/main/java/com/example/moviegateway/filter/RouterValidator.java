@@ -21,7 +21,9 @@ public class RouterValidator {
             "/auth/login",
             "/auth/enroll",
             "/activity/getAllCoupons",
-            "/vehicle/getAllCarts"
+            "/vehicle/getAllCarts",
+            "activity/upload"
+
     );
 
     public Predicate<ServerHttpRequest> isSecured =

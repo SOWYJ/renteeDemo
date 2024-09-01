@@ -274,7 +274,7 @@ const handleRemove2 = () => {
 
       <el-upload
           :file-list="fileList"
-          action="http://localhost:8081/activity/upload"
+          action="http://localhost:8889/activity/upload"
           list-type="picture-card"
           :on-success="handleAvatarSuccess"
           :on-remove="handleRemove"
@@ -366,7 +366,7 @@ const handleRemove2 = () => {
 
       <el-upload
           v-model:file-list="f"
-          action="http://localhost:8081/activity/upload"
+          action="http://localhost:8889/activity/upload"
           list-type="picture-card"
           :on-success="handleAvatarSuccess2"
           :on-remove="handleRemove2"
