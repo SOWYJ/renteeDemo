@@ -42,4 +42,5 @@ public class leasecontroller {
         leaseService.updateLease(lease);
         return HttpResult.ok();
     }
+
 }
