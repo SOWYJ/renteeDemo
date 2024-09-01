@@ -52,6 +52,7 @@ const update = () => {
 //   global.$api.deleteCars(form.value);
 // };
 const form = ref({
+  id:'',
   carName: '',
   carType: '',
   brand: '',
@@ -68,7 +69,7 @@ const columns = [
   {label: "车辆种类", prop: 'carType', minWidth: 50},
   {label: '品牌', prop: 'brand', minWidth: 50},
   {label: '颜色', prop: 'color', minWidth: 50},
-  {label: '座位数', prop: 'seats', minWidth: 20},
+  {label: '座位数', prop: 'seats', minWidth: 50},
   {label: '车牌号', prop: 'licensePlate', minWidth: 50},
   {label: '操作', prop: 'id', slotName: 'operate', slotted: true, align: 'center', fixed: 'right', minWidth: 120},
 ]
@@ -179,8 +180,8 @@ const deleteEntKeyProcess = async (row: any) => {
 const deliveryCars = (row: any) => {
   deliverydialogFormVisible.value=true;
   form.value = { ...row };
-  // global.$api.deliveryCars(form.value);
-  query();
+  formInline.value.id= form.value.id;
+  // query();
 }
 const detail = (row: any) => {
   // 其他操作
@@ -192,15 +193,40 @@ const detail = (row: any) => {
 import { reactive } from 'vue'
 import router from "@/router";
 
-const formInline = reactive({
-  user: '',
-  region: '',
-  date: '',
+const formInline = ref({
+  id:'',
+  hourPrice: '',
+  dropLocation: '',
+  dropDate: '',
+  carstatus:'in-use'
 })
 
-const onSubmit = () => {
-  console.log('submit!')
+const open2 = () => {
+  ElMessage({
+    message: '投放成功',
+    type: 'success',
+  })
 }
+
+const open4 = () => {
+  ElMessage.error('车辆已经在投放中')
+}
+const onSubmit = async () => {
+  console.log('submit!');
+  console.log("WWWWWWWWWWWWW", formInline.value);
+
+  try {
+    await global.$api.deliveryCars(formInline.value);
+    open2();
+  } catch (error) {
+    if (error.response && error.response.status === 500) {
+      open4();
+    } else {
+      console.error('提交失败:', error);
+    }
+  }
+};
+
 
 </script>
 
@@ -308,21 +334,27 @@ const onSubmit = () => {
   <el-dialog v-model="deliverydialogFormVisible" title="投放信息">
     <el-form  :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="小时费用">
-        <el-input v-model="formInline.user" placeholder="费用" clearable />
+        <el-input v-model="formInline.hourPrice" placeholder="费用" clearable />
       </el-form-item>
       <el-form-item label="投放地点">
         <el-select
-            v-model="formInline.region"
+            v-model="formInline.dropLocation"
             placeholder="选择地点"
             clearable
         >
-          <el-option label="Zone one" value="shanghai" />
-          <el-option label="Zone two" value="beijing" />
+          <el-option label="上海市海宾区" value="上海海宾区" />
+          <el-option label="桂林市雁山区" value="桂林市雁山区" />
+          <el-option label="上海市海宾区" value="上海海宾区" />
+          <el-option label="北京市朝阳区" value="北京市朝阳区" />
+          <el-option label="广州市天河区" value="广州市天河区" />
+          <el-option label="深圳市南山区" value="深圳市南山区" />
+          <el-option label="杭州市西湖区" value="杭州市西湖区" />
+
         </el-select>
       </el-form-item>
       <el-form-item label="投放日期">
         <el-date-picker
-            v-model="formInline.date"
+            v-model="formInline.dropDate"
             type="date"
             placeholder="选择日期"
             clearable

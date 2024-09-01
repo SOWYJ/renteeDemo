@@ -3,6 +3,8 @@ package com.example.vehicle.service;
 import com.example.vehicle.domain.Carstate;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
 * @author acer
 * @description 针对表【carstate】的数据库操作Service
@@ -11,4 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface CarstateService{
 
     void deleteCarSate(Carstate carstate);
+
+    List<Carstate> deliveryCars(Carstate carstate);
 }
