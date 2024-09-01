@@ -5,6 +5,8 @@ import axios from "axios";
 import {ElMessage} from "element-plus";
 
 
+
+
 const global = getCurrentInstance()?.appContext.config.globalProperties;
 const preferential=()=>{
   router.push("/preferential");
@@ -52,8 +54,6 @@ const navigateToDetail = (brand: string) => {
 const getCart=()=>{
   router.push("/main/detailed")
 }
-
-
 
 
 </script>

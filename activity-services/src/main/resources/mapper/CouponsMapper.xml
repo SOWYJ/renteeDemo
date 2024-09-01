@@ -24,6 +24,11 @@
         coupon_content,first_price,current_price,
         total_num,sales
     </sql>
+    <update id="decreaseNum">
+        UPDATE coupons
+        SET total_num = total_num - 1
+        WHERE coupon_id =#{couponId}
+    </update>
     <delete id="deleteCouponById" parameterType="string">
         DELETE FROM coupons WHERE coupon_id=#{id}
     </delete>

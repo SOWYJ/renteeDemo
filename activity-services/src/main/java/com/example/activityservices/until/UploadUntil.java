@@ -1,6 +1,7 @@
 package com.example.activityservices.until;
 
 
+
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import org.apache.commons.io.FilenameUtils;
@@ -8,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.UUID;
+
 
 public class UploadUntil {
 
@@ -19,7 +21,7 @@ public class UploadUntil {
         String uuid = UUID.randomUUID().toString().replace("-","");
         String fileName = uuid + ext;
 
-        String endpoint = "http://oss-cn-wulanchabu.aliyuncs.com";
+        String endpoint = "https://oss-cn-wulanchabu.aliyuncs.com";
         String accessKeyId = "LTAI5t7dS6mEugZrSLqsk1sc";
         String accessKeySecret = "SBIw1Ogriz9Qrevs57GwoDyTuS7Fcx";
         String bucketName = "test-01234";
@@ -37,5 +39,4 @@ public class UploadUntil {
     }
 
 }
-
 

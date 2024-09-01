@@ -2,7 +2,8 @@
 
 import axios from "axios";
 import {onMounted, ref} from "vue";
-import {ElMessage, UploadInstance, UploadProps, UploadUserFile} from 'element-plus'
+import {ElMessage} from 'element-plus'
+import type  { UploadInstance, UploadProps, UploadUserFile} from 'element-plus'
 import {Plus} from '@element-plus/icons-vue'
 
 
@@ -273,7 +274,7 @@ const handleRemove2 = () => {
 
       <el-upload
           :file-list="fileList"
-          action="http://localhost:8084/activity/upload"
+          action="http://localhost:8081/activity/upload"
           list-type="picture-card"
           :on-success="handleAvatarSuccess"
           :on-remove="handleRemove"
@@ -365,7 +366,7 @@ const handleRemove2 = () => {
 
       <el-upload
           v-model:file-list="f"
-          action="http://localhost:8084/activity/upload"
+          action="http://localhost:8081/activity/upload"
           list-type="picture-card"
           :on-success="handleAvatarSuccess2"
           :on-remove="handleRemove2"
