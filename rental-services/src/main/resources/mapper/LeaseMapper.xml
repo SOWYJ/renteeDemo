@@ -21,8 +21,8 @@
         id,car_name,car_type,brand,seats,hour_price,license_plate,rental_time,return_time
     </sql>
     <insert id="saveLease" >
-        INSERT INTO lease
-        VALUES ( #{id}, #{renter}, #{licenseId}, #{rentalTime}, #{returnTime})
+        INSERT INTO lease(id,car_name,car_type,brand,seats,hour_price,rental_time,return_time)
+        VALUES (#{id},#{carName},#{carType},#{brand},#{seats},#{hourPrice},#{rentalTime},#{returnTime})
     </insert>
     <update id="updateLease">
         UPDATE lease
