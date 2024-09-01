@@ -1,6 +1,7 @@
 package cn.edu.guet.rentalservices.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -18,13 +19,31 @@ public class Lease implements Serializable {
      * 
      */
 
-    @Column(name="renter")
-    private String renter;
+    @Column(name="id")
+    private int id;
+
+    @Column(name="car_name")
+    private String carName;
+
+    @Column(name="car_type")
+    private String carType;
+
+    /**
+     *
+     */
+    @Column(name = "brand")
+    private String brand;
 
 
-    @Column(name = "license_id")
-    private String licenseId;
 
+    @Column(name = "seats")
+    private Integer seats;
+
+    @Column(name = "hour_price")
+    private BigDecimal hourPrice;
+
+    @Column(name = "license_plate")
+    private String licensePlate;
     /**
      * 
      */
@@ -39,35 +58,5 @@ public class Lease implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public String getLicenseId() {
-        return licenseId;
-    }
 
-    public void setLicenseId(String licenseId) {
-        this.licenseId = licenseId;
-    }
-
-    public Date getRentalTime() {
-        return rentalTime;
-    }
-
-    public void setRentalTime(Date rentalTime) {
-        this.rentalTime = rentalTime;
-    }
-
-    public Date getReturnTime() {
-        return returnTime;
-    }
-
-    public void setReturnTime(Date returnTime) {
-        this.returnTime = returnTime;
-    }
-
-    public String getRenter() {
-        return renter;
-    }
-
-    public void setRenter(String renter) {
-        this.renter = renter;
-    }
 }

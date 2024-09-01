@@ -5,21 +5,22 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 
 /**
  * 
  * @TableName carstate
  */
-@Table(name="carstate")
+@Table(name="Carstate")
 @Data
 public class Carstate implements Serializable {
     /**
      * 
      */
     @Id
+   @Column(name = "id")
     private Integer id;
 
     /**
@@ -43,10 +44,9 @@ public class Carstate implements Serializable {
     /**
      * 
      */
-    @Column(name = "cars_status")
-    private Object carStatus;
+    @Column(name = "car_status")
+    private Object carstatus;
 
     private static final long serialVersionUID = 1L;
-
 
 }

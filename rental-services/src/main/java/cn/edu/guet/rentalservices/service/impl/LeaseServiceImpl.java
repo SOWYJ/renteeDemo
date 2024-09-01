@@ -36,8 +36,13 @@ public class LeaseServiceImpl  implements LeaseService{
     }
 
     @Override
-    public void deleteLease(String licenseId) {
-        leaseMapper.deleteLease(licenseId);
+    public void deleteLease(String id) {
+        leaseMapper.deleteLease(id);
+    }
+
+    @Override
+    public void updateLease(Lease lease) {
+        leaseMapper.updateLease(lease);
     }
 
 

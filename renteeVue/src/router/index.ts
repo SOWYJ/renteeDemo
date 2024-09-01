@@ -52,6 +52,11 @@ const router = createRouter({
                             path: '/main/Detailed',
                             name: 'Detailed',
                             component: () => import('../views/Detailed.vue')
+                        },
+                        {
+                            path: '/main/DetailSpage',
+                            name: 'DetailSpage',
+                            component: () => import('../views/DetailSpage.vue')
                         }
                     ]
                 }
@@ -71,6 +76,11 @@ const router = createRouter({
             path: '/content',
             name: 'content',
             component: () => import('../views/BuyPage.vue')
+        },
+        {
+            path: '/revise',
+            name: 'revise',
+            component: () => import('../views/Revise.vue')
         },
     ]
 })

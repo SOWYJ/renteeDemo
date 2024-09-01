@@ -5,8 +5,12 @@ import com.example.userservices.domain.Users;
 import com.example.userservices.dto.LoginDto;
 import com.example.userservices.service.UsersService;
 import com.example.userservices.mapper.UsersMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
 * @author wsk
@@ -30,7 +34,14 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper,Users>
         return usersMapper.getPassword(userName);
     }
 
+    @Override
+    public void updateUser(String newPassword , String userName) {
+        Map<String, String> params = new HashMap<>();
+        params.put("newPassword", newPassword);
+        params.put("userName", userName);
 
+        usersMapper.updateUser(params);
+    }
 }
 
 

@@ -5,23 +5,34 @@
 <mapper namespace="cn.edu.guet.rentalservices.mapper.LeaseMapper">
 
     <resultMap id="BaseResultMap" type="cn.edu.guet.rentalservices.domain.Lease">
-        <result property="renter" column="renter" jdbcType="VARCHAR"/>
-            <result property="licenseId" column="license_id" jdbcType="VARCHAR"/>
-            <result property="rentalTime" column="rental_time" jdbcType="TIMESTAMP"/>
-            <result property="returnTime" column="return_time" jdbcType="TIMESTAMP"/>
+            <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="carName" column="car_name" jdbcType="VARCHAR"/>
+        <result property="carType" column="car_type" jdbcType="VARCHAR"/>
+        <result property="brand" column="brand" jdbcType="VARCHAR"/>
+        <result property="seats" column="seats" jdbcType="INTEGER"/>
+        <result property="hourPrice" column="hour_price" jdbcType="DECIMAL"/>
+        <result property="licensePlate" column="license_plate" jdbcType="VARCHAR"/>
+        <result property="rentalTime" column="rental_time" jdbcType="TIMESTAMP"/>
+        <result property="returnTime" column="return_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
 
     <sql id="Base_Column_List">
-        renter,license_id,rental_time,return_time
+        id,car_name,car_type,brand,seats,hour_price,license_plate,rental_time,return_time
     </sql>
     <insert id="saveLease" >
         INSERT INTO lease
-        VALUES (#{renter}, #{licenseId}, #{rentalTime}, #{returnTime})
+        VALUES ( #{id}, #{renter}, #{licenseId}, #{rentalTime}, #{returnTime})
     </insert>
+    <update id="updateLease">
+        UPDATE lease
+        SET  rental_time=#{rentalTime},return_time=#{returnTime}
+        WHERE id=#{id}
+    </update>
+
     <delete id="deleteLease">
         DELETE FROM lease
-        WHERE license_id = #{licenseid}
+        WHERE id = #{id}
     </delete>
 
 

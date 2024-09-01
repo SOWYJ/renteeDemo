@@ -2,6 +2,7 @@ package com.example.userservices.controller;
 
 
 import com.example.moviegateway.token.JwtTokenUtils;
+
 import com.example.userservices.domain.Users;
 import com.example.userservices.dto.LoginDto;
 import com.example.userservices.http.HttpResult;
@@ -49,6 +50,19 @@ public class LoginController {
             System.out.println(users);
             usersService.save(users);
             return HttpResult.ok("注册成功");
+        }
+    }
+
+    @PostMapping("/verify")
+    public HttpResult reviseUser(@RequestBody Users users) {
+        System.out.println("RRRRRRRRRRRRRR" + users);
+        String password = usersService.getPassword(users.getUserName());
+        if (usersService.getUserName(users.getUserName()) == 0 || !users.getPassword().equals(password) ) {
+            return HttpResult.error(500, "用户名或密码错误");
+        }else {
+            usersService.updateUser(users.getUserId(), users.getUserName());
+            System.out.println("yyyyyyyyyyyy");
+            return HttpResult.ok(200,"修改成功");
         }
     }
 }

@@ -1,104 +1,154 @@
 <template>
-  <el-form
-      ref="ruleFormRef"
-      style="max-width: 600px"
-      :model="ruleForm"
-      status-icon
-      :rules="rules"
-      label-width="auto"
-      class="demo-ruleForm"
-  >
-    <el-form-item label="Password" prop="pass">
-      <el-input v-model="ruleForm.pass" type="password" autocomplete="off" />
-    </el-form-item>
-    <el-form-item label="Confirm" prop="checkPass">
-      <el-input
-          v-model="ruleForm.checkPass"
-          type="password"
-          autocomplete="off"
-      />
-    </el-form-item>
-    <el-form-item label="Age" prop="age">
-      <el-input v-model.number="ruleForm.age" />
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="submitForm(ruleFormRef)">
-        Submit
-      </el-button>
-      <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
-    </el-form-item>
+  <div style="margin-top: 20px"></div>
+  <el-form :model="formData" label-width="120px" class="form-container">
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <el-form-item label="车辆名称">
+          <el-input v-model="formData.carName" disabled></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item label="车型">
+          <el-input v-model="formData.carType" disabled></el-input>
+        </el-form-item>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <el-form-item label="品牌">
+          <el-input v-model="formData.brand" disabled></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item label="颜色">
+          <el-input v-model="formData.color" disabled></el-input>
+        </el-form-item>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <el-form-item label="座位数">
+          <el-input v-model="formData.seats" disabled></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item label="车牌号">
+          <el-input v-model="formData.licensePlate" disabled></el-input>
+        </el-form-item>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <el-form-item label="小时价格">
+          <el-input v-model="formData.hourPrice" disabled></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item label="投放地点">
+          <el-input v-model="formData.dropLocation" disabled></el-input>
+        </el-form-item>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <el-form-item label="投放日期">
+          <el-input v-model="formData.dropDate" disabled></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item label="汽车状态">
+          <el-input v-model="formData.carStatus" disabled></el-input>
+        </el-form-item>
+      </el-col>
+    </el-row>
+
+    <div class="form-buttons">
+      <el-button type="primary" @click="goBack">返回</el-button>
+    </div>
   </el-form>
 </template>
 
-<script lang="ts" setup>
-import { reactive, ref } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
-const ruleFormRef = ref<FormInstance>()
+const router = useRouter();
 
-const checkAge = (rule: any, value: any, callback: any) => {
-  if (!value) {
-    return callback(new Error('Please input the age'))
-  }
-  setTimeout(() => {
-    if (!Number.isInteger(value)) {
-      callback(new Error('Please input digits'))
-    } else {
-      if (value < 18) {
-        callback(new Error('Age must be greater than 18'))
-      } else {
-        callback()
-      }
-    }
-  }, 1000)
-}
+const formData = ref({
+  carName: '',
+  carType: '',
+  brand: '',
+  color: '',
+  seats: '',
+  licensePlate: '',
+  hourPrice: '',
+  dropLocation: '',
+  dropDate: '',
+  carStatus: ''
+});
 
-const validatePass = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('Please input the password'))
-  } else {
-    if (ruleForm.checkPass !== '') {
-      if (!ruleFormRef.value) return
-      ruleFormRef.value.validateField('checkPass')
-    }
-    callback()
-  }
-}
-const validatePass2 = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('Please input the password again'))
-  } else if (value !== ruleForm.pass) {
-    callback(new Error("Two inputs don't match!"))
-  } else {
-    callback()
-  }
-}
+const fetchData = () => {
+  // Simulating data fetch
+  formData.value = {
+    carName: '奥迪A4',
+    carType: '轿车',
+    brand: '奥迪',
+    color: '黑色',
+    seats: '5',
+    licensePlate: '京A12345',
+    hourPrice: '100',
+    dropLocation: '北京市朝阳区',
+    dropDate: '未投放',
+    carStatus: '空闲中'
+  };
+};
 
-const ruleForm = reactive({
-  pass: '',
-  checkPass: '',
-  age: '',
-})
+onMounted(() => {
+  fetchData();
+});
 
-const rules = reactive<FormRules<typeof ruleForm>>({
-  pass: [{ validator: validatePass, trigger: 'blur' }],
-  checkPass: [{ validator: validatePass2, trigger: 'blur' }],
-  age: [{ validator: checkAge, trigger: 'blur' }],
-})
-
-const submitForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  formEl.validate((valid) => {
-    if (valid) {
-      console.log('submit!')
-    } else {
-      console.log('error submit!')
-    }
-  })
-}
-
-const resetForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  formEl.resetFields()
-}
+const goBack = () => {
+  router.back(); // This will navigate to the previous page
+};
 </script>
+
+<style scoped>
+.form-container {
+  max-width: 95%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.el-form-item {
+  margin-bottom: 20px;
+}
+
+.el-form-item .el-input {
+  border-radius: 4px;
+}
+
+.el-row {
+  margin-bottom: 20px;
+}
+
+.el-col {
+  padding: 0 10px;
+}
+
+.el-form-item .el-form-item__label {
+  font-weight: bold;
+  color: #333;
+}
+
+.form-buttons {
+  margin-top: 20px;
+  text-align: right;
+}
+</style>
