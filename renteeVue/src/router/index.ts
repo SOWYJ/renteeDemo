@@ -72,6 +72,11 @@ const router = createRouter({
             name: 'preferential',
             component: () => import('../views/preferential.vue')
         },
+        {
+            path: '/revise',
+            name: 'revise',
+            component: () => import('../views/Revise.vue')
+        },
     ]
 })
 
