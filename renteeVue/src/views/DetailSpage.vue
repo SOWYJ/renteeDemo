@@ -102,7 +102,7 @@ const fetchData = () => {
     licensePlate: '京A12345',
     hourPrice: '100',
     dropLocation: '北京市朝阳区',
-    dropDate: '2024-08-30',
+    dropDate: '未投放',
     carStatus: '空闲中'
   };
 };
