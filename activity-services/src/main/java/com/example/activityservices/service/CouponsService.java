@@ -2,6 +2,7 @@ package com.example.activityservices.service;
 
 import com.example.activityservices.domain.Coupons;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.activityservices.http.HttpResult;
 
 /**
 * @author Lenovo
@@ -12,5 +13,5 @@ public interface CouponsService extends IService<Coupons> {
 
     boolean deleteCouponById(String couponId);
 
-    boolean decreaseNum(String couponId);
+    HttpResult decreaseNum(String couponId);
 }

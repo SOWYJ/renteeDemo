@@ -71,9 +71,9 @@ public class CouponsController {
     @PostMapping("/decreaseNum")
     public HttpResult decreaseNum(@RequestBody Coupons updateCoupon){
         System.out.println("@@@@@@@@@@@@@@@@@@@@:" + updateCoupon.getCouponId());
-        boolean result = couponsService.decreaseNum(updateCoupon.getCouponId());;
+        HttpResult result = couponsService.decreaseNum(updateCoupon.getCouponId());;
 //        System.out.println("修改成功@@@@@@@@@@@@@@@@@@@@@@@");
-        if (result){
+        if (result.getCode() == 200){
             return HttpResult.ok("修改成功！");
         }
         return HttpResult.error("修改失败！");

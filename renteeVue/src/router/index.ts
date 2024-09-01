@@ -65,7 +65,12 @@ const router = createRouter({
         {
             path: '/preferential',
             name: 'preferential',
-            component: () => import('../views/preferential.vue')
+            component: () => import('../views/PreferentialPage.vue')
+        },
+        {
+            path: '/content',
+            name: 'content',
+            component: () => import('../views/BuyPage.vue')
         },
     ]
 })
