@@ -1,6 +1,7 @@
 package com.example.vehicle.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.example.vehicle.cache.CartCache;
 import com.example.vehicle.domain.Cars;
 import com.example.vehicle.domain.Carstate;
 import com.example.vehicle.dto.PeoductQueryDto;
@@ -53,9 +54,14 @@ public class vehicleController {
        carstateService.deleteCarSate(carstate);
         return null;
     }
+
+    @Autowired
+    private CartCache cartCache;
+
     @RequestMapping("/getAllCarts")
     public List<Cars> getAllCarts(){
-        return carsService.list();
+        return cartCache.getCarsList("cartList");
+//        return carsService.list();
     }
 
 
