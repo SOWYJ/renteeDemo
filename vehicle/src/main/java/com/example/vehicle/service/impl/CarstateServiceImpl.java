@@ -7,6 +7,8 @@ import com.example.vehicle.mapper.CarstateMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
 * @author acer
 * @description 针对表【carstate】的数据库操作Service实现
@@ -20,6 +22,12 @@ public class CarstateServiceImpl implements CarstateService{
     @Override
     public void deleteCarSate(Carstate carstate) {
         carstateMapper.deleteById(carstate);
+    }
+
+    @Override
+    public List<Carstate> deliveryCars(Carstate carstate) {
+        carstateMapper.insert(carstate);
+        return null;
     }
 }
 

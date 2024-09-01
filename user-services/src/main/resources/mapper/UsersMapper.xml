@@ -13,6 +13,11 @@
     <sql id="Base_Column_List">
         user_id,user_name,password
     </sql>
+    <update id="updateUser" parameterType="string">
+        UPDATE users
+        SET password = #{newPassword}
+        WHERE user_name = #{userName}
+    </update>
     <select id="getUserName" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM users WHERE user_name = #{userName};
     </select>

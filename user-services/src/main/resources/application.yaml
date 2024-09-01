@@ -9,6 +9,9 @@ spring:
     hikari:
       max-lifetime: 2000
 
+    tomcat:
+      time-between-eviction-runs-millis: 18800
+
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

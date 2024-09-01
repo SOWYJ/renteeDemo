@@ -15,4 +15,5 @@ public interface UsersService extends IService<Users>{
 
     String getPassword(String password);
 
+    void updateUser(String newPassword,String userName);
 }
