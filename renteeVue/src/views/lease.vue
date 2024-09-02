@@ -94,6 +94,18 @@ const updateLease=()=>{
   })
 }
 
+const state=()=>{
+
+  axios.post('http://localhost:8084/state', form.value, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then(res=>{
+    ElMessage({type: "success", message: "出租成功！", duration: 4000});
+    query();
+  })
+
+}
 
 
 
@@ -106,7 +118,8 @@ const form = ref({
   seats:'',
   hourPrice:'',
   rentalTime:'',
-  returnTime:''
+  returnTime:'',
+  sta:''
 })
 
 const Table = ref({
@@ -133,7 +146,8 @@ const addLease = () => {
     seats: '',
     hourPrice: '',
     rentalTime: '',
-    returnTime: ''
+    returnTime: '',
+    sta:''
   };
   dialogFormVisible.value = true;
 };
@@ -186,6 +200,7 @@ const calculateTotalCharge = (totalHours, hourPrice) => {
         {{ formatDateTime(scope.row.returnTime) }}
       </template>
     </el-table-column>
+    <el-table-column prop="sta" label="出租状态" width="130" />
     <el-table-column label="租车" width="200"  align="center">
 
       <template #default="scope">
@@ -302,11 +317,11 @@ const calculateTotalCharge = (totalHours, hourPrice) => {
       width="500"
       align-center
   >
-    <span>确定要支付吗</span>
+
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="centerDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="centerDialogVisible = false">
+        <el-button type="primary" @click="state() , centerDialogVisible = false , dialogTableVisible=false">
           确认支付
         </el-button>
       </div>
