@@ -5,7 +5,8 @@ import {onMounted, ref} from "vue";
 import {ElMessage,ElMessageBox} from "element-plus";
 import moment from 'moment';
 import type { TabsPaneContext } from 'element-plus'
-
+import {menuStore} from "@/store/menu";
+const store = menuStore();
 
 const activeName = ref('first')
 

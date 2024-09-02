@@ -4,6 +4,11 @@ import {getCurrentInstance, onMounted, reactive, ref} from "vue";
 import LqTable from "@/pagination/components/LqTable.vue";
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
 import {ElMessage} from "element-plus";
+import {menuStore} from "@/store/menu";
+import axios from 'axios';
+const store = menuStore();
+
+
 import updateCars from "@/pagination/request/api/updateCars.js";
 
 /*  */
@@ -52,14 +57,20 @@ const update = () => {
 //   global.$api.deleteCars(form.value);
 // };
 const form = ref({
-  id:'',
+  id: '',
   carName: '',
   carType: '',
   brand: '',
-  color: '',
-  seats: '',
-  licensePlate: ''
-})
+  color:'',
+  seats:'',
+  hourPrice: '',
+  dropLocation: '',
+  dropDate: '',
+  carStatus: '',
+  licensePlate:'',
+  rentalTime:'',
+  returnTime:''
+});
 
 
 const columns = [
@@ -183,10 +194,61 @@ const deliveryCars = (row: any) => {
   formInline.value.id= form.value.id;
   // query();
 }
-const detail = (row: any) => {
+
+const query1 = async () => {
+  try {
+    const res = await axios.get("http://localhost:8084/getAlllease");
+    // console.log("userList 数据：", res);
+    userList.value = res.data || []; // 确保 userList 是一个数组
+  } catch (error) {
+    // console.error("请求失败：", error);
+    userList.value = []; // 请求失败时，确保 userList 也是一个数组
+  }
+};
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从0开始，需要加1
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+const userList = ref([]);
+// 查找 id 并执行 store 操作
+const detail = async (row: any) => {
   // 其他操作
   // editdialogFormVisible.value = true;
+
+  await query1(); // 等待数据加载完成
+
   form.value = { ...row };
+  // console.log("UUUU", form.value);
+
+  // 确保 userList.value 是一个数组
+  if (Array.isArray(userList.value)) {
+    // 查找 userList 中是否有与 form.id 匹配的对象
+    const matchedUser = userList.value.find(user => user.id === form.value.id);
+
+    if (matchedUser) {
+      form.value.seats = matchedUser.seats;
+      form.value.carType = matchedUser.carType;
+      form.value.hourPrice = matchedUser.hourPrice;
+      form.value.licensePlate = matchedUser.licensePlate;
+      form.value.rentalTime = matchedUser.rentalTime;
+      form.value.returnTime = matchedUser.returnTime;
+
+      // form.value=matchedUser;
+      form.value.dropDate = formatDate(matchedUser.dropDate);
+      console.log("UUUU222", form.value);
+      store.setDetailData(form.value);
+    } else {
+      console.log("未找到匹配的用户");
+    }
+  } else {
+    console.error("userList 不是一个有效的数组");
+  }
+
+  // 继续路由跳转
   router.push({ path: '/main/DetailSpage', query: { id: row.id } });
 };
 
