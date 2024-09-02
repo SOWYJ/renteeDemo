@@ -95,28 +95,14 @@ const formData = ref({
   returnTime:''
 });
 
-// const fetchData = () => {
-//   // Simulating data fetch
-//   formData.value = {
-//     carName: '奥迪A4',
-//     carType: '轿车',
-//     brand: '奥迪',
-//     color: '黑色',
-//     seats: '5',
-//     licensePlate: '京A12345',
-//     hourPrice: '100',
-//     dropLocation: '北京市朝阳区',
-//     dropDate: '未投放',
-//     carStatus: '空闲中'
-//   };
-// };
-// formData.value = store.getDetailData;
+
 onMounted(() => {
   formData.value = store.getDetailData;
   console.log("store得到的数据",formData);
 });
 
 const goBack = () => {
+  store.setDetailData(null);
   router.back(); // This will navigate to the previous page
 };
 </script>

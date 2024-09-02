@@ -43,8 +43,8 @@ public class vehicleController {
 
     @PostMapping("/deleteCars")
     public List<Cars> deleteCars(@RequestBody Cars cars){
-        System.out.println("KKKKKKKKKK"+cars);
-//        carsService.deleteCars(cars);
+//        System.out.println("KKKKKKKKKK"+cars);
+        carsService.deleteCars(cars);
         return null;
     }
 
