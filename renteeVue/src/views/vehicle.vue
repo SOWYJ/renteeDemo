@@ -152,8 +152,7 @@ const deleteEntKeyProcess = async (row: any) => {
     const response = await global.$api.deleteCars(form.value);
 
     // 检查删除是否成功
-    if (response && response.success) { // 根据实际的 API 返回结构调整检查逻辑
-      // 重新查询数据
+    if (response && response.success) {
 
       // 显示成功消息
       ElMessage({
