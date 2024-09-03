@@ -18,5 +18,5 @@ public interface LeaseService  {
 void saveLease(Lease lease);
  void deleteLease(String id);
  void updateLease(Lease lease);
-// void toll1()
+ void state(Lease lease);
 }

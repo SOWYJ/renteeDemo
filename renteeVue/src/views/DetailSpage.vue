@@ -8,21 +8,34 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item label="车型">
-          <el-input v-model="formData.carType" disabled></el-input>
+        <el-form-item label="投放地点">
+          <el-input v-model="formData.dropLocation" disabled></el-input>
         </el-form-item>
       </el-col>
     </el-row>
 
     <el-row :gutter="20">
       <el-col :span="12">
-        <el-form-item label="品牌">
-          <el-input v-model="formData.brand" disabled></el-input>
+        <el-form-item label="车型">
+          <el-input v-model="formData.carType" disabled></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item label="颜色">
-          <el-input v-model="formData.color" disabled></el-input>
+        <el-form-item label="投放日期">
+          <el-input v-model="formData.dropDate" disabled></el-input>
+        </el-form-item>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <el-form-item label="车牌号">
+          <el-input v-model="formData.licensePlate" disabled></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item label="租车时间">
+          <el-input v-model="formData.rentalTime" disabled></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -34,29 +47,16 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item label="车牌号">
-          <el-input v-model="formData.licensePlate" disabled></el-input>
+        <el-form-item label="还车时间">
+          <el-input v-model="formData.returnTime" disabled></el-input>
         </el-form-item>
       </el-col>
     </el-row>
 
     <el-row :gutter="20">
       <el-col :span="12">
-        <el-form-item label="小时价格">
+        <el-form-item label="小时费用">
           <el-input v-model="formData.hourPrice" disabled></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item label="投放地点">
-          <el-input v-model="formData.dropLocation" disabled></el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
-
-    <el-row :gutter="20">
-      <el-col :span="12">
-        <el-form-item label="投放日期">
-          <el-input v-model="formData.dropDate" disabled></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
@@ -75,9 +75,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-
+import {menuStore} from "@/store/menu";
 const router = useRouter();
 
+const store = menuStore();
+const menuData = ref();
 const formData = ref({
   carName: '',
   carType: '',
@@ -88,30 +90,19 @@ const formData = ref({
   hourPrice: '',
   dropLocation: '',
   dropDate: '',
-  carStatus: ''
+  carStatus: '',
+  rentalTime:'',
+  returnTime:''
 });
 
-const fetchData = () => {
-  // Simulating data fetch
-  formData.value = {
-    carName: '奥迪A4',
-    carType: '轿车',
-    brand: '奥迪',
-    color: '黑色',
-    seats: '5',
-    licensePlate: '京A12345',
-    hourPrice: '100',
-    dropLocation: '北京市朝阳区',
-    dropDate: '未投放',
-    carStatus: '空闲中'
-  };
-};
 
 onMounted(() => {
-  fetchData();
+  formData.value = store.getDetailData;
+  console.log("store得到的数据",formData);
 });
 
 const goBack = () => {
+  store.setDetailData(null);
   router.back(); // This will navigate to the previous page
 };
 </script>

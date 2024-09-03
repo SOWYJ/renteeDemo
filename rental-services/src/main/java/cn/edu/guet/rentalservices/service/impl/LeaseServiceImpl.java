@@ -45,6 +45,11 @@ public class LeaseServiceImpl  implements LeaseService{
         leaseMapper.updateLease(lease);
     }
 
+    @Override
+    public void state(Lease lease) {
+        leaseMapper.state(lease);
+    }
+
 
 }
 

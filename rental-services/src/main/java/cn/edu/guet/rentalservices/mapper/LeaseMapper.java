@@ -19,6 +19,7 @@ public interface LeaseMapper extends BaseMapper<Lease> {
     void saveLease(Lease lease);
     void deleteLease(String id);
     void updateLease(Lease lease);
+    void state(Lease lease);
 }
 
 

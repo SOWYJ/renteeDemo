@@ -52,8 +52,12 @@ public class CarsServiceImpl extends ServiceImpl<CarsMapper,Cars>
     @Override
     public void deleteCars(Cars cars) {
         System.out.println("WWWWWWWWW"+cars);
-        carsMapper.deleteById(cars);
+//        carsMapper.deleteById(cars);
+        System.out.println("KKKKKK"+cars.getId());
+        carsMapper.deleteById(cars.getId());
+//        carsMapper.deleteById(cars);
     }
+
 }
 
 

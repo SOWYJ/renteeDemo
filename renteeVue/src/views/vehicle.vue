@@ -4,6 +4,11 @@ import {getCurrentInstance, onMounted, reactive, ref} from "vue";
 import LqTable from "@/pagination/components/LqTable.vue";
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
 import {ElMessage} from "element-plus";
+import {menuStore} from "@/store/menu";
+import axios from 'axios';
+const store = menuStore();
+
+
 import updateCars from "@/pagination/request/api/updateCars.js";
 
 /*  */
@@ -43,8 +48,9 @@ const edit = (row: any) => {
 }
 const update = () => {
   if (global.$api.updateCars(form.value)){
-    ElMessage.success('新增成功');
+    ElMessage.success('保存成功');
     editdialogFormVisible.value = false;
+    query();
   }
 }
 // const delete = (row: any) => {
@@ -52,14 +58,20 @@ const update = () => {
 //   global.$api.deleteCars(form.value);
 // };
 const form = ref({
-  id:'',
+  id: '',
   carName: '',
   carType: '',
   brand: '',
-  color: '',
-  seats: '',
-  licensePlate: ''
-})
+  color:'',
+  seats:'',
+  hourPrice: '',
+  dropLocation: '',
+  dropDate: '',
+  carStatus: '',
+  licensePlate:'',
+  rentalTime:'',
+  returnTime:''
+});
 
 
 const columns = [
@@ -140,8 +152,7 @@ const deleteEntKeyProcess = async (row: any) => {
     const response = await global.$api.deleteCars(form.value);
 
     // 检查删除是否成功
-    if (response && response.success) { // 根据实际的 API 返回结构调整检查逻辑
-      // 重新查询数据
+    if (response && response.success) {
 
       // 显示成功消息
       ElMessage({
@@ -183,10 +194,72 @@ const deliveryCars = (row: any) => {
   formInline.value.id= form.value.id;
   // query();
 }
-const detail = (row: any) => {
+
+const query1 = async () => {
+  try {
+    const res = await axios.get("http://localhost:8084/getAlllease");
+    // console.log("userList 数据：", res);
+    userList.value = res.data || []; // 确保 userList 是一个数组
+  } catch (error) {
+    // console.error("请求失败：", error);
+    userList.value = []; // 请求失败时，确保 userList 也是一个数组
+  }
+};
+const formatDateTime = (dateTimeString) => {
+  const date = new Date(dateTimeString);
+
+  // 获取日期部分
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从0开始，需要加1
+  const day = String(date.getDate()).padStart(2, '0');
+
+  // 获取时间部分
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+  // 组合成所需格式
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
+
+
+const userList = ref([]);
+// 查找 id 并执行 store 操作
+const detail = async (row: any) => {
   // 其他操作
   // editdialogFormVisible.value = true;
+
+  await query1(); // 等待数据加载完成
+
   form.value = { ...row };
+  // console.log("UUUU", form.value);
+
+  // 确保 userList.value 是一个数组
+  if (Array.isArray(userList.value)) {
+    // 查找 userList 中是否有与 form.id 匹配的对象
+    const matchedUser = userList.value.find(user => user.id === form.value.id);
+
+    if (matchedUser) {
+      form.value.seats = matchedUser.seats;
+      form.value.carType = matchedUser.carType;
+      form.value.hourPrice = matchedUser.hourPrice;
+      form.value.licensePlate = matchedUser.licensePlate;
+      form.value.rentalTime = matchedUser.rentalTime;
+      form.value.returnTime = matchedUser.returnTime;
+
+      // form.value=matchedUser;
+      form.value.dropDate= formatDateTime(form.value.dropDate);
+      form.value.rentalTime=formatDateTime(form.value.rentalTime);
+      form.value.returnTime =formatDateTime(form.value.returnTime);
+      console.log("UUUU222", form.value);
+      store.setDetailData(form.value);
+    } else {
+      console.log("未找到匹配的用户");
+    }
+  } else {
+    console.error("userList 不是一个有效的数组");
+  }
+
+  // 继续路由跳转
   router.push({ path: '/main/DetailSpage', query: { id: row.id } });
 };
 
@@ -198,7 +271,7 @@ const formInline = ref({
   hourPrice: '',
   dropLocation: '',
   dropDate: '',
-  carstatus:'in-use'
+  carstatus:'available'
 })
 
 const open2 = () => {
@@ -206,6 +279,7 @@ const open2 = () => {
     message: '投放成功',
     type: 'success',
   })
+  deliverydialogFormVisible.value=false;
 }
 
 const open4 = () => {
@@ -321,7 +395,7 @@ const onSubmit = async () => {
     </el-form>
     <template #footer>
       <div class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button @click="editdialogFormVisible = false;">取消</el-button>
         <!-- 先保存、再关闭对话框 -->
         <el-button type="primary" @click="update" >
           保存
