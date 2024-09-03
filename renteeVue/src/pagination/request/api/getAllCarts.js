@@ -1,5 +1,5 @@
 export default {
 
-    getAllCarts:{url:"/vehicle/getAllCarts", method: "get"}
+    getAllCarts:{url:"/auth/getAllCarts", method: "get"}
 
 };
