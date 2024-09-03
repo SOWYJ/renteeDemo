@@ -198,7 +198,7 @@ const deliveryCars = (row: any) => {
 const query1 = async () => {
   try {
     const res = await axios.get("http://localhost:8084/getAlllease");
-    // console.log("userList 数据：", res);
+    console.log("userList 数据：", res);
     userList.value = res.data || []; // 确保 userList 是一个数组
   } catch (error) {
     // console.error("请求失败：", error);
@@ -231,37 +231,58 @@ const detail = async (row: any) => {
   await query1(); // 等待数据加载完成
 
   form.value = { ...row };
-  // console.log("UUUU", form.value);
 
-  // 确保 userList.value 是一个数组
-  if (Array.isArray(userList.value)) {
-    // 查找 userList 中是否有与 form.id 匹配的对象
-    const matchedUser = userList.value.find(user => user.id === form.value.id);
+  console.log("form数据", form.value);
 
-    if (matchedUser) {
-      form.value.seats = matchedUser.seats;
-      form.value.carType = matchedUser.carType;
-      form.value.hourPrice = matchedUser.hourPrice;
-      form.value.licensePlate = matchedUser.licensePlate;
-      form.value.rentalTime = matchedUser.rentalTime;
-      form.value.returnTime = matchedUser.returnTime;
+  try {
+    const res = await global.$api.qCarState(form.value);
 
-      // form.value=matchedUser;
-      form.value.dropDate= formatDateTime(form.value.dropDate);
-      form.value.rentalTime=formatDateTime(form.value.rentalTime);
-      form.value.returnTime =formatDateTime(form.value.returnTime);
-      console.log("UUUU222", form.value);
-      store.setDetailData(form.value);
+    console.log("投放数据22222222", res.data);
+    // 确保 res.data.records 是一个数组
+
+
+    // 格式化记录
+    const carState = res.data;
+
+    form.value.dropDate = carState.dropDate;
+    form.value.carStatus = carState.carstatus;
+    form.value.dropLocation=carState.dropLocation;
+    console.log("投放数据3333333333333", form.value);
+
+    // 确保 userList.value 是一个数组
+    if (Array.isArray(userList.value)) {
+      // 查找 userList 中是否有与 form.id 匹配的对象
+      const matchedUser = userList.value.find(user => user.id === form.value.id);
+
+      if (matchedUser) {
+        form.value.seats = matchedUser.seats;
+        form.value.carType = matchedUser.carType;
+        form.value.hourPrice = matchedUser.hourPrice;
+        form.value.licensePlate = matchedUser.licensePlate;
+        form.value.rentalTime = matchedUser.rentalTime;
+        form.value.returnTime = matchedUser.returnTime;
+
+        // 格式化日期
+        form.value.dropDate = formatDateTime(form.value.dropDate);
+        form.value.rentalTime = formatDateTime(form.value.rentalTime);
+        form.value.returnTime = formatDateTime(form.value.returnTime);
+        console.log("UUUU222", form.value);
+        store.setDetailData(form.value);
+      } else {
+        console.log("未找到匹配的用户");
+      }
     } else {
-      console.log("未找到匹配的用户");
+      console.error("userList 不是一个有效的数组");
     }
-  } else {
-    console.error("userList 不是一个有效的数组");
-  }
 
-  // 继续路由跳转
-  router.push({ path: '/main/DetailSpage', query: { id: row.id } });
+    // 继续路由跳转
+    router.push({ path: '/main/DetailSpage', query: { id: row.id } });
+
+  } catch (error) {
+    console.error("请求失败", error);
+  }
 };
+
 
 import { reactive } from 'vue'
 import router from "@/router";

@@ -1,5 +1,6 @@
 package com.example.vehicle.service;
 
+import com.example.vehicle.domain.Cars;
 import com.example.vehicle.domain.Carstate;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -15,4 +16,7 @@ public interface CarstateService{
     void deleteCarSate(Carstate carstate);
 
     List<Carstate> deliveryCars(Carstate carstate);
+
+
+    Carstate qCarState(Cars cars);
 }
