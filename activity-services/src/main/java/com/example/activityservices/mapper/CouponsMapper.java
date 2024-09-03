@@ -16,6 +16,8 @@ public interface CouponsMapper extends BaseMapper<Coupons> {
     boolean deleteCouponById(String couponId);
 
     boolean decreaseNum(String couponId);
+
+    int saveCoupon(Coupons coupons);
 }
 
 

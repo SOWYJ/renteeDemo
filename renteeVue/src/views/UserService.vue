@@ -13,13 +13,27 @@ const { activeIndex } = carouselStore;
 
 
 const global = getCurrentInstance()?.appContext.config.globalProperties;
-const preferential = (index: any) => {
+const preferential = (item: object,index: any) => {
   // console.log("RRRRRRRR:", carouselStore.activeIndex);
   router.push({
     path: "/preferential",
-    query: {index}
+    query: {
+      couponId: item.couponId,
+      startTime: item.startTime,
+      currentPrice: item.currentPrice,
+      totalNum: item.totalNum,
+      couponImg: item.couponImg,
+      index: index
+    }
   });
 };
+
+// query: {
+//   startTime: item.startTime,
+//       currentPrice: item.currentPrice,
+//       totalNum: item.totalNum,
+//       index
+// }
 const token=localStorage.getItem("token");
 const brandList = ref([]); // 初始化brandList
 const imgs = ref([]);
@@ -98,7 +112,7 @@ const getCart=()=>{
           <el-carousel height="550px" indicator-position="outside">
             <!-- 使用 v-for 遍历 imgs 数组 -->
             <el-carousel-item v-for="(item, index) in imgs" :key="index">
-              <img :src="item.couponImg" alt="" style="width: 100%; height: 100%; object-fit: cover;" @click="preferential(index)">
+              <img :src="item.couponImg" alt="" style="width: 100%; height: 100%; object-fit: cover;" @click="preferential(item,index)">
             </el-carousel-item>
           </el-carousel>
         </div>

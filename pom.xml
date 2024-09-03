@@ -23,6 +23,7 @@
         <module>rental-services</module>
         <module>activity-services</module>
         <module>gateway</module>
+<!--        <module>activity-services02</module>-->
     </modules>
 
     <packaging>pom</packaging>
