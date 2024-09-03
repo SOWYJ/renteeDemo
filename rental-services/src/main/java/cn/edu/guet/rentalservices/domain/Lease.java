@@ -56,7 +56,12 @@ public class Lease implements Serializable {
     @Column(name = "return_time")
     private Date returnTime;
 
+    @Column(name = "sta")
+    private String sta;
+
+
     private static final long serialVersionUID = 1L;
+
 
 
 }

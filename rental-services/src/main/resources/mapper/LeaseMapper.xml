@@ -14,20 +14,26 @@
         <result property="licensePlate" column="license_plate" jdbcType="VARCHAR"/>
         <result property="rentalTime" column="rental_time" jdbcType="TIMESTAMP"/>
         <result property="returnTime" column="return_time" jdbcType="TIMESTAMP"/>
+        <result property="sta" column="sta" jdbcType="VARCHAR"/>
     </resultMap>
 
 
     <sql id="Base_Column_List">
-        id,car_name,car_type,brand,seats,hour_price,license_plate,rental_time,return_time
+        id,car_name,car_type,brand,seats,hour_price,license_plate,rental_time,return_time,sta
     </sql>
     <insert id="saveLease" >
-        INSERT INTO lease(id,car_name,car_type,brand,seats,hour_price,rental_time,return_time)
-        VALUES (#{id},#{carName},#{carType},#{brand},#{seats},#{hourPrice},#{rentalTime},#{returnTime})
+        INSERT INTO lease(id,car_name,car_type,brand,seats,hour_price,rental_time,return_time,sta)
+        VALUES (#{id},#{carName},#{carType},#{brand},#{seats},#{hourPrice},#{rentalTime},#{returnTime},#{sta})
     </insert>
     <update id="updateLease">
         UPDATE lease
         SET  rental_time=#{rentalTime},return_time=#{returnTime}
         WHERE id=#{id}
+    </update>
+    <update id="state">
+        UPDATE lease
+        SET sta = 'T'
+        WHERE id= #{id}
     </update>
 
     <delete id="deleteLease">

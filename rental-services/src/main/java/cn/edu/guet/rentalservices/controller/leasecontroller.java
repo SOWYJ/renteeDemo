@@ -42,5 +42,9 @@ public class leasecontroller {
         leaseService.updateLease(lease);
         return HttpResult.ok();
     }
-
+     @RequestMapping("/state")
+    public HttpResult state(@RequestBody Lease lease) {
+        leaseService.state(lease);
+        return HttpResult.ok();
+    }
 }

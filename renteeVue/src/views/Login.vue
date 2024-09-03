@@ -14,8 +14,8 @@ const changeForm = () => {
 }
 
 const form = ref({
-  username: 'admin',
-  password: '123456'
+  username: '',
+  password: ''
 })
 
 const registerForm = ref({

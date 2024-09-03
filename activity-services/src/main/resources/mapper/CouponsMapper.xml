@@ -24,6 +24,12 @@
         coupon_content,first_price,current_price,
         total_num,sales
     </sql>
+    <insert id="saveCoupon" parameterType="com.example.activityservices.domain.Coupons" >
+        INSERT INTO coupons(coupon_id,start_time, end_time, is_kill, is_special, coupon_img, coupon_content, first_price,
+                            current_price,total_num, sales)
+        VALUES (#{couponId},#{startTime}, #{endTime}, #{isKill}, #{isSpecial}, #{couponImg}, #{couponContent}, #{firstPrice},
+                #{currentPrice},#{totalNum},#{sales})
+    </insert>
     <update id="decreaseNum">
         UPDATE coupons
         SET total_num = total_num - 1
