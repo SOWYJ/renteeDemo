@@ -226,7 +226,7 @@ const userList = ref([]);
 // 查找 id 并执行 store 操作
 const detail = async (row: any) => {
   // 其他操作
-  // editdialogFormVisible.value = true;
+
 
   await query1(); // 等待数据加载完成
 
@@ -237,8 +237,6 @@ const detail = async (row: any) => {
   try {
     const res = await global.$api.qCarState(form.value);
 
-    console.log("投放数据22222222", res.data);
-    // 确保 res.data.records 是一个数组
 
 
     // 格式化记录
@@ -247,7 +245,7 @@ const detail = async (row: any) => {
     form.value.dropDate = carState.dropDate;
     form.value.carStatus = carState.carstatus;
     form.value.dropLocation=carState.dropLocation;
-    console.log("投放数据3333333333333", form.value);
+
 
     // 确保 userList.value 是一个数组
     if (Array.isArray(userList.value)) {
