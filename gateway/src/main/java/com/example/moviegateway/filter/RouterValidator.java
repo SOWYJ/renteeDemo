@@ -24,6 +24,7 @@ public class RouterValidator {
             "/vehicle/getAllCarts",
             "activity/upload"
 
+
     );
 
     public Predicate<ServerHttpRequest> isSecured =

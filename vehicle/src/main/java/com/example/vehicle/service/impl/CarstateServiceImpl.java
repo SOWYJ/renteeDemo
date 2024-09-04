@@ -1,7 +1,9 @@
 package com.example.vehicle.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.vehicle.domain.Cars;
 import com.example.vehicle.domain.Carstate;
+import com.example.vehicle.mapper.CarsMapper;
 import com.example.vehicle.service.CarstateService;
 import com.example.vehicle.mapper.CarstateMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ public class CarstateServiceImpl implements CarstateService{
     @Autowired
     private CarstateMapper carstateMapper;
 
+
     @Override
     public void deleteCarSate(Carstate carstate) {
         carstateMapper.deleteById(carstate);
@@ -28,6 +31,13 @@ public class CarstateServiceImpl implements CarstateService{
     public List<Carstate> deliveryCars(Carstate carstate) {
         carstateMapper.insert(carstate);
         return null;
+    }
+
+    @Override
+    public Carstate qCarState(Cars cars) {
+        System.out.println("KKKKKKKKK"+cars.getId());
+//        carstateMapper.selectById(cars.getId());
+        return  carstateMapper.selectById(cars.getId());
     }
 }
 

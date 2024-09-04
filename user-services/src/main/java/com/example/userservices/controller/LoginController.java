@@ -3,16 +3,20 @@ package com.example.userservices.controller;
 
 import com.example.moviegateway.token.JwtTokenUtils;
 
+import com.example.userservices.domain.Cars;
 import com.example.userservices.domain.Users;
 import com.example.userservices.dto.LoginDto;
+
 import com.example.userservices.http.HttpResult;
+
 import com.example.userservices.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -65,4 +69,30 @@ public class LoginController {
             return HttpResult.ok(200,"修改成功");
         }
     }
+
+    @Autowired
+    private LoadBalancerClient loadBalancerClient;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @RequestMapping ("/getAllCarts")
+    public List<Cars> getAllCars() {
+
+        ServiceInstance serviceInstance = loadBalancerClient.choose("vehicle");
+        String url = String.format("http://%s:%s/vehicle/getAllCarts", serviceInstance.getHost(), serviceInstance.getPort());
+
+        System.out.println("Request URL: " + url);
+
+        // 使用 RestTemplate 发送 GET 请求
+        List<Cars> carsList = restTemplate.getForObject(url, List.class);
+
+        return carsList;
+    }
+
+    @RequestMapping("/test")
+    public String test() {
+        return "1111";
+    }
+
 }

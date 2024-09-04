@@ -14,4 +14,6 @@ public interface CouponsService extends IService<Coupons> {
     boolean deleteCouponById(String couponId);
 
     HttpResult decreaseNum(String couponId);
+
+    Coupons saveCoupon(Coupons coupons);
 }

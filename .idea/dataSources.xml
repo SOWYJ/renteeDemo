@@ -9,7 +9,6 @@
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
     <data-source source="LOCAL" name="@8.130.66.139" uuid="9c06f4d7-e6ac-459e-9412-035afc3d5f42">
-      <driver-ref>mysql_aurora_aws</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>software.aws.rds.jdbc.mysql.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql:aws://8.130.66.139:3306</jdbc-url>

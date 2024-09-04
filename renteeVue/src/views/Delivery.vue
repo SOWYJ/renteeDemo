@@ -229,6 +229,11 @@ const update = () => {
 };
 
 const deleteEntKeyProcess = (row: any) => {
+  if (row.carStatus === 'in-use') {
+    ElMessage.warning('车辆在投放中无法取消');
+    return;
+  }
+
   ElMessageBox.confirm(
       '你确定要取消投放吗？',
       '提醒！',
@@ -252,6 +257,7 @@ const deleteEntKeyProcess = (row: any) => {
         ElMessage.info('已取消');
       });
 };
+
 
 const loadData = (pageNum = 1, pageSize = 10) => {
   global.$api.queryState({

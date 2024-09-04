@@ -11,7 +11,7 @@ onMounted(()=>{
   let con = document.getElementById("con")
   let su = document.createTextNode("恭喜你抢购成功！");
   let error = document.createTextNode("抢购完了，下次再来吧！！");
-  if (num >= 0){
+  if (num > 0){
     console.log("AAAAAAAAA");
     con.appendChild(su);
   }else{

@@ -24,6 +24,13 @@ public class carStateController {
         return carsdetailService.getCarStateDetails();
     }
 
+    @PostMapping("/qCarState")
+    public Carstate qCarState(@RequestBody Cars cars){
+//        System.out.println("kkkkkkkkkkkkkkkkk");
+        System.out.println("cars数据"+cars);
+        return carstateService.qCarState(cars);
+    }
+
     @GetMapping ("/obquery")
     public List<Cardetail> obquery(String carName){
 
