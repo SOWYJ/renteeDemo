@@ -179,6 +179,15 @@ const calculateTotalCharge = (totalHours, hourPrice) => {
 
   return totalHours <= 72 ? totalHours * hourPrice : normalCharge + discountedCharge;
 };
+const TotalCharge = (totalHours, hourPrice) => {
+  // 如果 totalHours 或 hourPrice 为空或者 totalHours 是负数，返回0
+  if (!totalHours || !hourPrice || totalHours < 0) return 0;
+
+
+  const countedCharge = totalHours * hourPrice * 0.95;
+
+  return countedCharge;
+};
 
 </script>
 
@@ -288,7 +297,6 @@ const calculateTotalCharge = (totalHours, hourPrice) => {
         />
       </el-form-item>
       <el-form-item label="价格" label-width="140px"> {{form.hourPrice}}元/小时</el-form-item>
-      <el-form-item label="总价钱" label-width="140px">{{ calculateTotalCharge(calculateTotalHours(form.rentalTime, form.returnTime),form.hourPrice)}}元</el-form-item>
     </el-form>
     <template #footer>
 
@@ -296,6 +304,7 @@ const calculateTotalCharge = (totalHours, hourPrice) => {
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
       <el-tab-pane label="方案一" name="first">
           <el-text class="mx-1" size="large">方案一:三天以内，每小时正常收费;三天以后每小时享75%优惠额度</el-text>
+        <el-form-item label="总价钱" label-width="140px">{{ calculateTotalCharge(calculateTotalHours(form.rentalTime, form.returnTime),form.hourPrice)}}元</el-form-item>
         <div class="dialog-footer">
           <el-button @click="dialogTableVisible = false">取消</el-button>
           <!-- 先保存、再关闭对话框 -->
@@ -307,7 +316,20 @@ const calculateTotalCharge = (totalHours, hourPrice) => {
           </el-button>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="方案二" name="second"></el-tab-pane>
+      <el-tab-pane label="方案二" name="second">
+        <el-text class="mx-2" size="large">方案二:每小时享用95%优惠额度</el-text>
+        <el-form-item label="总价钱" label-width="140px">{{ TotalCharge(calculateTotalHours(form.rentalTime, form.returnTime),form.hourPrice)}}元</el-form-item>
+        <div class="dialog-footer">
+          <el-button @click="dialogTableVisible = false">取消</el-button>
+          <!-- 先保存、再关闭对话框 -->
+          <el-button type="primary" @click="updateLease">
+            保存
+          </el-button>
+          <el-button plain @click="centerDialogVisible = true">
+            提交订单
+          </el-button>
+        </div>
+      </el-tab-pane>
 
     </el-tabs>
   </el-dialog>
@@ -339,6 +361,10 @@ const calculateTotalCharge = (totalHours, hourPrice) => {
 }
 .mx-1{
    height: 50px;
+  margin-left: 80px;
+}
+.mx-2{
+  height: 50px;
   margin-left: 80px;
 }
 </style>
